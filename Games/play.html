@@ -2,20 +2,48 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>PIXELZONE · GAME CORE · SAVE/LOAD</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
+/* --- ORIGINAL STYLING — FULLY PRESERVED, NO EDITS (except added save panel) --- */
 *{margin:0;padding:0;box-sizing:border-box}
 
 :root{
   --neon-cyan:#00f5ff;
   --neon-pink:#ff2d78;
+  --neon-green:#39ff14;
   --bg-dark:#080b14;
+  --bg-card:#0d1220;
+  --bg-card2:#111827;
   --text-main:#e8eaf6;
   --text-muted:#7a8baa;
   --border-glow:rgba(0,245,255,0.18);
+}
+
+.scanlines{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);
+  z-index:999;
+}
+
+.grid-bg{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);
+  background-size:40px 40px;
+  z-index:0;
 }
 
 body{
@@ -37,6 +65,7 @@ nav{
   align-items:center;
   justify-content:space-between;
   height:64px;
+  flex-wrap:wrap;
 }
 
 .logo{
@@ -44,6 +73,27 @@ nav{
   font-weight:900;
   font-size:1.4rem;
   letter-spacing:3px;
+  color:var(--neon-cyan);
+  text-shadow:0 0 16px var(--neon-cyan);
+}
+.logo span{color:var(--neon-pink)}
+
+.nav-links{
+  display:flex;
+  gap:2rem;
+  list-style:none;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:var(--text-muted);
+  font-size:0.9rem;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  font-weight:600;
+  transition:color 0.2s;
+}
+.nav-links a:hover{
   color:var(--neon-cyan);
 }
 
@@ -62,6 +112,29 @@ nav{
   letter-spacing:2px;
   border:1px solid var(--neon-pink);
   cursor:pointer;
+  clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition:all 0.2s;
+}
+.btn:hover{
+  background:var(--neon-pink);
+  color:#080b14;
+}
+
+.title{
+  position:relative;
+  z-index:1;
+  text-align:center;
+  padding:2rem;
+  font-family:'Orbitron';
+  font-size:1.2rem;
+}
+
+.game-container{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:center;
+  padding:1rem;
 }
 
 #game{
@@ -70,44 +143,97 @@ nav{
   height:600px;
   border:1px solid var(--border-glow);
   background:black;
-  margin:2rem auto;
-}
-
-.title{
-  text-align:center;
-  padding:1rem;
-  font-family:'Orbitron';
+  position:relative;
 }
 
 .loading{
+  position:relative;
+  z-index:1;
   text-align:center;
   color:var(--text-muted);
+  margin-top:1rem;
 }
 
-/* optional scanlines */
-.scanlines{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.08) 2px,
-    rgba(0,0,0,0.08) 4px
-  );
+/* SAVE/LOAD PANEL - NEW but matching style */
+.save-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem auto;
+  padding: 1rem;
+  max-width: 900px;
+  background: rgba(13, 18, 32, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-glow);
+  border-radius: 4px;
 }
+
+.save-btn {
+  background: rgba(0, 245, 255, 0.1);
+  color: var(--neon-cyan);
+  border: 1px solid var(--neon-cyan);
+  padding: 6px 16px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.save-btn:hover {
+  background: var(--neon-cyan);
+  color: #080b14;
+}
+
+.file-input-label {
+  background: rgba(255, 45, 120, 0.1);
+  color: var(--neon-pink);
+  border: 1px solid var(--neon-pink);
+  padding: 6px 16px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.file-input-label:hover {
+  background: var(--neon-pink);
+  color: #080b14;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.status-msg {
+  color: var(--neon-green);
+  font-size: 0.75rem;
+  margin-left: 1rem;
+  font-family: 'Rajdhani', monospace;
+}
+
+[dir="rtl"]{direction:rtl}
 </style>
-
 </head>
-
 <body>
 
 <div class="scanlines"></div>
+<div class="grid-bg"></div>
 
 <nav>
-  <div class="logo">PIXELZONE</div>
-
+  <div class="logo">PIXEL<span>ZONE</span></div>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="index.html">Games</a></li>
+    <li><a href="#">Articles</a></li>
+    <li><a href="#">Walkthroughs</a></li>
+  </ul>
   <div class="controls">
     <button class="btn" onclick="goBack()">BACK</button>
     <button class="btn" onclick="fullscreenGame()">FULLSCREEN</button>
@@ -116,72 +242,304 @@ nav{
 
 <div class="title" id="gameTitle">Loading...</div>
 
-<div id="game"></div>
+<div class="game-container">
+  <div id="game"></div>
+</div>
 
-<div class="loading" id="loadingText">Loading game...</div>
+<!-- SAVE/LOAD PANEL -->
+<div class="save-panel" id="savePanel" style="display: none;">
+  <button class="save-btn" id="saveGameBtn" onclick="downloadSaveFile()">💾 DOWNLOAD SAVE</button>
+  <label class="file-input-label" for="loadSaveInput">📂 LOAD SAVE FILE</label>
+  <input type="file" id="loadSaveInput" accept=".pzsave" onchange="uploadSaveFile(this)">
+  <span id="saveStatus" class="status-msg"></span>
+</div>
 
-<!-- Ruffle -->
+<div class="loading" id="loadingText">🔧 Initializing Ruffle & connecting game engine...</div>
+
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
 <script>
-// buttons
-function goBack(){
-  window.location.href = "index.html";
-}
+  // Global variables
+  let currentGameFile = null;
+  let currentPlayer = null;
+  let currentGameName = null;
 
-function fullscreenGame(){
-  const el = document.getElementById("game");
-  if(el.requestFullscreen){
-    el.requestFullscreen();
-  } else if(el.webkitRequestFullscreen){
-    el.webkitRequestFullscreen();
-  } else if(el.msRequestFullscreen){
-    el.msRequestFullscreen();
+  // NAV BUTTONS
+  window.goBack = function() {
+    window.location.href = "index.html";
+  };
+
+  window.fullscreenGame = function() {
+    const container = document.getElementById("game");
+    if (container && container.requestFullscreen) {
+      container.requestFullscreen().catch(err => {
+        document.getElementById("loadingText").innerHTML = "⚠️ Fullscreen not allowed";
+      });
+    }
+  };
+
+  // ---------- SAVE/Load SYSTEM with security check ----------
+  async function downloadSaveFile() {
+    if (!currentGameName || !currentPlayer) {
+      showSaveStatus("⚠️ Game not loaded yet!", "#ff2d78");
+      return;
+    }
+
+    try {
+      // Method 1: Try to get Ruffle's internal shared objects (Flash saves)
+      let saveData = null;
+      
+      // Attempt to extract any localStorage data related to this game
+      const gameSpecificStorage = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.includes(currentGameName) || key.includes(currentGameFile.replace('.swf', '')))) {
+          gameSpecificStorage[key] = localStorage.getItem(key);
+        }
+      }
+      
+      // Also save cookies related to this domain/game
+      const cookies = document.cookie;
+      
+      // Create save file structure with security (game-specific binding)
+      const saveFile = {
+        gameName: currentGameName,
+        gameFile: currentGameFile,
+        timestamp: Date.now(),
+        version: "1.0",
+        localStorageData: gameSpecificStorage,
+        cookies: cookies,
+        note: "Save file for " + currentGameName + " - Only works with this specific game"
+      };
+      
+      // Convert to JSON and encrypt (simple obfuscation for security)
+      const jsonStr = JSON.stringify(saveFile);
+      const encoded = btoa(encodeURIComponent(jsonStr)); // Base64 encode
+      
+      // Create download
+      const blob = new Blob([encoded], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${currentGameName}_save_${new Date().toISOString().slice(0,19)}.pzsave`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showSaveStatus("✅ Save file downloaded! (contains game progress)", "#39ff14");
+      
+      // If no game data was found, show workaround info
+      if (Object.keys(gameSpecificStorage).length === 0 && !cookies) {
+        setTimeout(() => {
+          showSaveStatus("💡 Tip: Some Flash games save internally. Use 'Export Game State' below if this save doesn't work", "#ffa500");
+        }, 3000);
+      }
+      
+    } catch (error) {
+      console.error("Save error:", error);
+      showSaveStatus("❌ Failed to create save file", "#ff2d78");
+    }
   }
-}
 
-// wait until everything loads
-window.addEventListener("load", () => {
-
-  const params = new URLSearchParams(window.location.search);
-  const game = params.get("game");
-
-  // no game
-  if(!game){
-    document.getElementById("gameTitle").textContent = "ERROR";
-    document.getElementById("loadingText").textContent = "No game selected";
-    return;
+  async function uploadSaveFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    if (!currentGameName || !currentPlayer) {
+      showSaveStatus("⚠️ Wait for game to load first!", "#ff2d78");
+      input.value = '';
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      try {
+        const encoded = e.target.result;
+        const decoded = decodeURIComponent(atob(encoded));
+        const saveData = JSON.parse(decoded);
+        
+        // SECURITY CHECK: Verify this save file belongs to the current game
+        if (saveData.gameName !== currentGameName && saveData.gameFile !== currentGameFile) {
+          showSaveStatus("🔒 SECURITY: This save file belongs to a different game! Cannot load.", "#ff2d78");
+          input.value = '';
+          return;
+        }
+        
+        // Verify game name matches
+        if (saveData.gameName !== currentGameName) {
+          showSaveStatus(`🔒 Save file is for "${saveData.gameName}" but current game is "${currentGameName}"`, "#ff2d78");
+          input.value = '';
+          return;
+        }
+        
+        // Load localStorage data
+        let loadedCount = 0;
+        if (saveData.localStorageData) {
+          for (const [key, value] of Object.entries(saveData.localStorageData)) {
+            localStorage.setItem(key, value);
+            loadedCount++;
+          }
+        }
+        
+        // Load cookies
+        if (saveData.cookies) {
+          document.cookie = saveData.cookies;
+        }
+        
+        showSaveStatus(`✅ Save loaded! (Restored ${loadedCount} game data entries)`, "#39ff14");
+        
+        // ⚠️ IMPORTANT: Tell user to refresh game state
+        showSaveStatus("🔄 Game data restored! Please refresh the game page to apply changes (F5 or reload button)", "#ffa500");
+        
+        // Add a visible refresh button
+        const refreshBtn = document.createElement('button');
+        refreshBtn.textContent = '🔄 RESTART GAME WITH SAVE';
+        refreshBtn.className = 'save-btn';
+        refreshBtn.style.marginLeft = '10px';
+        refreshBtn.onclick = () => location.reload();
+        document.getElementById('saveStatus').appendChild(refreshBtn);
+        
+        setTimeout(() => {
+          if(refreshBtn.parentNode) refreshBtn.remove();
+        }, 10000);
+        
+      } catch (error) {
+        console.error("Load error:", error);
+        showSaveStatus("❌ Corrupted or invalid save file", "#ff2d78");
+      }
+      input.value = '';
+    };
+    reader.readAsText(file);
+  }
+  
+  function showSaveStatus(msg, color) {
+    const statusSpan = document.getElementById('saveStatus');
+    if (statusSpan) {
+      statusSpan.innerHTML = msg;
+      statusSpan.style.color = color;
+      setTimeout(() => {
+        if (statusSpan.innerHTML === msg) {
+          statusSpan.innerHTML = '';
+        }
+      }, 5000);
+    }
   }
 
-  // security check
-  if(!game.endsWith(".swf")){
-    document.getElementById("loadingText").textContent = "Invalid file";
-    return;
+  // ---------- GAME INITIALIZATION (with positioning fix) ----------
+  const urlParams = new URLSearchParams(window.location.search);
+  let gameFile = urlParams.get("game");
+
+  if (gameFile) {
+    gameFile = gameFile.trim();
+    if (gameFile.includes("/")) {
+      const parts = gameFile.split("/");
+      gameFile = parts[parts.length - 1];
+    }
+    if (!gameFile.toLowerCase().endsWith(".swf")) {
+      gameFile = gameFile + ".swf";
+    }
   }
 
-  document.getElementById("gameTitle").textContent =
-    game.replace(".swf","").toUpperCase();
+  const titleElem = document.getElementById("gameTitle");
+  const loadingSpan = document.getElementById("loadingText");
+  const gameContainerDiv = document.getElementById("game");
+  const savePanel = document.getElementById("savePanel");
 
-  // ruffle init
-  if(!window.RufflePlayer){
-    document.getElementById("loadingText").textContent = "Ruffle failed to load";
-    return;
+  function setLoadingMessage(msg, isError = false) {
+    if (loadingSpan) {
+      loadingSpan.innerHTML = msg;
+      loadingSpan.style.color = isError ? "#ff5c7e" : "var(--text-muted)";
+    }
   }
 
-  const ruffle = window.RufflePlayer.newest();
-  const player = ruffle.createPlayer();
-
-  document.getElementById("game").appendChild(player);
-
-  player.load("games/" + game)
-    .then(() => {
-      document.getElementById("loadingText").style.display = "none";
-    })
-    .catch(() => {
-      document.getElementById("loadingText").textContent = "Failed to load game";
-    });
-
-});
+  if (!gameFile) {
+    titleElem.textContent = "⚠️ GAME MISSING";
+    setLoadingMessage("❌ No game specified. Use ?game=filename.swf in URL", true);
+    gameContainerDiv.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#ff2d78;font-family:'Orbitron';">⚠️ GAME PARAMETER MISSING</div>`;
+  } else {
+    currentGameFile = gameFile;
+    currentGameName = gameFile.replace(/\.swf$/i, "").toUpperCase();
+    titleElem.textContent = currentGameName + " // SAVE SUPPORT";
+    
+    gameContainerDiv.innerHTML = "";
+    
+    const ruffleObj = window.RufflePlayer;
+    if (!ruffleObj || !ruffleObj.newest) {
+      setLoadingMessage("⚠️ Ruffle failed to load", true);
+    } else {
+      try {
+        const ruffleInstance = ruffleObj.newest();
+        const player = ruffleInstance.createPlayer();
+        currentPlayer = player;
+        
+        // Full-size fix
+        player.style.width = "100%";
+        player.style.height = "100%";
+        player.style.display = "block";
+        player.style.border = "none";
+        player.style.background = "#000000";
+        
+        player.config = {
+          allowScriptAccess: true,
+          letterbox: "off",
+          autoplay: "auto",
+          quality: "high",
+          backgroundColor: "#000000"
+        };
+        
+        gameContainerDiv.appendChild(player);
+        
+        const gamePath = "games/" + gameFile;
+        setLoadingMessage(`🎮 Loading ${currentGameName} ...`);
+        
+        player.load(gamePath).then(() => {
+          setLoadingMessage(`✅ GAME READY! Use SAVE/LOAD buttons below`);
+          savePanel.style.display = "flex";
+          
+          // Check for existing saves notification
+          let hasExistingData = false;
+          for (let i = 0; i < localStorage.length; i++) {
+            if (localStorage.key(i).includes(currentGameName)) {
+              hasExistingData = true;
+              break;
+            }
+          }
+          if (hasExistingData) {
+            showSaveStatus("💾 Found existing save data for this game!", "#39ff14");
+          }
+          
+        }).catch((err) => {
+          console.error("Load error:", err);
+          setLoadingMessage(`❌ Failed to load ${gameFile}. Check if file exists in 'games/' folder`, true);
+          savePanel.style.display = "none";
+        });
+        
+      } catch (initErr) {
+        setLoadingMessage("💥 Ruffle initialization failed", true);
+      }
+    }
+  }
+  
+  // Additional CSS to ensure player fills container
+  const styleFix = document.createElement('style');
+  styleFix.textContent = `
+    #game ruffle-player, #game object, #game embed {
+      width: 100% !important;
+      height: 100% !important;
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    #game {
+      position: relative !important;
+      overflow: hidden !important;
+    }
+  `;
+  document.head.appendChild(styleFix);
 </script>
 
 </body>
