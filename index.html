@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --neon-cyan:#00f5ff;
+    --neon-pink:#ff2d78;
+    --neon-green:#39ff14;
+    --bg-dark:#080b14;
+    --bg-card:#0d1220;
+    --bg-card2:#111827;
+    --text-main:#e8eaf6;
+    --text-muted:#7a8baa;
+    --border-glow:rgba(0,245,255,0.18);
+  }
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden}
+  .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
+  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan)}
+  .logo span{color:var(--neon-pink)}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s}
+  .nav-links a:hover{color:var(--neon-cyan)}
+  .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
+  .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+  .lang-btn.active{background:var(--neon-cyan);color:#080b14}
+
+  /* HERO */
+  .hero{position:relative;z-index:1;padding:5rem 2rem 3rem;text-align:center}
+  .hero-eyebrow{font-size:0.75rem;letter-spacing:4px;text-transform:uppercase;color:var(--neon-pink);margin-bottom:1rem}
+  .hero-title{font-family:'Orbitron',monospace;font-size:clamp(2rem,6vw,4rem);font-weight:900;line-height:1.1;margin-bottom:1.5rem}
+  .hero-title .line1{color:var(--text-main)}
+  .hero-title .line2{color:var(--neon-cyan);text-shadow:0 0 24px rgba(0,245,255,0.5)}
+  .hero-sub{color:var(--text-muted);font-size:1.1rem;max-width:540px;margin:0 auto 2rem;line-height:1.6}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .btn-primary{padding:12px 28px;background:var(--neon-cyan);color:#080b14;font-family:'Orbitron',monospace;font-size:0.75rem;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+  .btn-secondary{padding:12px 28px;background:transparent;color:var(--neon-pink);font-family:'Orbitron',monospace;font-size:0.75rem;font-weight:700;letter-spacing:2px;border:1px solid var(--neon-pink);cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+
+  /* SECTIONS */
+  .section{position:relative;z-index:1;padding:3rem 2rem;max-width:1100px;margin:0 auto}
+  .section-header{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
+  .section-label{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--neon-cyan)}
+  .section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent)}
+  .section-title{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--text-main)}
+
+  /* FEATURED GAME */
+  .featured-card{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-cyan);padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+  .featured-badge{display:inline-block;background:var(--neon-pink);color:#fff;font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:2px;padding:4px 10px;margin-bottom:1rem}
+  .featured-title{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:900;color:var(--text-main);margin-bottom:0.5rem}
+  .featured-meta{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+  .tag{font-size:0.7rem;padding:3px 10px;border:1px solid;font-family:'Orbitron',monospace;letter-spacing:1px}
+  .tag-action{color:var(--neon-pink);border-color:var(--neon-pink)}
+  .tag-rpg{color:var(--neon-cyan);border-color:var(--neon-cyan)}
+  .tag-rated{color:var(--neon-green);border-color:var(--neon-green)}
+  .featured-desc{color:var(--text-muted);line-height:1.6;margin-bottom:1.5rem;font-size:1rem}
+  .star-rating{display:flex;gap:4px;align-items:center;margin-bottom:1.5rem}
+  .star{width:18px;height:18px;fill:var(--neon-pink)}
+  .rating-num{font-family:'Orbitron',monospace;font-size:0.9rem;color:var(--text-muted);margin-left:8px}
+  .featured-img{aspect-ratio:16/9;background:linear-gradient(135deg,#0d1220 0%,#1a2540 50%,#0d1220 100%);border:1px solid var(--border-glow);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .game-art{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+  .game-icon{font-size:3rem;opacity:0.8}
+  .game-art-label{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--neon-cyan);opacity:0.6}
+
+  /* ARTICLES GRID */
+  .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+  .article-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.5rem;cursor:pointer;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden}
+  .article-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background 0.2s}
+  .article-card:hover{border-color:rgba(0,245,255,0.4);transform:translateY(-2px)}
+  .article-card:hover::before{background:var(--neon-cyan)}
+  .article-cat{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem}
+  .cat-guide{color:var(--neon-cyan)}
+  .cat-review{color:var(--neon-pink)}
+  .cat-news{color:var(--neon-green)}
+  .article-title{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);margin-bottom:0.75rem;line-height:1.4}
+  .article-excerpt{color:var(--text-muted);font-size:0.9rem;line-height:1.5;margin-bottom:1rem}
+  .article-footer{display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border-glow);padding-top:0.75rem}
+  .read-more{color:var(--neon-cyan);font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px}
+
+  /* WALKTHROUGHS */
+  .wt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+  .wt-card{background:var(--bg-card);border:1px solid var(--border-glow);cursor:pointer;transition:border-color 0.2s;overflow:hidden}
+  .wt-card:hover{border-color:rgba(255,45,120,0.5)}
+  .wt-thumb{aspect-ratio:16/9;background:linear-gradient(135deg,#0d1220,#1a0d25);display:flex;align-items:center;justify-content:center;position:relative}
+  .play-btn{width:52px;height:52px;background:rgba(255,45,120,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .play-triangle{width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:18px solid white;margin-left:4px}
+  .wt-duration{position:absolute;bottom:8px;right:8px;background:rgba(8,11,20,0.85);font-family:'Orbitron',monospace;font-size:0.65rem;padding:3px 8px;color:var(--text-main);letter-spacing:1px}
+  .wt-info{padding:1rem}
+  .wt-game{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--neon-pink);margin-bottom:0.4rem}
+  .wt-title{font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:700;color:var(--text-main);line-height:1.4}
+  .wt-views{font-size:0.75rem;color:var(--text-muted);margin-top:0.4rem}
+
+  /* FLASH GAMES PREVIEW */
+  .games-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem}
+  .game-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1rem;text-align:center;cursor:pointer;transition:all 0.2s}
+  .game-card:hover{border-color:var(--neon-green);background:var(--bg-card2)}
+  .game-thumb{width:60px;height:60px;margin:0 auto 0.75rem;background:var(--bg-card2);border:1px solid var(--border-glow);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.6rem}
+  .game-name{font-family:'Orbitron',monospace;font-size:0.7rem;font-weight:700;color:var(--text-main);margin-bottom:0.3rem}
+  .game-genre{font-size:0.65rem;color:var(--text-muted);letter-spacing:1px}
+  .game-stars{display:flex;justify-content:center;gap:2px;margin-top:0.5rem}
+  .gs{font-size:0.7rem;color:var(--neon-pink)}
+
+  /* FOOTER */
+  footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
+  footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
+
+  /* ARABIC */
+  [dir="rtl"]{font-family:'Rajdhani',sans-serif}
+  [dir="rtl"] .featured-card{direction:rtl}
+  [dir="rtl"] .section-line{background:linear-gradient(270deg,var(--neon-cyan),transparent)}
+  [dir="rtl"] .featured-card{border-left:none;border-right:3px solid var(--neon-cyan)}
+
+  .glow-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--neon-cyan),transparent);margin:0 auto 3rem;opacity:0.4;position:relative;z-index:1}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="logo">PIXEL<span>ZONE</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Games</a></li>
+    <li><a href="#">Articles</a></li>
+    <li><a href="#">Walkthroughs</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ar')">AR</button>
+  </div>
+</nav>
+
+<div class="hero" id="heroSection">
+  <p class="hero-eyebrow" id="heroEyebrow">YOUR ULTIMATE GAMING HUB</p>
+  <h1 class="hero-title">
+    <div class="line1" id="heroLine1">ENTER THE</div>
+    <div class="line2" id="heroLine2">PIXEL ZONE</div>
+  </h1>
+  <p class="hero-sub" id="heroSub">Articles, walkthroughs, flash games — all in one place. Arabic and English, always.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" id="heroCta1">EXPLORE GAMES</button>
+    <button class="btn-secondary" id="heroCta2">READ ARTICLES</button>
+  </div>
+</div>
+
+<div class="glow-line"></div>
+
+<!-- FEATURED GAME -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-label" id="featuredLabel">Featured Game</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="featured-card">
+    <div>
+      <span class="featured-badge" id="featuredBadge">GAME OF THE WEEK</span>
+      <h2 class="featured-title">Hollow Knight</h2>
+      <div class="featured-meta">
+        <span class="tag tag-action" id="tagAction">ACTION</span>
+        <span class="tag tag-rpg">RPG</span>
+        <span class="tag tag-rated" id="tagRated">9.4 RATED</span>
+      </div>
+      <div class="star-rating">
+        <svg class="star" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16,14 18,21 12,16 6,21 8,14 2,9 9,9"/></svg>
+        <svg class="star" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16,14 18,21 12,16 6,21 8,14 2,9 9,9"/></svg>
+        <svg class="star" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16,14 18,21 12,16 6,21 8,14 2,9 9,9"/></svg>
+        <svg class="star" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16,14 18,21 12,16 6,21 8,14 2,9 9,9"/></svg>
+        <svg class="star" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16,14 18,21 12,16 6,21 8,14 2,9 9,9"/></svg>
+        <span class="rating-num" id="ratingNum">4.7 / 5 (284 votes)</span>
+      </div>
+      <p class="featured-desc" id="featuredDesc">A challenging action-adventure through a vast underground kingdom. Beautiful hand-drawn art, tight controls, and an unforgettable atmosphere make this a must-play.</p>
+      <button class="btn-primary" id="featuredBtn">READ FULL REVIEW</button>
+    </div>
+    <div class="featured-img">
+      <div class="game-art">
+        <div style="font-size:4rem;opacity:0.7">⚔️</div>
+        <span class="game-art-label">GAME COVER</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LATEST ARTICLES -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-label" id="articlesLabel">Latest Articles</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="articles-grid" id="articlesGrid">
+    <div class="article-card">
+      <span class="article-cat cat-guide" id="catGuide1">GUIDE</span>
+      <h3 class="article-title" id="art1Title">Top 10 Hardest Boss Fights of 2025</h3>
+      <p class="article-excerpt" id="art1Desc">From FromSoftware nightmares to indie surprises — these are the bosses that made us rage-quit and come back for more.</p>
+      <div class="article-footer">
+        <span>Apr 28, 2026</span>
+        <span class="read-more" id="readMore1">READ MORE →</span>
+      </div>
+    </div>
+    <div class="article-card">
+      <span class="article-cat cat-review" id="catReview2">REVIEW</span>
+      <h3 class="article-title" id="art2Title">FIFA 26: Is It Worth It This Year?</h3>
+      <p class="article-excerpt" id="art2Desc">We break down the new career mode, Ultimate Team changes, and whether EA finally fixed the gameplay after years of complaints.</p>
+      <div class="article-footer">
+        <span>Apr 25, 2026</span>
+        <span class="read-more" id="readMore2">READ MORE →</span>
+      </div>
+    </div>
+    <div class="article-card">
+      <span class="article-cat cat-news" id="catNews3">NEWS</span>
+      <h3 class="article-title" id="art3Title">PUBG Mobile: Best Settings for Low-End Phones</h3>
+      <p class="article-excerpt" id="art3Desc">Maximize your performance and FPS even on older Android devices. Full settings breakdown inside.</p>
+      <div class="article-footer">
+        <span>Apr 22, 2026</span>
+        <span class="read-more" id="readMore3">READ MORE →</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WALKTHROUGHS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-label" id="wtLabel">Walkthrough Videos</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="wt-grid">
+    <div class="wt-card">
+      <div class="wt-thumb">
+        <div class="play-btn"><div class="play-triangle"></div></div>
+        <span class="wt-duration">18:42</span>
+      </div>
+      <div class="wt-info">
+        <p class="wt-game">HOLLOW KNIGHT</p>
+        <p class="wt-title" id="wt1Title">How to Beat the Radiance — Full Boss Guide</p>
+        <p class="wt-views" id="wt1Views">12,400 views</p>
+      </div>
+    </div>
+    <div class="wt-card">
+      <div class="wt-thumb">
+        <div class="play-btn"><div class="play-triangle"></div></div>
+        <span class="wt-duration">24:10</span>
+      </div>
+      <div class="wt-info">
+        <p class="wt-game">FREE FIRE</p>
+        <p class="wt-title" id="wt2Title">Complete Beginner's Guide — Tips & Tricks</p>
+        <p class="wt-views" id="wt2Views">31,200 views</p>
+      </div>
+    </div>
+    <div class="wt-card">
+      <div class="wt-thumb">
+        <div class="play-btn"><div class="play-triangle"></div></div>
+        <span class="wt-duration">11:05</span>
+      </div>
+      <div class="wt-info">
+        <p class="wt-game">MINECRAFT</p>
+        <p class="wt-title" id="wt3Title">How to Build the Perfect Starter Base</p>
+        <p class="wt-views" id="wt3Views">8,900 views</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLASH GAMES -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-label" id="flashLabel">Flash Games</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="games-row">
+    <div class="game-card">
+      <div class="game-thumb">🗡️</div>
+      <p class="game-name">Swords & Souls</p>
+      <p class="game-genre">ACTION / RPG</p>
+      <div class="game-stars"><span class="gs">★★★★★</span></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb">🏃</div>
+      <p class="game-name">Run 3</p>
+      <p class="game-genre">ENDLESS RUNNER</p>
+      <div class="game-stars"><span class="gs">★★★★☆</span></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb">🧩</div>
+      <p class="game-name">Bloons TD 5</p>
+      <p class="game-genre">TOWER DEFENSE</p>
+      <div class="game-stars"><span class="gs">★★★★★</span></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb">⚡</div>
+      <p class="game-name">Super Smash Flash</p>
+      <p class="game-genre">FIGHTING</p>
+      <div class="game-stars"><span class="gs">★★★★☆</span></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb">🌊</div>
+      <p class="game-name">Learn to Fly 2</p>
+      <p class="game-genre">PHYSICS / FUN</p>
+      <div class="game-stars"><span class="gs">★★★★★</span></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb">🧟</div>
+      <p class="game-name">Plants vs Zombies</p>
+      <p class="game-genre">STRATEGY</p>
+      <div class="game-stars"><span class="gs">★★★★★</span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
+  <p id="footerText">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+</footer>
+
+<script>
+const translations = {
+  en: {
+    navHome:'Home', navGames:'Games', navArticles:'Articles', navWT:'Walkthroughs',
+    heroEyebrow:'YOUR ULTIMATE GAMING HUB',
+    heroLine1:'ENTER THE', heroLine2:'PIXEL ZONE',
+    heroSub:'Articles, walkthroughs, flash games — all in one place. Arabic and English, always.',
+    heroCta1:'EXPLORE GAMES', heroCta2:'READ ARTICLES',
+    featuredLabel:'Featured Game', featuredBadge:'GAME OF THE WEEK',
+    tagAction:'ACTION', tagRated:'9.4 RATED', ratingNum:'4.7 / 5 (284 votes)',
+    featuredDesc:'A challenging action-adventure through a vast underground kingdom. Beautiful hand-drawn art, tight controls, and an unforgettable atmosphere make this a must-play.',
+    featuredBtn:'READ FULL REVIEW',
+    articlesLabel:'Latest Articles',
+    catGuide1:'GUIDE', catReview2:'REVIEW', catNews3:'NEWS',
+    art1Title:'Top 10 Hardest Boss Fights of 2025',
+    art1Desc:'From FromSoftware nightmares to indie surprises — these are the bosses that made us rage-quit and come back for more.',
+    art2Title:'FIFA 26: Is It Worth It This Year?',
+    art2Desc:"We break down the new career mode, Ultimate Team changes, and whether EA finally fixed the gameplay.",
+    art3Title:'PUBG Mobile: Best Settings for Low-End Phones',
+    art3Desc:'Maximize your performance and FPS even on older Android devices. Full settings breakdown inside.',
+    readMore1:'READ MORE →', readMore2:'READ MORE →', readMore3:'READ MORE →',
+    wtLabel:'Walkthrough Videos',
+    wt1Title:'How to Beat the Radiance — Full Boss Guide', wt1Views:'12,400 views',
+    wt2Title:"Complete Beginner's Guide — Tips & Tricks", wt2Views:'31,200 views',
+    wt3Title:'How to Build the Perfect Starter Base', wt3Views:'8,900 views',
+    flashLabel:'Flash Games',
+    footerText:'© 2026 PixelZone — Gaming for Everyone, Everywhere'
+  },
+  ar: {
+    navHome:'الرئيسية', navGames:'الألعاب', navArticles:'المقالات', navWT:'الشروحات',
+    heroEyebrow:'وجهتك الأولى في عالم الألعاب',
+    heroLine1:'ادخل إلى', heroLine2:'بيكسل زون',
+    heroSub:'مقالات، شروحات، وألعاب فلاش — كل شيء في مكان واحد. بالعربي والإنجليزي دايمًا.',
+    heroCta1:'استكشف الألعاب', heroCta2:'اقرأ المقالات',
+    featuredLabel:'لعبة مميزة', featuredBadge:'لعبة الأسبوع',
+    tagAction:'أكشن', tagRated:'تقييم 9.4', ratingNum:'4.7 / 5 (284 صوت)',
+    featuredDesc:'مغامرة أكشن صعبة في مملكة تحت الأرض. رسومات يدوية جميلة وتحكم دقيق وأجواء لا تُنسى.',
+    featuredBtn:'اقرأ المراجعة الكاملة',
+    articlesLabel:'أحدث المقالات',
+    catGuide1:'دليل', catReview2:'مراجعة', catNews3:'أخبار',
+    art1Title:'أصعب 10 معارك ضد بوسات في 2025',
+    art1Desc:'من كوابيس فروم سوفت وير إلى مفاجآت الألعاب المستقلة — هؤلاء هم البوسات اللي خلونا نقفل اللعبة ونرجع.',
+    art2Title:'فيفا 26: يستاهل تشتريه هذا العام؟',
+    art2Desc:'نحلل وضع مود الكاريير وتغييرات الأولتيميت تيم وإذا كانت EA أصلحت اللعبة أخيرًا.',
+    art3Title:'PUBG موبايل: أفضل إعدادات للهواتف القديمة',
+    art3Desc:'حسّن أداءك وFPS حتى على الأجهزة القديمة. شرح كامل للإعدادات بالداخل.',
+    readMore1:'اقرأ المزيد ←', readMore2:'اقرأ المزيد ←', readMore3:'اقرأ المزيد ←',
+    wtLabel:'فيديوهات الشرح والتخطي',
+    wt1Title:'كيف تهزم Radiance — دليل كامل للبوس', wt1Views:'12,400 مشاهدة',
+    wt2Title:'دليل المبتدئين الكامل — نصايح وحيل', wt2Views:'31,200 مشاهدة',
+    wt3Title:'كيف تبني أفضل قاعدة بداية في ماينكرافت', wt3Views:'8,900 مشاهدة',
+    flashLabel:'ألعاب فلاش',
+    footerText:'© 2026 PixelZون — الألعاب للجميع، في كل مكان'
+  }
+};
+
+function setLang(lang) {
+  const t = translations[lang];
+  const dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.body.setAttribute('dir', dir);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn:${lang==='en'?'first':'last'}-child`).classList.add('active');
+  const ids = Object.keys(t);
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = t[id];
+  });
+  const links = document.querySelectorAll('.nav-links a');
+  if(links.length >= 4){
+    links[0].textContent = t.navHome;
+    links[1].textContent = t.navGames;
+    links[2].textContent = t.navArticles;
+    links[3].textContent = t.navWT;
+  }
+}
+</script>
+</body>
+</html>
