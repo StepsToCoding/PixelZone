@@ -1,0 +1,42 @@
+{
+  "articles": [
+    {
+      "title": "Resident Evil 2 Remake: A Bestiary of Nightmares",
+      "date": "2026-04-30",
+      "category": "GUIDE",
+      "excerpt": "Now let's talk about the MONSTERS of Raccoon City.",
+      "file": "RE2-Monsters.html"
+    },
+    {
+      "title": "Resident Evil 2 Remastered REVIEW",
+      "date": "2026-04-29",
+      "category": "REVIEW",
+      "excerpt": "Resident evil 2 remastered IS ONE OF THE BEST IF NOT THE BEST RE games.",
+      "file": "RE2-Remastered-Hardest-Boss.html"
+    }
+  ],
+  "walkthroughs": [
+    {
+      "title": "Among us – Malenia Boss Guide",
+      "game": "SUS",
+      "youtubeId": "dQw4w9WgXcQ",
+      "duration": "14:32",
+      "views": "127000"
+    },
+    {
+      "title": "Hollow Knight: SilkSong Full Walkthrough Part 1",
+      "game": "Silk Song",
+      "youtubeId": "abc123xyz",
+      "duration": "1:02:15",
+      "views": "89000"
+    },
+    {
+      "title": "Cyberpunk Phantom Liberty Secret Ending",
+      "game": "Cyberpunk 2077",
+      "youtubeId": "secretID123",
+      "duration": "22:08",
+      "views": "45000"
+    }
+  ],
+  "youtubeChannelUrl": "https://www.youtube.com/@Pixel-Zone3"
+}

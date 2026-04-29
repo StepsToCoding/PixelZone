@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Blog Post — PixelZone</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --neon-cyan:#00f5ff;
+    --neon-pink:#ff2d78;
+    --neon-green:#39ff14;
+    --bg-dark:#080b14;
+    --bg-card:#0d1220;
+    --bg-card2:#111827;
+    --text-main:#e8eaf6;
+    --text-muted:#7a8baa;
+    --border-glow:rgba(0,245,255,0.18);
+    /* Monster colors */
+    --zombie-color:#6b8c5c;
+    --licker-color:#c44b6c;
+    --tyrant-color:#2c3e4e;
+    --g-adult-color:#7a2e4a;
+    --birkin-color:#b85c1a;
+    --ivy-color:#4a7c59;
+  }
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
+  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
+  .logo span{color:var(--neon-pink)}
+  .back-btn{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;text-decoration:none;transition:color 0.2s}
+  .back-btn:hover{color:var(--neon-cyan)}
+  .back-arrow{font-size:1rem}
+
+  /* HERO BANNER */
+  .post-hero{position:relative;z-index:1;padding:4rem 2rem 3rem;max-width:860px;margin:0 auto}
+  .post-meta-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .post-type-badge{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;padding:4px 12px;border:1px solid}
+  .badge-review{color:var(--neon-pink);border-color:var(--neon-pink);background:rgba(255,45,120,0.08)}
+  .badge-guide{color:var(--neon-cyan);border-color:var(--neon-cyan);background:rgba(0,245,255,0.08)}
+  .badge-news{color:var(--neon-green);border-color:var(--neon-green);background:rgba(57,255,20,0.08)}
+  .badge-opinion{color:#b388ff;border-color:#b388ff;background:rgba(179,136,255,0.08)}
+  .post-date{font-size:0.8rem;color:var(--text-muted);letter-spacing:1px}
+  .post-author{font-size:0.8rem;color:var(--text-muted)}
+  .post-author span{color:var(--neon-cyan)}
+
+  .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem}
+
+  /* REVIEW SCORE BOX */
+  .review-score-box{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-pink);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+  .score-big{font-family:'Orbitron',monospace;font-size:3rem;font-weight:900;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.5);line-height:1}
+  .score-label{font-size:0.7rem;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--text-muted);margin-top:4px}
+  .score-stars{display:flex;gap:4px;margin:0.5rem 0}
+  .score-stars span{font-size:1.4rem;color:var(--neon-pink)}
+  .score-verdict{font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--text-main);font-weight:700}
+  .score-sub{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
+  .review-score-box.hidden{display:none}
+
+  /* TAGS */
+  .post-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
+  .post-tag{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:3px 10px;border:1px solid var(--border-glow);color:var(--text-muted)}
+
+  /* DIVIDER */
+  .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
+
+  /* ARTICLE BODY */
+  .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
+  .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
+  .post-body h3{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);margin:2rem 0 0.75rem;letter-spacing:1px}
+  .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
+  .post-body strong{color:var(--text-main)}
+  .post-body em{color:var(--neon-cyan);font-style:normal}
+  .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
+  .post-body li{margin-bottom:0.4rem;font-size:1.05rem;line-height:1.7}
+  .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
+  .post-body a{color:var(--neon-cyan);text-decoration:none;border-bottom:1px solid rgba(0,245,255,0.3)}
+  .post-body a:hover{border-color:var(--neon-cyan)}
+  .post-body img{width:100%;border:1px solid var(--border-glow);margin:1.5rem 0}
+  .post-body hr{border:none;border-top:1px solid var(--border-glow);margin:2rem 0}
+
+  /* Monster name styles - matching game aesthetics */
+  .monster-zombie{color:var(--zombie-color);text-shadow:0 0 3px rgba(107,140,92,0.5);font-weight:bold}
+  .monster-licker{color:var(--licker-color);text-shadow:0 0 3px rgba(196,75,108,0.5);font-weight:bold}
+  .monster-tyrant{color:var(--tyrant-color);text-shadow:0 0 4px rgba(44,62,78,0.7);font-weight:bold;letter-spacing:0.5px}
+  .monster-gadult{color:var(--g-adult-color);text-shadow:0 0 3px rgba(122,46,74,0.6);font-weight:bold}
+  .monster-birkin{color:var(--birkin-color);text-shadow:0 0 4px rgba(184,92,26,0.6);font-weight:bold}
+  .monster-ivy{color:var(--ivy-color);text-shadow:0 0 3px rgba(74,124,89,0.5);font-weight:bold}
+
+  /* PRO/CON BOX */
+  .pro-con-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
+  .pro-box,.con-box{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.2rem 1.5rem}
+  .pro-box{border-top:2px solid var(--neon-green)}
+  .con-box{border-top:2px solid var(--neon-pink)}
+  .pro-box h4,.con-box h4{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;margin-bottom:0.75rem}
+  .pro-box h4{color:var(--neon-green)}
+  .con-box h4{color:var(--neon-pink)}
+  .pro-box ul,.con-box ul{list-style:none;padding:0}
+  .pro-box li,.con-box li{font-size:0.9rem;color:var(--text-muted);padding:3px 0;display:flex;gap:8px;align-items:flex-start}
+  .pro-box li::before{content:'✓';color:var(--neon-green);flex-shrink:0}
+  .con-box li::before{content:'✗';color:var(--neon-pink);flex-shrink:0}
+
+  /* FOOTER */
+  footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
+  .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  <a href="../index.html" class="back-btn"><span class="back-arrow">←</span> BACK TO HOME</a>
+</nav>
+
+<div class="post-hero">
+  <div class="post-meta-top">
+    <span class="post-type-badge badge-review" id="postType">ARTICLE</span>
+  </div>
+
+  <h1 class="post-title" id="postTitle">Resident Evil 2 Remake: A Bestiary of Nightmares</h1>
+
+  <div class="glow-divider"></div>
+</div>
+
+<div class="post-body">
+
+  <p>Now let's talk about the <strong>MONSTERS</strong> of Raccoon City.</p>
+  <p><strong>⚠️ ALERT! ⚠️</strong> This article contains major spoilers about the story of <em>Resident Evil 2 Remake</em>.</p>
+  <p><strong>My advice:</strong> Do not read this until you've finished the game. You've been warned.</p>
+
+  <h2><span class="monster-zombie">Zombies</span></h2>
+  <p>First up, the bread and butter: the <span class="monster-zombie">zombies</span>. In the original, they were clunky but iconic. In this remake, they are absolute nightmares of physics and pressure. These aren't just walking corpses; they're desperate, twitching vectors of infection. The remake nails their durability perfectly—you can pop a headshot and watch them crumble, or you can put six rounds into their chest and watch them keep shambling toward you. The true genius here is the "living death" simulation. Sometimes they play dead on the floor, only to grab your ankle as you walk by. Other times, they shamble fast; other times, agonizingly slow. This unpredictability turns every single dark hallway into a gamble. Do you waste the ammo to guarantee it's down, or do you try to juke past and risk getting a chunk taken out of your neck? That tension is the heart of the game.</p>
+  <blockquote><strong>My Advice:</strong> Shoot them in the head with a shotgun or the Lightning Hawk to make sure they stay down permanently. Aim for the skull, not the chest.</blockquote>
+
+  <h2><span class="monster-licker">Lickers</span></h2>
+  <p>If the <span class="monster-zombie">zombie</span> tests your ammo management, the <span class="monster-licker">Licker</span> tests your nerve. The remake took the original's exposed-brain design and cranked the grotesque factor to eleven—rippling muscle, vascular texture, and that horrifically long tongue. But the gameplay twist is what makes them shine. <span class="monster-licker">Lickers</span> are completely blind, relying on echolocation. That means you can theoretically walk right past one if you creep slowly. <em>But.</em> The game loves to pair them with explosive turrets or—even better—<span class="monster-zombie">zombies</span>. Suddenly, you're trapped in a room where you can't shoot the <span class="monster-zombie">zombie</span> because the gunshot will alert the <span class="monster-licker">Licker</span> on the ceiling. You're forced into a deadly game of slow-walking chicken, praying the <span class="monster-zombie">zombie</span> doesn't spot you first. It's pure survival horror chess.</p>
+  <blockquote><strong>My Advice:</strong> Move slowly when they're nearby. Crouch-walking reduces noise. They have no eyes—only ears. Use that to your advantage.</blockquote>
+
+  <h2><span class="monster-tyrant">Tyrant (Mr. X)</span></h2>
+  <p>Forget the monsters you see; the scariest one is the one you <em>hear</em>. <span class="monster-tyrant">Mr. X</span> isn't just a boss fight; he is a level mechanic with feet. The remake transformed him from a scripted jumpscare into a persistent, AI-driven stalker. Those heavy footsteps echoing through the RPD station create a primal dread that no other enemy can match. He forces you to abandon your meticulous planning. Want to solve that safe puzzle? Too bad—he just walked into the room. Need to grab that key from the locker? You'll have to lead him on a three-floor chase first. He doesn't run, but he doesn't need to. He just keeps walking, shrugging off bullets, forcing you into corners, and compressing your decision-making time into frantic seconds. He turns the police station from a puzzle box into a trap.</p>
+  <blockquote><strong>My Advice:</strong> Similar to <span class="monster-licker">Lickers</span>, move slowly. Better yet, stop walking entirely if you can. Hide in a safe room (where you save your game)—he can't follow you there. Use that to catch your breath.</blockquote>
+  
+  <h2><span class="monster-gadult">G-Adults</span></h2>
+  <p>Finally, let's talk about the sewer-dwelling <span class="monster-gadult">G-Adults</span>. These massive, bulging masses of eyes and bile are the game's way of punishing you for conserving resources in the wrong way. They're slow but possess a terrifying one-hit-kill grab if you get too close. The brilliance here is their placement. The sewers are tight, claustrophobic corridors with barely any room to dodge. You can either waste high-powered shotgun shells or acid rounds to melt them, or you can try to bait their slow charge and squeeze past. But if they grab you, it's either a guaranteed parasite in your inventory (which you have to slash away) or an instant death animation. They represent the body horror of the G-Virus perfectly: an uncontrollable desire to reproduce, creating ugly, weeping tumors that just want to force you to join their mess.</p>
+  <blockquote><strong>My Advice:</strong> Shoot the giant eyeball on their left arm. One well-placed shot staggers them. Two or three kills them. Don't let them hug you.</blockquote>
+  
+  <h2><span class="monster-birkin">William Birkin</span></h2>
+  <p><span class="monster-birkin">William Birkin</span> isn't just a boss; he's a tragedy you fight five times. The remake takes his original G-Mutation and turns it into a heartbreaking, body-horror opera. In the beginning, he's almost still human—a desperate scientist who injects his life's work to save himself from a bullet. But by the end of the first sewer chase, he's already slipping. His right arm grows that grotesque, gnashing eye-shoulder, and his entire body language shifts from frantic human to predatory beast. What makes <span class="monster-birkin">Birkin</span> terrifying isn't just his size or his one-hit-kill attacks—it's the intelligence behind the eyes that slowly erodes. In his first form, he still uses pipes and tactics. By his final transformation, he's just a screaming pile of teeth, claws, and necrotic tissue crawling toward you in the train's emergency lights. The remake adds beautiful, sickening details: the way his eyeball pulsates independently, the wet tearing sound when he rips his own chest apart, and the pathetic grunts he makes when he's stunned. You almost feel bad for the guy. Almost. Then he slams a steel girder through your ribs.</p>
+  <blockquote><strong>My Advice:</strong> Focus fire on his giant eyeballs. Each form has weak points. Grenades and the flamethrower are your best friends. Don't get greedy—he punishes overconfidence.</blockquote>
+  
+  <h2><span class="monster-ivy">The Ivy (Plant 43 Zombies)</span></h2>
+  <p>Forget the <span class="monster-zombie">zombies</span>. Forget the <span class="monster-licker">Lickers</span>. The Plant 43 enemies—called <span class="monster-ivy">Ivies</span>—are the reason you'll hoard flamethrower fuel like it's gold. These things are former Umbrella researchers who got dosed with a mutated plant strain, and the result is pure botanical nightmare fuel. They don't shamble. They <em>stalk</em>. Their movements are jerky, insectoid, and completely silent except for the wet squelch of vine roots tearing through carpet. The remake's genius redesign made them almost unrecognizable as human—just vaguely humanoid shapes made of green-black vines, with a "head" that splits open like a Venus flytrap to reveal a screaming human jaw still fused inside. Mechanically, they break every rule the game taught you. Shooting them in the head? Useless. They don't have brains anymore. Body shots? They just stagger and keep coming. You need fire. Without it, they'll grab you and perform a "kiss" that injects instant-kill toxins down your throat. Worse, even after you "kill" them, their bodies lie on the floor like harmless piles of weeds… until you walk past, and they reassemble themselves three seconds later. The <span class="monster-ivy">Ivies</span> teach you one brutal lesson: in the NEST lab, the green stuff wants you dead just as badly as the flesh-eating stuff does.</p>
+  <blockquote><strong>My Advice:</strong> Burn them with fire. The flamethrower is the hard counter. One quick burst makes them flail and die permanently. Without fire, you're just delaying the inevitable.</blockquote>
+
+</div>
+
+<footer>
+  <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
+  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+</footer>
+
+</body>
+</html>
