@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games — PixelZone</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-/* ROOT */
 :root{
   --neon-cyan:#00f5ff;
   --neon-pink:#ff2d78;
   --neon-green:#39ff14;
+  --neon-purple:#bf5fff;
+  --neon-amber:#ffb830;
   --bg-dark:#080b14;
   --bg-card:#0d1220;
   --bg-card2:#111827;
@@ -21,224 +20,329 @@
   --text-muted:#7a8baa;
   --border-glow:rgba(0,245,255,0.18);
 }
-
-/* BACKGROUND EFFECTS */
-.scanlines{
-  position:fixed;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  background:repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.08) 2px,
-    rgba(0,0,0,0.08) 4px
-  );
-  z-index:999;
-}
-
-.grid-bg{
-  position:fixed;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  background-image:
-    linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
-  background-size:40px 40px;
-  z-index:0;
-}
-
-body{
-  background:var(--bg-dark);
-  color:var(--text-main);
-  font-family:'Rajdhani',sans-serif;
-  min-height:100vh;
-}
+body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden}
+.scanlines{position:fixed;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
+.grid-bg{position:fixed;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
 /* NAV */
-nav{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(8,11,20,0.92);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border-glow);
-  padding:0 2rem;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  height:64px;
-}
-
-.logo{
-  font-family:'Orbitron';
-  font-weight:900;
-  font-size:1.4rem;
-  color:var(--neon-cyan);
-  letter-spacing:3px;
-  text-shadow:0 0 16px var(--neon-cyan);
-}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;justify-content:space-between;align-items:center;height:64px}
+.logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;color:var(--neon-cyan);letter-spacing:3px;text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
 .logo span{color:var(--neon-pink)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
+.lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
+.lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+.lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
-.nav-links{
-  display:flex;
-  gap:2rem;
-  list-style:none;
-}
-.nav-links a{
-  text-decoration:none;
-  color:var(--text-muted);
-  font-size:0.9rem;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-.nav-links a:hover{color:var(--neon-cyan)}
+/* PAGE HEADER */
+.page-header{position:relative;z-index:1;padding:3.5rem 2rem 1.5rem;max-width:1100px;margin:0 auto}
+.page-eyebrow{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--neon-pink);margin-bottom:0.75rem;font-family:'Orbitron',monospace}
+.page-title{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:var(--text-main)}
+.page-title span{color:var(--neon-cyan);text-shadow:0 0 20px rgba(0,245,255,0.4)}
+.game-count{display:inline-block;margin-top:1rem;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-muted);border:1px solid var(--border-glow);padding:5px 14px}
 
-/* LANG */
-.lang-toggle{
-  display:flex;
-  border:1px solid var(--border-glow);
-}
-.lang-btn{
-  padding:6px 12px;
-  background:none;
-  border:none;
-  color:var(--text-muted);
-  cursor:pointer;
-}
-.lang-btn.active{
-  background:var(--neon-cyan);
-  color:#000;
-}
+/* SEARCH + FILTERS BAR */
+.controls{position:relative;z-index:1;padding:0 2rem 1rem;max-width:1100px;margin:0 auto;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:320px}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:1rem;pointer-events:none}
+.search-input{width:100%;background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.95rem;padding:8px 14px 8px 34px;outline:none;transition:border-color 0.2s}
+.search-input:focus{border-color:rgba(0,245,255,0.5)}
+.search-input::placeholder{color:var(--text-muted)}
 
-/* HERO */
-.hero{
-  position:relative;
-  z-index:1;
-  text-align:center;
-  padding:5rem 2rem 2rem;
-}
+.filter-group{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center}
+.filter-label{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--text-muted);white-space:nowrap}
+.filter-btn{font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1.5px;padding:7px 14px;background:transparent;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer;transition:all 0.2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);white-space:nowrap}
+.filter-btn:hover{border-color:var(--neon-cyan);color:var(--neon-cyan)}
+.filter-btn.active{background:var(--neon-cyan);color:#080b14;border-color:var(--neon-cyan)}
 
-.hero-title{
-  font-family:'Orbitron';
-  font-size:clamp(2rem,5vw,3.5rem);
-}
-.hero-title span{
-  color:var(--neon-cyan);
-  text-shadow:0 0 20px rgba(0,245,255,0.5);
-}
+/* Genre-colored active states */
+.filter-btn[data-genre="ACTION"].active{background:var(--neon-pink);border-color:var(--neon-pink);color:#080b14}
+.filter-btn[data-genre="PUZZLE"].active{background:var(--neon-purple);border-color:var(--neon-purple);color:#080b14}
+.filter-btn[data-genre="STRATEGY"].active{background:var(--neon-amber);border-color:var(--neon-amber);color:#080b14}
+.filter-btn[data-genre="ADVENTURE"].active{background:var(--neon-green);border-color:var(--neon-green);color:#080b14}
+.filter-btn[data-genre="SPORTS"].active{background:#00cfff;border-color:#00cfff;color:#080b14}
+.filter-btn[data-genre="RACING"].active{background:#ff6a00;border-color:#ff6a00;color:#080b14}
+.filter-btn[data-genre="RPG"].active{background:#c084fc;border-color:#c084fc;color:#080b14}
+.filter-btn[data-genre="SHOOTER"].active{background:#f87171;border-color:#f87171;color:#080b14}
+.filter-btn[data-genre="PLATFORMER"].active{background:#34d399;border-color:#34d399;color:#080b14}
+.filter-btn[data-genre="FIGHTING"].active{background:#fb923c;border-color:#fb923c;color:#080b14}
 
-/* GLOW LINE */
-.glow-line{
-  width:100%;
-  height:1px;
-  background:linear-gradient(90deg,transparent,var(--neon-cyan),transparent);
-  margin:2rem auto;
-  opacity:0.4;
-}
+/* SORT + RESULTS ROW */
+.sort-row{position:relative;z-index:1;padding:0 2rem 1.5rem;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.sort-label{font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1.5px;color:var(--text-muted)}
+.sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.9rem;padding:6px 12px;outline:none;cursor:pointer}
+.sort-select option{background:var(--bg-dark)}
+.results-info{margin-left:auto;font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1px;color:var(--text-muted)}
 
-/* GRID */
-.games-grid{
-  position:relative;
-  z-index:1;
-  max-width:1100px;
-  margin:0 auto;
-  padding:2rem;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:1.5rem;
-}
+/* GAMES GRID */
+.games-section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 2rem 3rem}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1.25rem}
 
-.game-card{
-  background:var(--bg-card);
-  border:1px solid var(--border-glow);
-  padding:1.5rem;
-  text-align:center;
-  cursor:pointer;
-  transition:all 0.2s;
-}
-.game-card:hover{
-  border-color:var(--neon-green);
-  transform:translateY(-4px);
-  background:var(--bg-card2);
-}
+/* GAME CARD */
+.game-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.4rem 1.2rem 1.2rem;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;text-decoration:none;display:block}
+.game-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background 0.2s}
+.game-card:hover{border-color:var(--neon-green);transform:translateY(-4px);background:var(--bg-card2)}
+.game-card:hover::before{background:var(--neon-green)}
 
-.game-name{
-  font-family:'Orbitron';
-  font-size:0.75rem;
-  margin-top:0.5rem;
-}
+.game-icon{font-size:2.4rem;line-height:1;margin-bottom:0.6rem;display:block}
+.game-name{font-family:'Orbitron',monospace;font-size:0.72rem;font-weight:700;color:var(--text-main);line-height:1.4;margin-bottom:0.6rem;word-break:break-word}
+.game-genres{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:0.5rem}
+.genre-tag{font-size:0.55rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:2px 7px;border:1px solid;border-radius:1px}
 
-/* RTL */
-[dir="rtl"]{
-  direction:rtl;
+/* Genre tag colors */
+.gt-ACTION{color:var(--neon-pink);border-color:rgba(255,45,120,0.4)}
+.gt-PUZZLE{color:var(--neon-purple);border-color:rgba(191,95,255,0.4)}
+.gt-STRATEGY{color:var(--neon-amber);border-color:rgba(255,184,48,0.4)}
+.gt-ADVENTURE{color:var(--neon-green);border-color:rgba(57,255,20,0.4)}
+.gt-SPORTS{color:#00cfff;border-color:rgba(0,207,255,0.4)}
+.gt-RACING{color:#ff6a00;border-color:rgba(255,106,0,0.4)}
+.gt-RPG{color:#c084fc;border-color:rgba(192,132,252,0.4)}
+.gt-SHOOTER{color:#f87171;border-color:rgba(248,113,113,0.4)}
+.gt-PLATFORMER{color:#34d399;border-color:rgba(52,211,153,0.4)}
+.gt-FIGHTING{color:#fb923c;border-color:rgba(251,146,60,0.4)}
+.gt-OTHER{color:var(--text-muted);border-color:var(--border-glow)}
+
+/* Play overlay on hover */
+.play-overlay{position:absolute;inset:0;background:rgba(0,245,255,0.05);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--neon-cyan)}
+.game-card:hover .play-overlay{opacity:1}
+
+/* Skeletons */
+.skeleton{background:linear-gradient(90deg,var(--bg-card) 25%,#161e30 50%,var(--bg-card) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:2px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.4rem;text-align:center}
+
+/* Empty / error states */
+.state-box{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted)}
+.state-box .icon{font-size:3rem;opacity:0.3;margin-bottom:1rem}
+.state-box p{font-family:'Orbitron',monospace;font-size:0.72rem;letter-spacing:2px;margin-bottom:0.5rem}
+.state-box .sub{font-size:0.62rem;opacity:0.6;letter-spacing:1px}
+
+.glow-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--neon-cyan),transparent);opacity:0.4;position:relative;z-index:1}
+footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
+footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
+
+[dir="rtl"] .search-wrap{order:-1}
+[dir="rtl"] .search-icon{left:auto;right:10px}
+[dir="rtl"] .search-input{padding:8px 34px 8px 14px}
+[dir="rtl"] .results-info{margin-left:0;margin-right:auto}
+
+@media(max-width:600px){
+  .controls{flex-direction:column;align-items:stretch}
+  .search-wrap{max-width:100%}
+  .sort-row{flex-wrap:wrap}
+  .results-info{margin-left:0}
 }
 </style>
-
 </head>
-
 <body>
-
 <div class="scanlines"></div>
 <div class="grid-bg"></div>
 
 <nav>
-  <div class="logo">PIXEL<span>ZONE</span></div>
-
+  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
   <ul class="nav-links">
     <li><a id="navHome" href="../index.html">Home</a></li>
-    <li><a id="navArticles" href="#">Articles</a></li>
-    <li><a id="navWT" href="#">Walkthroughs</a></li>
+    <li><a id="navGames" href="index.html" class="active">Games</a></li>
+    <li><a id="navArticles" href="../Articles/index.html">Articles</a></li>
+    <li><a id="navWT" href="../Walkthroughs/index.html">Walkthroughs</a></li>
   </ul>
-
   <div class="lang-toggle">
     <button class="lang-btn active" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('ar')">AR</button>
   </div>
 </nav>
 
-<div class="hero">
-  <h1 class="hero-title" id="title">ALL <span>GAMES</span></h1>
+<div class="page-header">
+  <p class="page-eyebrow" id="eyebrow">FLASH GAME ARCADE</p>
+  <h1 class="page-title">ALL <span id="titleSpan">GAMES</span></h1>
+  <div class="game-count" id="gameCount">LOADING...</div>
+</div>
+
+<!-- SEARCH + GENRE FILTERS -->
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input class="search-input" type="text" id="searchInput" placeholder="Search games..." oninput="applyFilters()">
+  </div>
+  <div class="filter-group">
+    <span class="filter-label" id="filterLabel">GENRE:</span>
+    <button class="filter-btn active" data-genre="ALL" onclick="setGenre('ALL')" id="fb-ALL">ALL</button>
+    <button class="filter-btn" data-genre="ACTION" onclick="setGenre('ACTION')" id="fb-ACTION">ACTION</button>
+    <button class="filter-btn" data-genre="ADVENTURE" onclick="setGenre('ADVENTURE')" id="fb-ADVENTURE">ADVENTURE</button>
+    <button class="filter-btn" data-genre="PUZZLE" onclick="setGenre('PUZZLE')" id="fb-PUZZLE">PUZZLE</button>
+    <button class="filter-btn" data-genre="STRATEGY" onclick="setGenre('STRATEGY')" id="fb-STRATEGY">STRATEGY</button>
+    <button class="filter-btn" data-genre="PLATFORMER" onclick="setGenre('PLATFORMER')" id="fb-PLATFORMER">PLATFORMER</button>
+    <button class="filter-btn" data-genre="FIGHTING" onclick="setGenre('FIGHTING')" id="fb-FIGHTING">FIGHTING</button>
+    <button class="filter-btn" data-genre="SHOOTER" onclick="setGenre('SHOOTER')" id="fb-SHOOTER">SHOOTER</button>
+    <button class="filter-btn" data-genre="RACING" onclick="setGenre('RACING')" id="fb-RACING">RACING</button>
+    <button class="filter-btn" data-genre="SPORTS" onclick="setGenre('SPORTS')" id="fb-SPORTS">SPORTS</button>
+    <button class="filter-btn" data-genre="RPG" onclick="setGenre('RPG')" id="fb-RPG">RPG</button>
+  </div>
+</div>
+
+<!-- SORT ROW -->
+<div class="sort-row">
+  <span class="sort-label" id="sortLabel">SORT:</span>
+  <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+    <option value="az">A → Z</option>
+    <option value="za">Z → A</option>
+  </select>
+  <span class="results-info" id="resultsInfo"></span>
+</div>
+
+<!-- GRID -->
+<div class="games-section">
+  <div class="games-grid" id="gamesGrid">
+    <!-- Skeletons while loading -->
+    <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
+    <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
+    <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
+    <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
+    <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
+  </div>
 </div>
 
 <div class="glow-line"></div>
-
-<div class="games-grid" id="gamesGrid"></div>
+<footer>
+  <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
+  <p id="footerText">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+</footer>
 
 <script>
-const translations = {
-  en:{navHome:"Home",navArticles:"Articles",navWT:"Walkthroughs",title:"ALL GAMES"},
-  ar:{navHome:"الرئيسية",navArticles:"المقالات",navWT:"الشروحات",title:"كل الألعاب"}
+/* =====================================================
+   GENRE MAP — THIS IS WHERE YOU ASSIGN GENRES TO GAMES
+   =====================================================
+   Key   = exact filename WITHOUT .swf
+   Value = array of genres (pick from the list below)
+
+   Available genres:
+   "ACTION" | "ADVENTURE" | "PUZZLE" | "STRATEGY"
+   "PLATFORMER" | "FIGHTING" | "SHOOTER" | "RACING"
+   "SPORTS" | "RPG" | "OTHER"
+
+   A game can have MULTIPLE genres, e.g. ["ACTION","PLATFORMER"]
+   Any game NOT listed here will show as ["OTHER"]
+   ===================================================== */
+const GENRE_MAP = {
+  "Swords and Souls":        ["ACTION", "RPG"],
+  "Run 3":                   ["PLATFORMER", "ADVENTURE"],
+  "Bloons TD 5":             ["STRATEGY"],
+  "Super Smash Flash 2":     ["FIGHTING", "ACTION"],
+  "Learn to Fly 2":          ["ACTION", "ADVENTURE"],
+  "Plants vs Zombies":       ["STRATEGY"],
+  "Age of War":              ["STRATEGY", "ACTION"],
+  "Fireboy and Watergirl":   ["PUZZLE", "ADVENTURE"],
+  "Geometry Dash":           ["PLATFORMER", "ACTION"],
+  "Strike Force Heroes":     ["SHOOTER", "ACTION"],
+  "Mutilate a Doll 2":       ["ACTION"],
+  "Basketball Legends":      ["SPORTS", "FIGHTING"],
+  "Moto X3M":                ["RACING"],
+  "Slope":                   ["ACTION"],
+  "Minecraft Classic":       ["ADVENTURE", "STRATEGY"],
+  /* Add more entries as you upload more games:
+     "Your Game Name": ["GENRE1", "GENRE2"], */
 };
 
-function setLang(lang){
-  document.body.setAttribute("dir", lang==="ar"?"rtl":"ltr");
-  document.getElementById("navHome").textContent=translations[lang].navHome;
-  document.getElementById("navArticles").textContent=translations[lang].navArticles;
-  document.getElementById("navWT").textContent=translations[lang].navWT;
-  document.getElementById("title").innerHTML=translations[lang].title;
+/* Icon map — assign a fitting emoji per game name */
+const ICON_MAP = {
+  "Swords and Souls":"⚔️","Run 3":"🏃","Bloons TD 5":"🎈",
+  "Super Smash Flash 2":"👊","Learn to Fly 2":"🐧","Plants vs Zombies":"🌻",
+  "Age of War":"🏰","Fireboy and Watergirl":"🔥","Geometry Dash":"🔷",
+  "Strike Force Heroes":"🔫","Mutilate a Doll 2":"💣","Basketball Legends":"🏀",
+  "Moto X3M":"🏍️","Slope":"⚡","Minecraft Classic":"⛏️",
+};
+
+const USERNAME = "StepsToCoding";
+const REPO = "PixelZone";
+
+let allGames = [];
+let currentGenre = "ALL";
+let currentLang = "en";
+
+const i18n = {
+  en: {
+    eyebrow:"FLASH GAME ARCADE", titleSpan:"GAMES", searchPlaceholder:"Search games...",
+    filterLabel:"GENRE:", sortLabel:"SORT:", sortAZ:"A → Z", sortZA:"Z → A",
+    playNow:"▶ PLAY NOW", noResults:"NO GAMES FOUND", noResultsSub:"TRY A DIFFERENT SEARCH OR GENRE",
+    error:"COULDN'T LOAD GAMES", errorSub:"CHECK YOUR GITHUB REPO SETTINGS",
+    results:(s,t)=>`SHOWING ${s} OF ${t}`, count:n=>`${n} GAME${n!==1?"S":""}`,
+    footerText:"© 2026 PixelZone — Gaming for Everyone, Everywhere",
+    genres:{ALL:"ALL",ACTION:"ACTION",ADVENTURE:"ADVENTURE",PUZZLE:"PUZZLE",STRATEGY:"STRATEGY",
+            PLATFORMER:"PLATFORMER",FIGHTING:"FIGHTING",SHOOTER:"SHOOTER",
+            RACING:"RACING",SPORTS:"SPORTS",RPG:"RPG"}
+  },
+  ar: {
+    eyebrow:"أركيد الألعاب", titleSpan:"الألعاب", searchPlaceholder:"ابحث عن لعبة...",
+    filterLabel:"النوع:", sortLabel:"ترتيب:", sortAZ:"أ ← ي", sortZA:"ي ← أ",
+    playNow:"▶ العب الآن", noResults:"لا توجد ألعاب", noResultsSub:"جرّب بحثاً أو فلتراً مختلفاً",
+    error:"تعذّر تحميل الألعاب", errorSub:"تحقق من إعدادات GitHub",
+    results:(s,t)=>`عرض ${s} من ${t}`, count:n=>`${n} لعبة`,
+    footerText:"© 2026 PixelZون — الألعاب للجميع، في كل مكان",
+    genres:{ALL:"الكل",ACTION:"أكشن",ADVENTURE:"مغامرة",PUZZLE:"ألغاز",STRATEGY:"استراتيجية",
+            PLATFORMER:"منصات",FIGHTING:"قتال",SHOOTER:"تصويب",
+            RACING:"سباق",SPORTS:"رياضة",RPG:"تقمص أدوار"}
+  }
+};
+function T(key,...a){const v=i18n[currentLang][key];return typeof v==="function"?v(...a):v}
+
+function getGenres(name){
+  return GENRE_MAP[name] || ["OTHER"];
+}
+function getIcon(name){
+  return ICON_MAP[name] || "🎮";
 }
 
-const USERNAME="StepsToCoding";
-const REPO="PixelZone";
+function applyFilters(){
+  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+  const sort = document.getElementById("sortSelect").value;
 
-fetch(`https://api.github.com/repos/${USERNAME}/${REPO}/contents/Games/games`)
-.then(r=>r.json())
-.then(files=>{
-  const grid=document.getElementById("gamesGrid");
-  files.forEach(f=>{
-    if(f.name.endsWith(".swf")){
-      const c=document.createElement("div");
-      c.className="game-card";
-      c.innerHTML=`<div style="font-size:2rem;">🎮</div><div class="game-name">${f.name.replace(".swf","")}</div>`;
-      c.onclick=()=>window.location.href="play.html?game="+f.name;
-      grid.appendChild(c);
-    }
+  let filtered = allGames.filter(g => {
+    const matchGenre = currentGenre === "ALL" || getGenres(g.name).includes(currentGenre);
+    const matchSearch = !q || g.name.toLowerCase().includes(q);
+    return matchGenre && matchSearch;
   });
-});
-</script>
 
-</body>
-</html>
+  filtered.sort((a,b) => sort === "az"
+    ? a.name.localeCompare(b.name)
+    : b.name.localeCompare(a.name));
+
+  document.getElementById("resultsInfo").textContent =
+    T("results", filtered.length, allGames.length);
+
+  const grid = document.getElementById("gamesGrid");
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="state-box"><div class="icon">🕹️</div><p>${T("noResults")}</p><p class="sub">${T("noResultsSub")}</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(g => {
+    const genres = getGenres(g.name);
+    const tagsHTML = genres.map(gen =>
+      `<span class="genre-tag gt-${gen}">${T("genres")[gen] || gen}</span>`
+    ).join("");
+    return `
+    <a class="game-card" href="play.html?game=${encodeURIComponent(g.filename)}">
+      <div class="play-overlay">${T("playNow")}</div>
+      <span class="game-icon">${getIcon(g.name)}</span>
+      <div class="game-name">${g.name}</div>
+      <div class="game-genres">${tagsHTML}</div>
+    </a>`;
+  }).join("");
+}
+
+function setGenre(genre){
+  currentGenre = genre;
+  document.querySelectorAll(".filter-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.genre === genre)
+  );
+  applyFilters();
+}
+
+function setLang(lang){
+  currentLang = lang;
+  document.body.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+  document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
+  document.querySelector(`.lang-btn:${lang==="en"?"first":"last"}-child`).classList.add("active");
+
+  document.getElement
