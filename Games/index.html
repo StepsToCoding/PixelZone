@@ -286,11 +286,12 @@ const i18n = {
 };
 function T(key,...a){const v=i18n[currentLang][key];return typeof v==="function"?v(...a):v}
 
-function getGenres(name){
-  return GENRE_MAP[name] || ["OTHER"];
+function getGenres(key){
+  // Supports both "Swords_and_Souls" and "Swords and Souls" as keys
+  return GENRE_MAP[key] || GENRE_MAP[key.replaceAll("_"," ")] || ["OTHER"];
 }
-function getIcon(name){
-  return ICON_MAP[name] || "🎮";
+function getIcon(key){
+  return ICON_MAP[key] || ICON_MAP[key.replaceAll("_"," ")] || "🎮";
 }
 
 function applyFilters(){
@@ -298,14 +299,14 @@ function applyFilters(){
   const sort = document.getElementById("sortSelect").value;
 
   let filtered = allGames.filter(g => {
-    const matchGenre = currentGenre === "ALL" || getGenres(g.name).includes(currentGenre);
-    const matchSearch = !q || g.name.toLowerCase().includes(q);
+    const matchGenre = currentGenre === "ALL" || getGenres(g.key).includes(currentGenre);
+    const matchSearch = !q || g.display.toLowerCase().includes(q);
     return matchGenre && matchSearch;
   });
 
   filtered.sort((a,b) => sort === "az"
-    ? a.name.localeCompare(b.name)
-    : b.name.localeCompare(a.name));
+    ? a.display.localeCompare(b.display)
+    : b.display.localeCompare(a.display));
 
   document.getElementById("resultsInfo").textContent =
     T("results", filtered.length, allGames.length);
@@ -317,15 +318,15 @@ function applyFilters(){
   }
 
   grid.innerHTML = filtered.map(g => {
-    const genres = getGenres(g.name);
+    const genres = getGenres(g.key);
     const tagsHTML = genres.map(gen =>
       `<span class="genre-tag gt-${gen}">${T("genres")[gen] || gen}</span>`
     ).join("");
     return `
     <a class="game-card" href="play.html?game=${encodeURIComponent(g.filename)}">
       <div class="play-overlay">${T("playNow")}</div>
-      <span class="game-icon">${getIcon(g.name)}</span>
-      <div class="game-name">${g.name}</div>
+      <span class="game-icon">${getIcon(g.key)}</span>
+      <div class="game-name">${g.display}</div>
       <div class="game-genres">${tagsHTML}</div>
     </a>`;
   }).join("");
@@ -345,4 +346,48 @@ function setLang(lang){
   document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
   document.querySelector(`.lang-btn:${lang==="en"?"first":"last"}-child`).classList.add("active");
 
-  document.getElement
+  document.getElementById("eyebrow").textContent = T("eyebrow");
+  document.getElementById("titleSpan").textContent = T("titleSpan");
+  document.getElementById("searchInput").placeholder = T("searchPlaceholder");
+  document.getElementById("filterLabel").textContent = T("filterLabel");
+  document.getElementById("sortLabel").textContent = T("sortLabel");
+  document.getElementById("footerText").textContent = T("footerText");
+
+  const opts = document.querySelectorAll("#sortSelect option");
+  if(opts[0]) opts[0].textContent = T("sortAZ");
+  if(opts[1]) opts[1].textContent = T("sortZA");
+
+  document.querySelectorAll(".filter-btn").forEach(b => {
+    const g = b.dataset.genre;
+    if(g) b.textContent = T("genres")[g] || g;
+  });
+
+  if(allGames.length){
+    document.getElementById("gameCount").textContent = T("count", allGames.length);
+    applyFilters();
+  }
+}
+
+// Load games from GitHub
+fetch(`https://api.github.com/repos/${USERNAME}/${REPO}/contents/Games/games`)
+  .then(r => { if(!r.ok) throw new Error(); return r.json(); })
+  .then(files => {
+    allGames = files
+      .filter(f => f.name.endsWith(".swf"))
+      .map(f => {
+        const key = f.name.replace(".swf","");            // "Swords_and_Souls"
+        const display = key.replaceAll("_"," ");           // "Swords and Souls"
+        return { filename: f.name, key, display };
+      });
+
+    document.getElementById("gameCount").textContent = T("count", allGames.length);
+    applyFilters();
+  })
+  .catch(() => {
+    document.getElementById("gamesGrid").innerHTML =
+      `<div class="state-box"><div class="icon">⚠️</div><p>${T("error")}</p><p class="sub">${T("errorSub")}</p></div>`;
+    document.getElementById("gameCount").textContent = "0 GAMES";
+  });
+</script>
+</body>
+</html>
