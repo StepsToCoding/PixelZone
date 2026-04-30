@@ -24,7 +24,6 @@ body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',san
 .scanlines{position:fixed;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
 .grid-bg{position:fixed;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
-/* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;justify-content:space-between;align-items:center;height:64px}
 .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;color:var(--neon-cyan);letter-spacing:3px;text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
 .logo span{color:var(--neon-pink)}
@@ -35,14 +34,12 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-fil
 .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
 .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
-/* PAGE HEADER */
 .page-header{position:relative;z-index:1;padding:3.5rem 2rem 1.5rem;max-width:1100px;margin:0 auto}
 .page-eyebrow{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--neon-pink);margin-bottom:0.75rem;font-family:'Orbitron',monospace}
 .page-title{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:var(--text-main)}
 .page-title span{color:var(--neon-cyan);text-shadow:0 0 20px rgba(0,245,255,0.4)}
 .game-count{display:inline-block;margin-top:1rem;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-muted);border:1px solid var(--border-glow);padding:5px 14px}
 
-/* SEARCH + FILTERS BAR */
 .controls{position:relative;z-index:1;padding:0 2rem 1rem;max-width:1100px;margin:0 auto;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
 .search-wrap{position:relative;flex:1;min-width:200px;max-width:320px}
 .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:1rem;pointer-events:none}
@@ -56,7 +53,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-fil
 .filter-btn:hover{border-color:var(--neon-cyan);color:var(--neon-cyan)}
 .filter-btn.active{background:var(--neon-cyan);color:#080b14;border-color:var(--neon-cyan)}
 
-/* Genre-colored active states */
 .filter-btn[data-genre="ACTION"].active{background:var(--neon-pink);border-color:var(--neon-pink);color:#080b14}
 .filter-btn[data-genre="PUZZLE"].active{background:var(--neon-purple);border-color:var(--neon-purple);color:#080b14}
 .filter-btn[data-genre="STRATEGY"].active{background:var(--neon-amber);border-color:var(--neon-amber);color:#080b14}
@@ -68,18 +64,15 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-fil
 .filter-btn[data-genre="PLATFORMER"].active{background:#34d399;border-color:#34d399;color:#080b14}
 .filter-btn[data-genre="FIGHTING"].active{background:#fb923c;border-color:#fb923c;color:#080b14}
 
-/* SORT + RESULTS ROW */
 .sort-row{position:relative;z-index:1;padding:0 2rem 1.5rem;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .sort-label{font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1.5px;color:var(--text-muted)}
 .sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.9rem;padding:6px 12px;outline:none;cursor:pointer}
 .sort-select option{background:var(--bg-dark)}
 .results-info{margin-left:auto;font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1px;color:var(--text-muted)}
 
-/* GAMES GRID */
 .games-section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 2rem 3rem}
 .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1.25rem}
 
-/* GAME CARD */
 .game-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.4rem 1.2rem 1.2rem;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;text-decoration:none;display:block}
 .game-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background 0.2s}
 .game-card:hover{border-color:var(--neon-green);transform:translateY(-4px);background:var(--bg-card2)}
@@ -90,7 +83,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-fil
 .game-genres{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:0.5rem}
 .genre-tag{font-size:0.55rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:2px 7px;border:1px solid;border-radius:1px}
 
-/* Genre tag colors */
 .gt-ACTION{color:var(--neon-pink);border-color:rgba(255,45,120,0.4)}
 .gt-PUZZLE{color:var(--neon-purple);border-color:rgba(191,95,255,0.4)}
 .gt-STRATEGY{color:var(--neon-amber);border-color:rgba(255,184,48,0.4)}
@@ -103,16 +95,13 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-fil
 .gt-FIGHTING{color:#fb923c;border-color:rgba(251,146,60,0.4)}
 .gt-OTHER{color:var(--text-muted);border-color:var(--border-glow)}
 
-/* Play overlay on hover */
 .play-overlay{position:absolute;inset:0;background:rgba(0,245,255,0.05);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--neon-cyan)}
 .game-card:hover .play-overlay{opacity:1}
 
-/* Skeletons */
 .skeleton{background:linear-gradient(90deg,var(--bg-card) 25%,#161e30 50%,var(--bg-card) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:2px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .skel-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.4rem;text-align:center}
 
-/* Empty / error states */
 .state-box{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted)}
 .state-box .icon{font-size:3rem;opacity:0.3;margin-bottom:1rem}
 .state-box p{font-family:'Orbitron',monospace;font-size:0.72rem;letter-spacing:2px;margin-bottom:0.5rem}
@@ -142,14 +131,14 @@ footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--
 <nav>
   <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
   <ul class="nav-links">
-    <li><a id="navHome" href="../index.html">Home</a></li>
-    <li><a id="navGames" href="index.html" class="active">Games</a></li>
-    <li><a id="navArticles" href="../Articles/index.html">Articles</a></li>
-    <li><a id="navWT" href="../Walkthroughs/index.html">Walkthroughs</a></li>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="index.html" class="active">Games</a></li>
+    <li><a href="../Articles/index.html">Articles</a></li>
+    <li><a href="../Walkthroughs/index.html">Walkthroughs</a></li>
   </ul>
   <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('ar')">AR</button>
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
   </div>
 </nav>
 
@@ -159,45 +148,38 @@ footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--
   <div class="game-count" id="gameCount">LOADING...</div>
 </div>
 
-<!-- SEARCH + GENRE FILTERS -->
 <div class="controls">
   <div class="search-wrap">
     <span class="search-icon">⌕</span>
-    <input class="search-input" type="text" id="searchInput" placeholder="Search games..." oninput="applyFilters()">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search games...">
   </div>
   <div class="filter-group">
     <span class="filter-label" id="filterLabel">GENRE:</span>
-    <button class="filter-btn active" data-genre="ALL" onclick="setGenre('ALL')" id="fb-ALL">ALL</button>
-    <button class="filter-btn" data-genre="ACTION" onclick="setGenre('ACTION')" id="fb-ACTION">ACTION</button>
-    <button class="filter-btn" data-genre="ADVENTURE" onclick="setGenre('ADVENTURE')" id="fb-ADVENTURE">ADVENTURE</button>
-    <button class="filter-btn" data-genre="PUZZLE" onclick="setGenre('PUZZLE')" id="fb-PUZZLE">PUZZLE</button>
-    <button class="filter-btn" data-genre="STRATEGY" onclick="setGenre('STRATEGY')" id="fb-STRATEGY">STRATEGY</button>
-    <button class="filter-btn" data-genre="PLATFORMER" onclick="setGenre('PLATFORMER')" id="fb-PLATFORMER">PLATFORMER</button>
-    <button class="filter-btn" data-genre="FIGHTING" onclick="setGenre('FIGHTING')" id="fb-FIGHTING">FIGHTING</button>
-    <button class="filter-btn" data-genre="SHOOTER" onclick="setGenre('SHOOTER')" id="fb-SHOOTER">SHOOTER</button>
-    <button class="filter-btn" data-genre="RACING" onclick="setGenre('RACING')" id="fb-RACING">RACING</button>
-    <button class="filter-btn" data-genre="SPORTS" onclick="setGenre('SPORTS')" id="fb-SPORTS">SPORTS</button>
-    <button class="filter-btn" data-genre="RPG" onclick="setGenre('RPG')" id="fb-RPG">RPG</button>
+    <button class="filter-btn active" data-genre="ALL">ALL</button>
+    <button class="filter-btn" data-genre="ACTION">ACTION</button>
+    <button class="filter-btn" data-genre="ADVENTURE">ADVENTURE</button>
+    <button class="filter-btn" data-genre="PUZZLE">PUZZLE</button>
+    <button class="filter-btn" data-genre="STRATEGY">STRATEGY</button>
+    <button class="filter-btn" data-genre="PLATFORMER">PLATFORMER</button>
+    <button class="filter-btn" data-genre="FIGHTING">FIGHTING</button>
+    <button class="filter-btn" data-genre="SHOOTER">SHOOTER</button>
+    <button class="filter-btn" data-genre="RACING">RACING</button>
+    <button class="filter-btn" data-genre="SPORTS">SPORTS</button>
+    <button class="filter-btn" data-genre="RPG">RPG</button>
   </div>
 </div>
 
-<!-- SORT ROW -->
 <div class="sort-row">
   <span class="sort-label" id="sortLabel">SORT:</span>
-  <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+  <select class="sort-select" id="sortSelect">
     <option value="az">A → Z</option>
     <option value="za">Z → A</option>
   </select>
   <span class="results-info" id="resultsInfo"></span>
 </div>
 
-<!-- GRID -->
 <div class="games-section">
   <div class="games-grid" id="gamesGrid">
-    <!-- Skeletons while loading -->
-    <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
-    <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
-    <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
     <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
     <div class="skel-card"><div class="skeleton" style="width:48px;height:48px;margin:0 auto 12px;border-radius:4px"></div><div class="skeleton" style="height:10px;width:80%;margin:0 auto 8px"></div><div class="skeleton" style="height:8px;width:50%;margin:0 auto"></div></div>
   </div>
@@ -210,92 +192,73 @@ footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--
 </footer>
 
 <script>
-/* =====================================================
-   GENRE MAP — THIS IS WHERE YOU ASSIGN GENRES TO GAMES
-   =====================================================
-   Key   = exact filename WITHOUT .swf
-   Value = array of genres (pick from the list below)
-
-   Available genres:
-   "ACTION" | "ADVENTURE" | "PUZZLE" | "STRATEGY"
-   "PLATFORMER" | "FIGHTING" | "SHOOTER" | "RACING"
-   "SPORTS" | "RPG" | "OTHER"
-
-   A game can have MULTIPLE genres, e.g. ["ACTION","PLATFORMER"]
-   Any game NOT listed here will show as ["OTHER"]
-   ===================================================== */
-const GENRE_MAP = {
-  "Swords and Souls":        ["ACTION", "RPG"],
-  "Run 3":                   ["PLATFORMER", "ADVENTURE"],
-  "Bloons TD 5":             ["STRATEGY"],
-  "Super Smash Flash 2":     ["FIGHTING", "ACTION"],
-  "Learn to Fly 2":          ["ACTION", "ADVENTURE"],
-  "Plants vs Zombies":       ["STRATEGY"],
-  "Age of War":              ["STRATEGY", "ACTION"],
-  "Fireboy and Watergirl":   ["PUZZLE", "ADVENTURE"],
-  "Geometry Dash":           ["PLATFORMER", "ACTION"],
-  "Strike Force Heroes":     ["SHOOTER", "ACTION"],
-  "Mutilate a Doll 2":       ["ACTION"],
-  "Basketball Legends":      ["SPORTS", "FIGHTING"],
-  "Moto X3M":                ["RACING"],
-  "Slope":                   ["ACTION"],
-  "Minecraft Classic":       ["ADVENTURE", "STRATEGY"],
-  /* Add more entries as you upload more games:
-     "Your Game Name": ["GENRE1", "GENRE2"], */
-};
-
-/* Icon map — assign a fitting emoji per game name */
-const ICON_MAP = {
-  "Swords and Souls":"⚔️","Run 3":"🏃","Bloons TD 5":"🎈",
-  "Super Smash Flash 2":"👊","Learn to Fly 2":"🐧","Plants vs Zombies":"🌻",
-  "Age of War":"🏰","Fireboy and Watergirl":"🔥","Geometry Dash":"🔷",
-  "Strike Force Heroes":"🔫","Mutilate a Doll 2":"💣","Basketball Legends":"🏀",
-  "Moto X3M":"🏍️","Slope":"⚡","Minecraft Classic":"⛏️",
-};
-
-const USERNAME = "StepsToCoding";
-const REPO = "PixelZone";
-
 let allGames = [];
 let currentGenre = "ALL";
 let currentLang = "en";
 
+// Data that will be loaded from external JSON
+let genreMap = {};
+let iconMap = {};
+let armorExclusive = [];
+
+// Translations
 const i18n = {
   en: {
-    eyebrow:"FLASH GAME ARCADE", titleSpan:"GAMES", searchPlaceholder:"Search games...",
-    filterLabel:"GENRE:", sortLabel:"SORT:", sortAZ:"A → Z", sortZA:"Z → A",
-    playNow:"▶ PLAY NOW", noResults:"NO GAMES FOUND", noResultsSub:"TRY A DIFFERENT SEARCH OR GENRE",
-    error:"COULDN'T LOAD GAMES", errorSub:"CHECK YOUR GITHUB REPO SETTINGS",
-    results:(s,t)=>`SHOWING ${s} OF ${t}`, count:n=>`${n} GAME${n!==1?"S":""}`,
-    footerText:"© 2026 PixelZone — Gaming for Everyone, Everywhere",
-    genres:{ALL:"ALL",ACTION:"ACTION",ADVENTURE:"ADVENTURE",PUZZLE:"PUZZLE",STRATEGY:"STRATEGY",
-            PLATFORMER:"PLATFORMER",FIGHTING:"FIGHTING",SHOOTER:"SHOOTER",
-            RACING:"RACING",SPORTS:"SPORTS",RPG:"RPG"}
+    eyebrow: "FLASH GAME ARCADE", titleSpan: "GAMES", searchPlaceholder: "Search games...",
+    filterLabel: "GENRE:", sortLabel: "SORT:", sortAZ: "A → Z", sortZA: "Z → A",
+    playNow: "▶ PLAY NOW", noResults: "NO GAMES FOUND", noResultsSub: "TRY A DIFFERENT SEARCH OR GENRE",
+    error: "COULDN'T LOAD GAMES", errorSub: "MAKE SURE GAMES ARE IN /Games/games/ FOLDER",
+    dataError: "COULDN'T LOAD GAME DATA", dataErrorSub: "CHECK games-data.json FILE",
+    results: (s, t) => `SHOWING ${s} OF ${t}`, count: (n) => `${n} GAME${n !== 1 ? "S" : ""}`,
+    footerText: "© 2026 PixelZone — Gaming for Everyone, Everywhere",
+    genres: {
+      ALL: "ALL", ACTION: "ACTION", ADVENTURE: "ADVENTURE", PUZZLE: "PUZZLE",
+      STRATEGY: "STRATEGY", PLATFORMER: "PLATFORMER", FIGHTING: "FIGHTING",
+      SHOOTER: "SHOOTER", RACING: "RACING", SPORTS: "SPORTS", RPG: "RPG"
+    }
   },
   ar: {
-    eyebrow:"أركيد الألعاب", titleSpan:"الألعاب", searchPlaceholder:"ابحث عن لعبة...",
-    filterLabel:"النوع:", sortLabel:"ترتيب:", sortAZ:"أ ← ي", sortZA:"ي ← أ",
-    playNow:"▶ العب الآن", noResults:"لا توجد ألعاب", noResultsSub:"جرّب بحثاً أو فلتراً مختلفاً",
-    error:"تعذّر تحميل الألعاب", errorSub:"تحقق من إعدادات GitHub",
-    results:(s,t)=>`عرض ${s} من ${t}`, count:n=>`${n} لعبة`,
-    footerText:"© 2026 PixelZون — الألعاب للجميع، في كل مكان",
-    genres:{ALL:"الكل",ACTION:"أكشن",ADVENTURE:"مغامرة",PUZZLE:"ألغاز",STRATEGY:"استراتيجية",
-            PLATFORMER:"منصات",FIGHTING:"قتال",SHOOTER:"تصويب",
-            RACING:"سباق",SPORTS:"رياضة",RPG:"تقمص أدوار"}
+    eyebrow: "أركيد الألعاب", titleSpan: "الألعاب", searchPlaceholder: "ابحث عن لعبة...",
+    filterLabel: "النوع:", sortLabel: "ترتيب:", sortAZ: "أ → ي", sortZA: "ي ← أ",
+    playNow: "▶ العب الآن", noResults: "لا توجد ألعاب", noResultsSub: "جرّب بحثاً أو فلتراً مختلفاً",
+    error: "تعذّر تحميل الألعاب", errorSub: "تأكد من وجود الألعاب في مجلد /Games/games/",
+    dataError: "تعذّر تحميل بيانات الألعاب", dataErrorSub: "تحقق من ملف games-data.json",
+    results: (s, t) => `عرض ${s} من ${t}`, count: (n) => `${n} لعبة`,
+    footerText: "© 2026 بيكسل زون — الألعاب للجميع",
+    genres: {
+      ALL: "الكل", ACTION: "أكشن", ADVENTURE: "مغامرة", PUZZLE: "ألغاز",
+      STRATEGY: "استراتيجية", PLATFORMER: "منصات", FIGHTING: "قتال",
+      SHOOTER: "تصويب", RACING: "سباق", SPORTS: "رياضة", RPG: "آر بي جي"
+    }
   }
 };
-function T(key,...a){const v=i18n[currentLang][key];return typeof v==="function"?v(...a):v}
 
-function getGenres(key){
-  // Supports both "Swords_and_Souls" and "Swords and Souls" as keys
-  return GENRE_MAP[key] || GENRE_MAP[key.replaceAll("_"," ")] || ["OTHER"];
-}
-function getIcon(key){
-  return ICON_MAP[key] || ICON_MAP[key.replaceAll("_"," ")] || "🎮";
+function T(key, ...args) {
+  const val = i18n[currentLang][key];
+  return typeof val === "function" ? val(...args) : val;
 }
 
-function applyFilters(){
-  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+function isArmorExclusive(gameName) {
+  // Convert underscores to spaces for comparison
+  const displayName = gameName.replace(/_/g, " ");
+  return armorExclusive.some(exclusive => 
+    displayName.toLowerCase().includes(exclusive.toLowerCase()) ||
+    gameName.toLowerCase().includes(exclusive.toLowerCase())
+  );
+}
+
+function getGenres(key) {
+  // Try exact match first, then with underscores replaced by spaces
+  return genreMap[key] || genreMap[key.replace(/_/g, " ")] || ["OTHER"];
+}
+
+function getIcon(key) {
+  return iconMap[key] || iconMap[key.replace(/_/g, " ")] || "🎮";
+}
+
+function applyFilters() {
+  const searchInput = document.getElementById("searchInput");
+  const q = searchInput ? searchInput.value.toLowerCase().trim() : "";
   const sort = document.getElementById("sortSelect").value;
 
   let filtered = allGames.filter(g => {
@@ -304,12 +267,16 @@ function applyFilters(){
     return matchGenre && matchSearch;
   });
 
-  filtered.sort((a,b) => sort === "az"
-    ? a.display.localeCompare(b.display)
-    : b.display.localeCompare(a.display));
+  if (sort === "az") {
+    filtered.sort((a, b) => a.display.localeCompare(b.display));
+  } else if (sort === "za") {
+    filtered.sort((a, b) => b.display.localeCompare(a.display));
+  }
 
-  document.getElementById("resultsInfo").textContent =
-    T("results", filtered.length, allGames.length);
+  const resultsSpan = document.getElementById("resultsInfo");
+  if (resultsSpan) {
+    resultsSpan.textContent = T("results", filtered.length, allGames.length);
+  }
 
   const grid = document.getElementById("gamesGrid");
   if (!filtered.length) {
@@ -319,75 +286,135 @@ function applyFilters(){
 
   grid.innerHTML = filtered.map(g => {
     const genres = getGenres(g.key);
-    const tagsHTML = genres.map(gen =>
+    const tagsHTML = genres.map(gen => 
       `<span class="genre-tag gt-${gen}">${T("genres")[gen] || gen}</span>`
     ).join("");
     return `
-    <a class="game-card" href="play.html?game=${encodeURIComponent(g.filename)}">
-      <div class="play-overlay">${T("playNow")}</div>
-      <span class="game-icon">${getIcon(g.key)}</span>
-      <div class="game-name">${g.display}</div>
-      <div class="game-genres">${tagsHTML}</div>
-    </a>`;
+      <a class="game-card" href="play.html?game=${encodeURIComponent(g.filename)}">
+        <div class="play-overlay">${T("playNow")}</div>
+        <span class="game-icon">${getIcon(g.key)}</span>
+        <div class="game-name">${g.display}</div>
+        <div class="game-genres">${tagsHTML}</div>
+      </a>
+    `;
   }).join("");
 }
 
-function setGenre(genre){
+function setGenre(genre) {
   currentGenre = genre;
-  document.querySelectorAll(".filter-btn").forEach(b =>
-    b.classList.toggle("active", b.dataset.genre === genre)
-  );
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.genre === genre);
+  });
   applyFilters();
 }
 
-function setLang(lang){
+function setLang(lang) {
   currentLang = lang;
   document.body.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
-  document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
-  document.querySelector(`.lang-btn:${lang==="en"?"first":"last"}-child`).classList.add("active");
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === lang);
+  });
 
   document.getElementById("eyebrow").textContent = T("eyebrow");
   document.getElementById("titleSpan").textContent = T("titleSpan");
-  document.getElementById("searchInput").placeholder = T("searchPlaceholder");
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) searchInput.placeholder = T("searchPlaceholder");
   document.getElementById("filterLabel").textContent = T("filterLabel");
   document.getElementById("sortLabel").textContent = T("sortLabel");
   document.getElementById("footerText").textContent = T("footerText");
 
-  const opts = document.querySelectorAll("#sortSelect option");
-  if(opts[0]) opts[0].textContent = T("sortAZ");
-  if(opts[1]) opts[1].textContent = T("sortZA");
+  const sortSelect = document.getElementById("sortSelect");
+  if (sortSelect && sortSelect.options.length >= 2) {
+    sortSelect.options[0].textContent = T("sortAZ");
+    sortSelect.options[1].textContent = T("sortZA");
+  }
 
-  document.querySelectorAll(".filter-btn").forEach(b => {
-    const g = b.dataset.genre;
-    if(g) b.textContent = T("genres")[g] || g;
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    const genre = btn.dataset.genre;
+    if (genre) btn.textContent = T("genres")[genre] || genre;
   });
 
-  if(allGames.length){
+  if (allGames.length) {
     document.getElementById("gameCount").textContent = T("count", allGames.length);
     applyFilters();
   }
 }
 
-// Load games from GitHub
-fetch(`https://api.github.com/repos/${USERNAME}/${REPO}/contents/Games/games`)
-  .then(r => { if(!r.ok) throw new Error(); return r.json(); })
-  .then(files => {
-    allGames = files
-      .filter(f => f.name.endsWith(".swf"))
-      .map(f => {
-        const key = f.name.replace(".swf","");            // "Swords_and_Souls"
-        const display = key.replaceAll("_"," ");           // "Swords and Souls"
-        return { filename: f.name, key, display };
-      });
+function loadGameData() {
+  // First load the external JSON with genres, icons, and armor exclusives
+  fetch('games-data.json')
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      genreMap = data.genres || {};
+      iconMap = data.icons || {};
+      armorExclusive = data.armorExclusive || [];
+      
+      console.log(`✅ Loaded game data: ${Object.keys(genreMap).length} genres, ${Object.keys(iconMap).length} icons, ${armorExclusive.length} exclusives`);
+      
+      // Now load the actual game files from GitHub
+      return loadGameFiles();
+    })
+    .catch(err => {
+      console.error("Error loading games-data.json:", err);
+      const grid = document.getElementById("gamesGrid");
+      if (grid) {
+        grid.innerHTML = `<div class="state-box"><div class="icon">📁</div><p>${T("dataError")}</p><p class="sub">${T("dataErrorSub")}</p></div>`;
+      }
+    });
+}
 
-    document.getElementById("gameCount").textContent = T("count", allGames.length);
-    applyFilters();
-  })
-  .catch(() => {
-    document.getElementById("gamesGrid").innerHTML =
-      `<div class="state-box"><div class="icon">⚠️</div><p>${T("error")}</p><p class="sub">${T("errorSub")}</p></div>`;
-    document.getElementById("gameCount").textContent = "0 GAMES";
-  });
+function loadGameFiles() {
+  const USERNAME = "StepsToCoding";
+  const REPO = "PixelZone";
+  
+  return fetch(`https://api.github.com/repos/${USERNAME}/${REPO}/contents/Games/games`)
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then(files => {
+      allGames = files
+        .filter(f => f.name.endsWith(".swf"))
+        .map(f => {
+          const key = f.name.replace(".swf", "");
+          const display = key.replace(/_/g, " ");
+          return { filename: f.name, key, display };
+        })
+        .filter(g => !isArmorExclusive(g.display) && !isArmorExclusive(g.key));
+
+      const countSpan = document.getElementById("gameCount");
+      if (countSpan) countSpan.textContent = T("count", allGames.length);
+      
+      applyFilters();
+    })
+    .catch(err => {
+      console.error("Error loading game files:", err);
+      const grid = document.getElementById("gamesGrid");
+      if (grid) {
+        grid.innerHTML = `<div class="state-box"><div class="icon">⚠️</div><p>${T("error")}</p><p class="sub">${T("errorSub")}</p></div>`;
+      }
+      const countSpan = document.getElementById("gameCount");
+      if (countSpan) countSpan.textContent = "0 GAMES";
+    });
+}
+
+// Event listeners
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => setGenre(btn.dataset.genre));
+});
+
+document.getElementById("searchInput")?.addEventListener("input", applyFilters);
+document.getElementById("sortSelect")?.addEventListener("change", applyFilters);
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => setLang(btn.dataset.lang));
+});
+
+// Initialize
+setLang("en");
+loadGameData();
 </script>
 </body>
 </html>
