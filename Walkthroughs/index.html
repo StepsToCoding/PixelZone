@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walkthroughs — PixelZone</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --neon-cyan:#00f5ff;
+  --neon-pink:#ff2d78;
+  --neon-green:#39ff14;
+  --neon-purple:#bf5fff;
+  --neon-amber:#ffb830;
+  --bg-dark:#080b14;
+  --bg-card:#0d1220;
+  --bg-card2:#111827;
+  --text-main:#e8eaf6;
+  --text-muted:#7a8baa;
+  --border-glow:rgba(0,245,255,0.18);
+}
+body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden}
+.scanlines{position:fixed;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
+.grid-bg{position:fixed;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+
+nav{position:sticky;top:0;z-index:200;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;justify-content:space-between;align-items:center;height:64px}
+.logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;color:var(--neon-cyan);letter-spacing:3px;text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
+.logo span{color:var(--neon-pink)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
+.lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
+.lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+.lang-btn.active{background:var(--neon-cyan);color:#080b14}
+
+.page-header{position:relative;z-index:1;padding:3.5rem 2rem 1.5rem;max-width:1200px;margin:0 auto}
+.page-eyebrow{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--neon-pink);margin-bottom:0.75rem;font-family:'Orbitron',monospace}
+.page-title{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:var(--text-main)}
+.page-title span{color:var(--neon-cyan);text-shadow:0 0 20px rgba(0,245,255,0.4)}
+.vid-count{display:inline-block;margin-top:1rem;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-muted);border:1px solid var(--border-glow);padding:5px 14px}
+.channel-link{display:inline-block;margin-top:1rem;margin-left:1rem;color:var(--neon-pink);text-decoration:none;font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;border:1px solid var(--neon-pink);padding:5px 16px;transition:all 0.2s}
+.channel-link:hover{background:var(--neon-pink);color:#080b14}
+
+.controls{position:relative;z-index:1;padding:0 2rem 0.75rem;max-width:1200px;margin:0 auto;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:300px}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:1rem;pointer-events:none}
+.search-input{width:100%;background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.95rem;padding:8px 14px 8px 34px;outline:none}
+.search-input:focus{border-color:rgba(0,245,255,0.5)}
+.filter-group{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center}
+.filter-label{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--text-muted)}
+.filter-btn{font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1.5px;padding:7px 14px;background:transparent;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer;transition:all 0.2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)}
+.filter-btn:hover{border-color:var(--neon-pink);color:var(--neon-pink)}
+.filter-btn.active{background:var(--neon-pink);color:#080b14;border-color:var(--neon-pink)}
+.filter-btn[data-game="ALL"].active{background:var(--neon-cyan);border-color:var(--neon-cyan);color:#080b14}
+
+.sort-row{position:relative;z-index:1;padding:0 2rem 1.5rem;max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.sort-label{font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1.5px;color:var(--text-muted)}
+.sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.9rem;padding:6px 12px;outline:none;cursor:pointer}
+.results-info{margin-left:auto;font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1px;color:var(--text-muted)}
+
+.main-layout{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 2rem 3rem;display:grid;grid-template-columns:1fr 320px;gap:2rem;align-items:start}
+@media(max-width:900px){.main-layout{grid-template-columns:1fr}}
+
+.videos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
+
+.video-card{background:var(--bg-card);border:1px solid var(--border-glow);cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
+.video-card:hover{border-color:rgba(255,45,120,0.5);transform:translateY(-3px)}
+.video-card.in-playlist{border-color:rgba(0,245,255,0.5)}
+.video-card.in-playlist::after{content:'✓ IN PLAYLIST';position:absolute;top:8px;right:8px;background:var(--neon-cyan);color:#080b14;font-family:'Orbitron',monospace;font-size:0.5rem;letter-spacing:1px;padding:3px 7px;z-index:2}
+
+.thumb-wrap{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#0d1220,#1a0d25);overflow:hidden}
+.thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);opacity:0;transition:opacity 0.2s}
+.video-card:hover .play-btn{opacity:1}
+.play-circle{width:52px;height:52px;background:rgba(255,45,120,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.play-triangle{width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:18px solid white;margin-left:4px}
+
+.vid-info{padding:1rem}
+.vid-game-tag{font-size:0.6rem;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--neon-pink);margin-bottom:0.4rem;text-transform:uppercase}
+.vid-title{font-family:'Orbitron',monospace;font-size:0.8rem;font-weight:700;color:var(--text-main);line-height:1.4;margin-bottom:0.5rem}
+.vid-meta{display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:var(--text-muted)}
+.add-btn{font-family:'Orbitron',monospace;font-size:0.55rem;letter-spacing:1px;padding:4px 10px;background:transparent;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer;transition:all 0.2s}
+.add-btn:hover{border-color:var(--neon-cyan);color:var(--neon-cyan)}
+.video-card.in-playlist .add-btn{border-color:var(--neon-cyan);color:var(--neon-cyan)}
+
+.playlist-sidebar{position:sticky;top:80px;background:var(--bg-card);border:1px solid var(--border-glow)}
+.pl-header{padding:1rem 1.2rem;border-bottom:1px solid var(--border-glow);display:flex;justify-content:space-between}
+.pl-title{font-family:'Orbitron',monospace;font-size:0.75rem;font-weight:700;color:var(--neon-cyan)}
+.pl-count{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:1px;color:var(--text-muted);background:rgba(0,245,255,0.08);padding:3px 9px}
+.pl-actions{padding:0.75rem 1.2rem;border-bottom:1px solid var(--border-glow);display:flex;gap:0.5rem}
+.pl-btn{flex:1;font-family:'Orbitron',monospace;font-size:0.58rem;letter-spacing:1px;padding:7px 6px;cursor:pointer;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
+.pl-play-btn{background:var(--neon-pink);color:#080b14;border:none}
+.pl-play-btn:hover{background:#ff5090}
+.pl-clear-btn{background:transparent;border:1px solid var(--border-glow);color:var(--text-muted)}
+.pl-clear-btn:hover{border-color:var(--neon-pink);color:var(--neon-pink)}
+.pl-empty{padding:2.5rem 1.2rem;text-align:center}
+.pl-empty .icon{font-size:2rem;opacity:0.25;margin-bottom:0.75rem}
+.pl-empty p{font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1.5px;color:var(--text-muted)}
+.pl-list{max-height:400px;overflow-y:auto}
+.pl-list::-webkit-scrollbar{width:4px}
+.pl-list::-webkit-scrollbar-track{background:transparent}
+.pl-list::-webkit-scrollbar-thumb{background:var(--border-glow)}
+.pl-item{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 1.2rem;cursor:grab}
+.pl-item:hover{background:rgba(0,245,255,0.04)}
+.pl-num{font-family:'Orbitron',monospace;font-size:0.6rem;color:var(--text-muted);min-width:18px}
+.pl-thumb-mini{width:52px;height:34px;background:var(--bg-card2);border:1px solid var(--border-glow);object-fit:cover}
+.pl-item-info{flex:1;min-width:0}
+.pl-item-game{font-size:0.55rem;font-family:'Orbitron',monospace;letter-spacing:1.5px;color:var(--neon-pink)}
+.pl-item-title{font-family:'Orbitron',monospace;font-size:0.65rem;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-remove{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.85rem}
+.pl-remove:hover{color:var(--neon-pink)}
+.drag-hint{padding:0.5rem 1.2rem;font-size:0.55rem;color:var(--text-muted);opacity:0.5;text-align:center}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--bg-card);border:1px solid var(--border-glow);width:100%;max-width:860px}
+.modal-topbar{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.2rem;border-bottom:1px solid var(--border-glow)}
+.modal-game-tag{font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--neon-pink)}
+.modal-title{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);flex:1;margin:0 1rem}
+.modal-close{background:none;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer;width:32px;height:32px}
+.modal-close:hover{border-color:var(--neon-pink);color:var(--neon-pink)}
+.modal-player{aspect-ratio:16/9;width:100%;background:#000}
+.modal-player iframe{width:100%;height:100%;border:none}
+.modal-footer{padding:0.85rem 1.2rem;border-top:1px solid var(--border-glow);display:flex;align-items:center;gap:1rem}
+.modal-nav-btn{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:1.5px;padding:7px 16px;background:transparent;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer}
+.modal-nav-btn:hover:not(:disabled){border-color:var(--neon-cyan);color:var(--neon-cyan)}
+.modal-nav-btn:disabled{opacity:0.3}
+.modal-pos{font-family:'Orbitron',monospace;font-size:0.62rem;color:var(--text-muted)}
+.modal-add-pl{font-family:'Orbitron',monospace;font-size:0.6rem;padding:7px 14px;background:transparent;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer}
+.modal-add-pl:hover{border-color:var(--neon-cyan);color:var(--neon-cyan)}
+
+.skeleton{background:linear-gradient(90deg,var(--bg-card) 25%,#161e30 50%,var(--bg-card) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:var(--bg-card);border:1px solid var(--border-glow);overflow:hidden}
+.skel-thumb{aspect-ratio:16/9;width:100%}
+.skel-body{padding:1rem}
+.skel-line{height:10px;margin-bottom:10px}
+
+.state-box{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted)}
+.state-box .icon{font-size:3rem;opacity:0.3;margin-bottom:1rem}
+.state-box p{font-family:'Orbitron',monospace;font-size:0.72rem;letter-spacing:2px}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted)}
+footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
+
+[dir="rtl"] .search-icon{left:auto;right:10px}
+[dir="rtl"] .search-input{padding:8px 34px 8px 14px}
+[dir="rtl"] .results-info{margin-left:0;margin-right:auto}
+[dir="rtl"] .play-triangle{margin-left:0;margin-right:4px;border-left:none;border-right:18px solid white}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../Games/index.html">Games</a></li>
+    <li><a href="../Articles/index.html">Articles</a></li>
+    <li><a href="index.html" class="active">Walkthroughs</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <p class="page-eyebrow" id="eyebrow">VIDEO GUIDES & WALKTHROUGHS</p>
+  <h1 class="page-title">ALL <span id="titleSpan">WALKTHROUGHS</span></h1>
+  <div>
+    <span class="vid-count" id="vidCount">LOADING...</span>
+    <a href="#" id="channelLink" class="channel-link" target="_blank">🎮 VISIT YOUTUBE CHANNEL →</a>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input class="search-input" type="text" id="searchInput" placeholder="Search walkthroughs...">
+  </div>
+  <div class="filter-group">
+    <span class="filter-label" id="filterLabel">GAME:</span>
+    <div id="gameFilters">
+      <button class="filter-btn active" data-game="ALL">ALL</button>
+    </div>
+  </div>
+</div>
+
+<div class="sort-row">
+  <span class="sort-label" id="sortLabel">SORT:</span>
+  <select class="sort-select" id="sortSelect">
+    <option value="newest">Newest First</option>
+    <option value="oldest">Oldest First</option>
+    <option value="az">A → Z</option>
+    <option value="za">Z → A</option>
+  </select>
+  <span class="results-info" id="resultsInfo"></span>
+</div>
+
+<div class="main-layout">
+  <div>
+    <div class="videos-grid" id="videosGrid">
+      <div class="skel-card"><div class="skel-thumb skeleton"></div><div class="skel-body"><div class="skeleton skel-line" style="width:35%"></div><div class="skeleton skel-line" style="width:85%"></div></div></div>
+      <div class="skel-card"><div class="skel-thumb skeleton"></div><div class="skel-body"><div class="skeleton skel-line" style="width:35%"></div><div class="skeleton skel-line" style="width:85%"></div></div></div>
+    </div>
+  </div>
+
+  <div class="playlist-sidebar">
+    <div class="pl-header">
+      <span class="pl-title" id="plTitle">MY PLAYLIST</span>
+      <span class="pl-count" id="plCount">0</span>
+    </div>
+    <div class="pl-actions">
+      <button class="pl-btn pl-play-btn" id="plPlayBtn" disabled>▶ PLAY ALL</button>
+      <button class="pl-btn pl-clear-btn" id="plClearBtn">CLEAR</button>
+    </div>
+    <div id="plContent">
+      <div class="pl-empty">
+        <div class="icon">🎬</div>
+        <p>PLAYLIST EMPTY</p>
+      </div>
+    </div>
+    <div class="drag-hint">DRAG TO REORDER</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <div class="modal-topbar">
+      <span class="modal-game-tag" id="modalGameTag"></span>
+      <span class="modal-title" id="modalTitle"></span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-player">
+      <iframe id="modalIframe" allowfullscreen></iframe>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-nav-btn" id="prevBtn">← PREV</button>
+      <span class="modal-pos" id="modalPos"></span>
+      <button class="modal-add-pl" id="modalAddPl">+ PLAYLIST</button>
+      <button class="modal-nav-btn" id="nextBtn">NEXT →</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
+  <p id="footerText">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+</footer>
+
+<script>
+// ==============================================
+// LOADS WALKTHROUGHS FROM pixelzone-manifest.json
+// ==============================================
+
+const MANIFEST_URL = '../pixelzone-manifest.json';
+
+let allVideos = [];
+let filtered = [];
+let currentGame = "ALL";
+let currentLang = "en";
+let playlist = [];
+let modalQueue = [];
+let modalIndex = 0;
+let youtubeChannelUrl = "https://www.youtube.com/@Pixel-Zone3";
+
+const i18n = {
+  en: {
+    eyebrow: "VIDEO GUIDES & WALKTHROUGHS", titleSpan: "WALKTHROUGHS",
+    searchPlaceholder: "Search walkthroughs...", filterLabel: "GAME:",
+    sortLabel: "SORT:", sortNewest: "Newest First", sortOldest: "Oldest First", sortAZ: "A → Z", sortZA: "Z → A",
+    results: (s, t) => `SHOWING ${s} OF ${t}`, count: (n) => `${n} VIDEO${n !== 1 ? "S" : ""}`,
+    noResults: "NO VIDEOS FOUND", noResultsSub: "TRY A DIFFERENT SEARCH OR GAME",
+    addPl: "+ PLAYLIST", inPl: "✓ IN PLAYLIST", plTitle: "MY PLAYLIST",
+    plPlay: "▶ PLAY ALL", plClear: "CLEAR", plEmpty: "PLAYLIST EMPTY",
+    dragHint: "DRAG TO REORDER", prev: "← PREV", next: "NEXT →",
+    footerText: "© 2026 PixelZone — Gaming for Everyone, Everywhere",
+    modalPos: (i, t) => `${i} / ${t}`, channelText: "🎮 VISIT YOUTUBE CHANNEL →"
+  },
+  ar: {
+    eyebrow: "أدلة وشروحات الفيديو", titleSpan: "الشروحات",
+    searchPlaceholder: "ابحث في الشروحات...", filterLabel: "اللعبة:",
+    sortLabel: "ترتيب:", sortNewest: "الأحدث أولاً", sortOldest: "الأقدم أولاً", sortAZ: "أ → ي", sortZA: "ي ← أ",
+    results: (s, t) => `عرض ${s} من ${t}`, count: (n) => `${n} فيديو`,
+    noResults: "لا توجد فيديوهات", noResultsSub: "جرّب بحثاً أو فلتراً مختلفاً",
+    addPl: "+ قائمة", inPl: "✓ في القائمة", plTitle: "قائمتي",
+    plPlay: "▶ تشغيل الكل", plClear: "مسح", plEmpty: "القائمة فارغة",
+    dragHint: "اسحب لإعادة الترتيب", prev: "→ السابق", next: "التالي ←",
+    footerText: "© 2026 بيكسل زون — الألعاب للجميع",
+    modalPos: (i, t) => `${i} / ${t}`, channelText: "🎮 قناة اليوتيوب ←"
+  }
+};
+
+function T(key, ...args) {
+  const val = i18n[currentLang][key];
+  return typeof val === "function" ? val(...args) : val;
+}
+
+function fmtDate(iso) {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString(currentLang === "ar" ? "ar-EG" : "en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function buildGameFilters() {
+  const games = [...new Set(allVideos.map(v => v.game))].sort();
+  const wrap = document.getElementById("gameFilters");
+  wrap.innerHTML = `<button class="filter-btn active" data-game="ALL" onclick="setGameFilter('ALL')">${currentLang === "ar" ? "الكل" : "ALL"}</button>`;
+  games.forEach(g => {
+    const btn = document.createElement("button");
+    btn.className = "filter-btn";
+    btn.dataset.game = g;
+    btn.textContent = g;
+    btn.onclick = () => setGameFilter(g);
+    wrap.appendChild(btn);
+  });
+}
+
+function setGameFilter(game) {
+  currentGame = game;
+  document.querySelectorAll("#gameFilters .filter-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.game === game)
+  );
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+  const sort = document.getElementById("sortSelect").value;
+
+  filtered = allVideos.filter(v => {
+    const matchGame = currentGame === "ALL" || v.game === currentGame;
+    const matchSearch = !q || v.title.toLowerCase().includes(q) || v.game.toLowerCase().includes(q);
+    return matchGame && matchSearch;
+  });
+
+  if (sort === "newest") filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+  else if (sort === "oldest") filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+  else if (sort === "az") filtered.sort((a, b) => a.title.localeCompare(b.title));
+  else if (sort === "za") filtered.sort((a, b) => b.title.localeCompare(a.title));
+
+  document.getElementById("resultsInfo").textContent = T("results", filtered.length, allVideos.length);
+  renderGrid();
+}
+
+function renderGrid() {
+  const grid = document.getElementById("videosGrid");
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="state-box"><div class="icon">🎬</div><p>${T("noResults")}</p><p class="sub">${T("noResultsSub")}</p></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map((v, i) => {
+    const inPl = playlist.includes(v.id);
+    const thumbUrl = `https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg`;
+    return `
+      <div class="video-card${inPl ? " in-playlist" : ""}" data-video-idx="${i}" onclick="openVideoModal(${i})">
+        <div class="thumb-wrap">
+          <img src="${thumbUrl}" alt="${v.title}" loading="lazy" onerror="this.src='https://placehold.co/320x180/0d1220/7a8baa?text=No+Thumbnail'">
+          <div class="play-btn"><div class="play-circle"><div class="play-triangle"></div></div></div>
+        </div>
+        <div class="vid-info">
+          <div class="vid-game-tag">${v.game}</div>
+          <div class="vid-title">${v.title}</div>
+          <div class="vid-meta">
+            <span>${fmtDate(v.date)}</span>
+            <button class="add-btn" onclick="event.stopPropagation();togglePlaylist('${v.id}')">${inPl ? T("inPl") : T("addPl")}</button>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function togglePlaylist(id) {
+  if (playlist.includes(id)) playlist = playlist.filter(x => x !== id);
+  else playlist.push(id);
+  updatePlaylistUI();
+  renderGrid();
+}
+
+function clearPlaylist() {
+  playlist = [];
+  updatePlaylistUI();
+  renderGrid();
+}
+
+function updatePlaylistUI() {
+  const count = playlist.length;
+  document.getElementById("plCount").textContent = count;
+  document.getElementById("plPlayBtn").disabled = count === 0;
+
+  const content = document.getElementById("plContent");
+  if (!count) {
+    content.innerHTML = `<div class="pl-empty"><div class="icon">🎬</div><p>${T("plEmpty")}</p></div>`;
+    return;
+  }
+
+  const items = playlist.map((id, i) => {
+    const v = allVideos.find(x => x.id === id);
+    if (!v) return "";
+    return `
+      <div class="pl-item" draggable="true" data-id="${id}" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="drop(event)">
+        <span class="pl-num">${i + 1}</span>
+        <img class="pl-thumb-mini" src="https://img.youtube.com/vi/${v.youtubeId}/default.jpg" onerror="this.style.display='none'">
+        <div class="pl-item-info">
+          <div class="pl-item-game">${v.game}</div>
+          <div class="pl-item-title">${v.title}</div>
+        </div>
+        <button class="pl-remove" onclick="togglePlaylist('${id}')">✕</button>
+      </div>`;
+  }).join("");
+  content.innerHTML = `<div class="pl-list" id="plList">${items}</div>`;
+}
+
+let dragId = null;
+function dragStart(e) { dragId = e.currentTarget.dataset.id; }
+function dragOver(e) { e.preventDefault(); }
+function drop(e) {
+  e.preventDefault();
+  const targetId = e.currentTarget.dataset.id;
+  if (!dragId || dragId === targetId) return;
+  const fromIdx = playlist.indexOf(dragId);
+  const toIdx = playlist.indexOf(targetId);
+  playlist.splice(fromIdx, 1);
+  playlist.splice(toIdx, 0, dragId);
+  dragId = null;
+  updatePlaylistUI();
+}
+
+function openVideoModal(filteredIdx) {
+  modalQueue = [...filtered];
+  modalIndex = filteredIdx;
+  openModalFromQueue();
+}
+
+function openPlaylistModal(playlistIdx) {
+  modalQueue = playlist.map(id => allVideos.find(v => v.id === id)).filter(Boolean);
+  modalIndex = playlistIdx;
+  openModalFromQueue();
+}
+
+function openModalFromQueue() {
+  const v = modalQueue[modalIndex];
+  if (!v) return;
+  document.getElementById("modalGameTag").textContent = v.game;
+  document.getElementById("modalTitle").textContent = v.title;
+  document.getElementById("modalIframe").src = `https://www.youtube.com/embed/${v.youtubeId}?autoplay=1&rel=0&enablejsapi=1`;
+  document.getElementById("modalPos").textContent = T("modalPos", modalIndex + 1, modalQueue.length);
+  document.getElementById("prevBtn").disabled = modalIndex === 0;
+  document.getElementById("nextBtn").disabled = modalIndex === modalQueue.length - 1;
+  const inPl = playlist.includes(v.id);
+  const addBtn = document.getElementById("modalAddPl");
+  addBtn.textContent = inPl ? T("inPl") : T("addPl");
+  document.getElementById("modalOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  document.getElementById("modalOverlay").classList.remove("open");
+  document.getElementById("modalIframe").src = "";
+  document.body.style.overflow = "";
+}
+
+function navigateModal(dir) {
+  modalIndex = Math.max(0, Math.min(modalQueue.length - 1, modalIndex + dir));
+  openModalFromQueue();
+}
+
+function toggleFromModal() {
+  const v = modalQueue[modalIndex];
+  if (!v) return;
+  togglePlaylist(v.id);
+  const inPl = playlist.includes(v.id);
+  document.getElementById("modalAddPl").textContent = inPl ? T("inPl") : T("addPl");
+}
+
+function playPlaylist() {
+  if (!playlist.length) return;
+  modalQueue = playlist.map(id => allVideos.find(v => v.id === id)).filter(Boolean);
+  modalIndex = 0;
+  openModalFromQueue();
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.body.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === lang);
+  });
+  document.getElementById("eyebrow").textContent = T("eyebrow");
+  document.getElementById("titleSpan").textContent = T("titleSpan");
+  document.getElementById("searchInput").placeholder = T("searchPlaceholder");
+  document.getElementById("filterLabel").textContent = T("filterLabel");
+  document.getElementById("sortLabel").textContent = T("sortLabel");
+  document.getElementById("footerText").textContent = T("footerText");
+  document.getElementById("plTitle").textContent = T("plTitle");
+  document.getElementById("plPlayBtn").textContent = T("plPlay");
+  document.getElementById("plClearBtn").textContent = T("plClear");
+  document.getElementById("channelLink").textContent = T("channelText");
+  const opts = document.querySelectorAll("#sortSelect option");
+  ["sortNewest", "sortOldest", "sortAZ", "sortZA"].forEach((k, i) => { if (opts[i]) opts[i].textContent = T(k); });
+  if (allVideos.length) {
+    buildGameFilters();
+    document.getElementById("vidCount").textContent = T("count", allVideos.length);
+    applyFilters();
+  }
+  updatePlaylistUI();
+}
+
+// LOAD FROM MANIFEST
+function loadWalkthroughs() {
+  fetch(MANIFEST_URL)
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      allVideos = (data.walkthroughs || []).map(w => ({
+        id: w.youtubeId,
+        youtubeId: w.youtubeId,
+        title: w.title,
+        game: w.game,
+        date: w.date || "2026-01-01",
+        duration: w.duration,
+        views: w.views
+      }));
+      
+      youtubeChannelUrl = data.youtubeChannelUrl || "https://www.youtube.com/@Pixel-Zone3";
+      const channelLink = document.getElementById("channelLink");
+      if (channelLink) channelLink.href = youtubeChannelUrl;
+      
+      document.getElementById("vidCount").textContent = T("count", allVideos.length);
+      buildGameFilters();
+      applyFilters();
+    })
+    .catch(err => {
+      console.error("Error loading manifest:", err);
+      document.getElementById("videosGrid").innerHTML = 
+        `<div class="state-box"><div class="icon">⚠️</div><p>COULDN'T LOAD WALKTHROUGHS</p><p class="sub">Make sure pixelzone-manifest.json exists</p></div>`;
+      document.getElementById("vidCount").textContent = "0 VIDEOS";
+    });
+}
+
+// Event listeners
+document.getElementById("searchInput")?.addEventListener("input", applyFilters);
+document.getElementById("sortSelect")?.addEventListener("change", applyFilters);
+document.getElementById("plPlayBtn")?.addEventListener("click", playPlaylist);
+document.getElementById("plClearBtn")?.addEventListener("click", clearPlaylist);
+document.getElementById("prevBtn")?.addEventListener("click", () => navigateModal(-1));
+document.getElementById("nextBtn")?.addEventListener("click", () => navigateModal(1));
+document.getElementById("modalAddPl")?.addEventListener("click", toggleFromModal);
+document.getElementById("modalOverlay")?.addEventListener("click", (e) => {
+  if (e.target === document.getElementById("modalOverlay")) closeModal();
+});
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => setLang(btn.dataset.lang));
+});
+
+// Keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+  if (!document.getElementById("modalOverlay").classList.contains("open")) return;
+  if (e.key === "Escape") closeModal();
+  if (e.key === "ArrowLeft") navigateModal(-1);
+  if (e.key === "ArrowRight") navigateModal(1);
+});
+
+// Initialize
+setLang("en");
+loadWalkthroughs();
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@ import json
 import csv
 from datetime import datetime
 from glob import glob
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup # type: ignore
 
 # ========== CONFIGURATION ==========
 ARTICLES_DIR = './Articles/articles/'      # your blog posts

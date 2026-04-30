@@ -23,7 +23,6 @@
   .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
   .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
-  /* NAV */
   nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
   .logo span{color:var(--neon-pink)}
@@ -34,7 +33,6 @@
   .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
   .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
-  /* PAGE HEADER */
   .page-header{position:relative;z-index:1;padding:3.5rem 2rem 2.5rem;max-width:1100px;margin:0 auto}
   .page-eyebrow{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--neon-pink);margin-bottom:0.75rem;font-family:'Orbitron',monospace}
   .page-title{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:var(--text-main);margin-bottom:0.75rem}
@@ -42,7 +40,6 @@
   .page-sub{color:var(--text-muted);font-size:1rem;max-width:520px;line-height:1.6}
   .article-count{display:inline-block;margin-top:1rem;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-muted);border:1px solid var(--border-glow);padding:5px 14px}
 
-  /* FILTERS */
   .filters-bar{position:relative;z-index:1;padding:0 2rem 2rem;max-width:1100px;margin:0 auto;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
   .filter-group{display:flex;gap:0.5rem;flex-wrap:wrap}
   .filter-btn{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1.5px;padding:7px 16px;background:transparent;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer;transition:all 0.2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
@@ -52,94 +49,54 @@
   .filter-btn[data-cat="NEWS"].active{background:var(--neon-green);border-color:var(--neon-green);color:#080b14}
   .filter-btn[data-cat="WALKTHROUGH"].active{background:var(--neon-purple);border-color:var(--neon-purple);color:#080b14}
   .search-wrap{margin-left:auto;position:relative}
-  .search-input{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.9rem;padding:7px 14px 7px 36px;width:220px;outline:none;transition:border-color 0.2s}
+  .search-input{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.9rem;padding:7px 14px 7px 36px;width:220px;outline:none}
   .search-input:focus{border-color:rgba(0,245,255,0.5)}
-  .search-input::placeholder{color:var(--text-muted)}
-  .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.85rem;pointer-events:none}
+  .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.85rem}
 
-  /* SORT BAR */
   .sort-bar{position:relative;z-index:1;padding:0 2rem 1.5rem;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1rem}
   .sort-label{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px;color:var(--text-muted)}
-  .sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.85rem;padding:6px 12px;outline:none;cursor:pointer}
-  .sort-select option{background:var(--bg-dark)}
+  .sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.85rem;padding:6px 12px;cursor:pointer}
   .results-count{margin-left:auto;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px;color:var(--text-muted)}
 
-  /* ARTICLES GRID */
   .articles-section{position:relative;z-index:1;padding:0 2rem 3rem;max-width:1100px;margin:0 auto}
   .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
 
-  /* Article card */
-  .article-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.5rem;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden;text-decoration:none;display:block}
-  .article-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background 0.2s}
+  .article-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.5rem;transition:all 0.2s;text-decoration:none;display:block}
   .article-card:hover{border-color:rgba(0,245,255,0.4);transform:translateY(-2px)}
-  .article-card:hover::before{background:var(--neon-cyan)}
-  .article-card[data-cat="REVIEW"]:hover{border-color:rgba(255,45,120,0.4)}
-  .article-card[data-cat="REVIEW"]:hover::before{background:var(--neon-pink)}
-  .article-card[data-cat="NEWS"]:hover{border-color:rgba(57,255,20,0.3)}
-  .article-card[data-cat="NEWS"]:hover::before{background:var(--neon-green)}
-  .article-card[data-cat="WALKTHROUGH"]:hover{border-color:rgba(191,95,255,0.4)}
-  .article-card[data-cat="WALKTHROUGH"]:hover::before{background:var(--neon-purple)}
-
   .article-badge{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:2px;text-transform:uppercase;display:inline-block;padding:3px 10px;border:1px solid;margin-bottom:0.75rem}
   .badge-GUIDE{color:var(--neon-cyan);border-color:var(--neon-cyan)}
   .badge-REVIEW{color:var(--neon-pink);border-color:var(--neon-pink)}
   .badge-NEWS{color:var(--neon-green);border-color:var(--neon-green)}
   .badge-WALKTHROUGH{color:var(--neon-purple);border-color:var(--neon-purple)}
-
-  .article-title{font-family:'Orbitron',monospace;font-size:0.88rem;font-weight:700;color:var(--text-main);margin-bottom:0.75rem;line-height:1.45;margin-top:0.5rem}
+  .article-title{font-family:'Orbitron',monospace;font-size:0.88rem;font-weight:700;color:var(--text-main);margin-bottom:0.75rem;line-height:1.45}
   .article-excerpt{color:var(--text-muted);font-size:0.9rem;line-height:1.55;margin-bottom:1rem}
   .article-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border-glow);padding-top:0.75rem}
-  .read-more{color:var(--neon-cyan);font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px}
-  .article-card[data-cat="REVIEW"] .read-more{color:var(--neon-pink)}
-  .article-card[data-cat="NEWS"] .read-more{color:var(--neon-green)}
-  .article-card[data-cat="WALKTHROUGH"] .read-more{color:var(--neon-purple)}
+  .read-more{color:var(--neon-cyan);font-family:'Orbitron',monospace;font-size:0.65rem}
 
-  /* Featured article (first card, full width) */
   .article-card.featured-article{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;border-left:3px solid var(--neon-cyan);padding:2rem}
   .article-card.featured-article .article-title{font-size:1.15rem}
-  .article-card.featured-article .article-excerpt{font-size:1rem;max-width:600px}
-  .featured-label{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--neon-cyan);background:rgba(0,245,255,0.08);padding:4px 12px;border:1px solid rgba(0,245,255,0.25);display:inline-block;margin-bottom:0.75rem}
-  .featured-right{text-align:right;min-width:120px}
-  .featured-date-big{font-family:'Orbitron',monospace;font-size:0.7rem;color:var(--text-muted);letter-spacing:1px}
+  .featured-label{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--neon-cyan);background:rgba(0,245,255,0.08);padding:4px 12px;display:inline-block;margin-bottom:0.75rem}
+  .featured-date-big{font-family:'Orbitron',monospace;font-size:0.7rem;color:var(--text-muted)}
 
-  /* Skeletons */
-  .skeleton{background:linear-gradient(90deg,var(--bg-card) 25%,#161e30 50%,var(--bg-card) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:2px}
+  .skeleton{background:linear-gradient(90deg,var(--bg-card) 25%,#161e30 50%,var(--bg-card) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
   @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
   .skel-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.5rem}
   .skel-line{height:12px;margin-bottom:12px;border-radius:2px}
 
-  /* Empty / error states */
   .state-box{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted)}
   .state-box .icon{font-size:3rem;opacity:0.3;margin-bottom:1rem}
-  .state-box p{font-family:'Orbitron',monospace;font-size:0.72rem;letter-spacing:2px;margin-bottom:0.5rem}
-  .state-box .sub{font-size:0.65rem;opacity:0.6;letter-spacing:1px}
+  .pagination{display:flex;justify-content:center;gap:0.5rem;padding:2rem 2rem 3rem}
+  .page-btn{font-family:'Orbitron',monospace;font-size:0.65rem;padding:8px 14px;background:transparent;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer}
+  .page-btn.active{background:var(--neon-cyan);color:#080b14}
+  .page-btn:disabled{opacity:0.3}
 
-  /* Pagination */
-  .pagination{position:relative;z-index:1;padding:0 2rem 3rem;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap}
-  .page-btn{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px;padding:8px 14px;background:transparent;border:1px solid var(--border-glow);color:var(--text-muted);cursor:pointer;transition:all 0.2s;min-width:38px;text-align:center}
-  .page-btn:hover:not(:disabled){border-color:var(--neon-cyan);color:var(--neon-cyan)}
-  .page-btn.active{background:var(--neon-cyan);border-color:var(--neon-cyan);color:#080b14}
-  .page-btn:disabled{opacity:0.3;cursor:default}
-
-  .glow-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--neon-cyan),transparent);opacity:0.4;position:relative;z-index:1;margin:0}
-  footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
+  footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted)}
   footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
 
-  [dir="rtl"] .section-line{background:linear-gradient(270deg,var(--neon-cyan),transparent)}
   [dir="rtl"] .search-wrap{margin-left:0;margin-right:auto}
   [dir="rtl"] .search-icon{left:auto;right:10px}
   [dir="rtl"] .search-input{padding:7px 36px 7px 14px}
-  [dir="rtl"] .results-count{margin-left:0;margin-right:auto}
   [dir="rtl"] .article-card.featured-article{border-left:none;border-right:3px solid var(--neon-cyan)}
-  [dir="rtl"] .featured-right{text-align:left}
-
-  @media(max-width:640px){
-    .article-card.featured-article{grid-template-columns:1fr}
-    .featured-right{display:none}
-    .search-wrap{margin-left:0;width:100%}
-    .search-input{width:100%}
-    .filters-bar{gap:0.5rem}
-  }
 </style>
 </head>
 <body>
@@ -155,12 +112,11 @@
     <li><a href="../Walkthroughs/index.html">Walkthroughs</a></li>
   </ul>
   <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('ar')">AR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
   </div>
 </nav>
 
-<!-- PAGE HEADER -->
 <div class="page-header">
   <p class="page-eyebrow" id="eyebrow">GAMING KNOWLEDGE BASE</p>
   <h1 class="page-title"><span id="titleHighlight">ALL</span> <span id="titleMain">ARTICLES</span></h1>
@@ -168,25 +124,17 @@
   <div class="article-count" id="articleCount">LOADING...</div>
 </div>
 
-<!-- FILTERS -->
 <div class="filters-bar">
-  <div class="filter-group" id="filterGroup">
-    <button class="filter-btn active" data-cat="ALL" onclick="setFilter('ALL')">ALL</button>
-    <button class="filter-btn" data-cat="GUIDE" onclick="setFilter('GUIDE')">GUIDE</button>
-    <button class="filter-btn" data-cat="REVIEW" onclick="setFilter('REVIEW')">REVIEW</button>
-    <button class="filter-btn" data-cat="NEWS" onclick="setFilter('NEWS')">NEWS</button>
-    <button class="filter-btn" data-cat="WALKTHROUGH" onclick="setFilter('WALKTHROUGH')">WALKTHROUGH</button>
-  </div>
+  <div class="filter-group" id="filterGroup"></div>
   <div class="search-wrap">
     <span class="search-icon">⌕</span>
-    <input class="search-input" type="text" id="searchInput" placeholder="Search articles..." oninput="onSearch()">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search articles...">
   </div>
 </div>
 
-<!-- SORT BAR -->
 <div class="sort-bar">
-  <span class="sort-label">SORT:</span>
-  <select class="sort-select" id="sortSelect" onchange="renderPage()">
+  <span class="sort-label" id="sortLabel">SORT:</span>
+  <select class="sort-select" id="sortSelect">
     <option value="newest">Newest First</option>
     <option value="oldest">Oldest First</option>
     <option value="az">A → Z</option>
@@ -195,35 +143,36 @@
   <span class="results-count" id="resultsCount"></span>
 </div>
 
-<!-- ARTICLES -->
 <div class="articles-section">
-  <div class="articles-grid" id="articlesGrid">
-    <!-- skeletons -->
-    <div class="skel-card" style="grid-column:1/-1"><div class="skeleton skel-line" style="width:12%;margin-bottom:16px"></div><div class="skeleton skel-line" style="width:55%"></div><div class="skeleton skel-line" style="width:90%"></div><div class="skeleton skel-line" style="width:80%"></div></div>
-    <div class="skel-card"><div class="skeleton skel-line" style="width:25%"></div><div class="skeleton skel-line" style="width:80%;margin-top:14px"></div><div class="skeleton skel-line" style="width:95%"></div><div class="skeleton skel-line" style="width:70%"></div></div>
-    <div class="skel-card"><div class="skeleton skel-line" style="width:25%"></div><div class="skeleton skel-line" style="width:80%;margin-top:14px"></div><div class="skeleton skel-line" style="width:95%"></div><div class="skeleton skel-line" style="width:70%"></div></div>
-    <div class="skel-card"><div class="skeleton skel-line" style="width:25%"></div><div class="skeleton skel-line" style="width:80%;margin-top:14px"></div><div class="skeleton skel-line" style="width:95%"></div><div class="skeleton skel-line" style="width:70%"></div></div>
-  </div>
+  <div class="articles-grid" id="articlesGrid"></div>
 </div>
 
-<!-- PAGINATION -->
 <div class="pagination" id="pagination"></div>
 
-<div class="glow-line"></div>
 <footer>
   <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
   <p id="footerText">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
 </footer>
 
 <script>
-const MANIFEST_URL = '../pixelzone-manifest.json';
-const PER_PAGE = 9;
+// ==============================================
+// FIXED: ARTICLES PAGE WITH CORRECT MANIFEST PATH
+// ==============================================
 
+// Try multiple possible manifest paths (works everywhere)
+const MANIFEST_PATHS = [
+  '../pixelzone-manifest.json',      // When in Articles/ folder (same as Walkthroughs/)
+  'pixelzone-manifest.json',         // When in root
+  '/pixelzone-manifest.json',        // Absolute path from domain root
+];
+
+let MANIFEST_URL = '../pixelzone-manifest.json'; // default
 let allArticles = [];
 let filtered = [];
 let currentFilter = 'ALL';
 let currentPage = 1;
 let currentLang = 'en';
+const PER_PAGE = 9;
 
 const i18n = {
   en: {
@@ -232,18 +181,19 @@ const i18n = {
     titleMain: 'ARTICLES',
     pageSub: 'Guides, reviews, news, and walkthroughs — everything you need to level up.',
     searchPlaceholder: 'Search articles...',
-    sortNewest: 'Newest First', sortOldest: 'Oldest First', sortAZ: 'A → Z', sortZA: 'Z → A',
     sortLabel: 'SORT:',
+    sortNewest: 'Newest First', sortOldest: 'Oldest First', sortAZ: 'A → Z', sortZA: 'Z → A',
     readMore: 'READ MORE →',
     featuredLabel: 'LATEST ARTICLE',
     footerText: '© 2026 PixelZone — Gaming for Everyone, Everywhere',
     noResults: 'NO ARTICLES FOUND',
     noResultsSub: 'TRY A DIFFERENT SEARCH OR FILTER',
     errorTitle: "COULDN'T LOAD ARTICLES",
-    errorSub: 'CHECK THAT PIXELZONE-MANIFEST.JSON EXISTS',
+    errorSub: 'Make sure pixelzone-manifest.json exists in root folder',
     articleCount: n => `${n} ARTICLE${n !== 1 ? 'S' : ''}`,
     results: (shown, total) => `SHOWING ${shown} OF ${total}`,
     prev: '← PREV', next: 'NEXT →',
+    filterAll: 'ALL', filterGuide: 'GUIDE', filterReview: 'REVIEW', filterNews: 'NEWS', filterWalkthrough: 'WALKTHROUGH'
   },
   ar: {
     eyebrow: 'قاعدة معرفة الألعاب',
@@ -251,18 +201,19 @@ const i18n = {
     titleMain: 'المقالات',
     pageSub: 'أدلة، مراجعات، أخبار وشروحات — كل ما تحتاجه للوصول للمستوى التالي.',
     searchPlaceholder: 'ابحث في المقالات...',
-    sortNewest: 'الأحدث أولاً', sortOldest: 'الأقدم أولاً', sortAZ: 'أ ← ي', sortZA: 'ي ← أ',
     sortLabel: 'ترتيب:',
+    sortNewest: 'الأحدث أولاً', sortOldest: 'الأقدم أولاً', sortAZ: 'أ ← ي', sortZA: 'ي ← أ',
     readMore: 'اقرأ المزيد ←',
     featuredLabel: 'آخر مقالة',
-    footerText: '© 2026 PixelZون — الألعاب للجميع، في كل مكان',
+    footerText: '© 2026 بيكسل زون — الألعاب للجميع',
     noResults: 'لا توجد مقالات',
     noResultsSub: 'جرّب بحثاً أو فلتراً مختلفاً',
     errorTitle: 'تعذّر تحميل المقالات',
-    errorSub: 'تأكّد من وجود ملف pixelzone-manifest.json',
+    errorSub: 'تأكد من وجود ملف pixelzone-manifest.json',
     articleCount: n => `${n} مقالة`,
     results: (shown, total) => `عرض ${shown} من ${total}`,
     prev: '→ السابق', next: 'التالي ←',
+    filterAll: 'الكل', filterGuide: 'دليل', filterReview: 'مراجعة', filterNews: 'أخبار', filterWalkthrough: 'شرح'
   }
 };
 
@@ -272,14 +223,35 @@ function t(key, ...args) {
 }
 
 function fmtDate(iso) {
+  if (!iso) return '—';
   return new Date(iso).toLocaleDateString(currentLang === 'ar' ? 'ar-EG' : 'en-GB', {
     day: 'numeric', month: 'short', year: 'numeric'
   });
 }
 
+function buildFilterButtons() {
+  const categories = ['ALL', 'GUIDE', 'REVIEW', 'NEWS', 'WALKTHROUGH'];
+  const container = document.getElementById('filterGroup');
+  container.innerHTML = categories.map(cat => `
+    <button class="filter-btn ${cat === 'ALL' ? 'active' : ''}" data-cat="${cat}">
+      ${t(`filter${cat}`) || cat}
+    </button>
+  `).join('');
+  
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentFilter = btn.dataset.cat;
+      currentPage = 1;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPage();
+    });
+  });
+}
+
 function applyFiltersAndSort() {
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  const sort = document.getElementById('sortSelect').value;
+  const q = document.getElementById('searchInput')?.value.toLowerCase().trim() || '';
+  const sort = document.getElementById('sortSelect')?.value || 'newest';
 
   filtered = allArticles.filter(a => {
     const matchCat = currentFilter === 'ALL' || a.category === currentFilter;
@@ -298,17 +270,16 @@ function applyFiltersAndSort() {
 
 function renderPage() {
   applyFiltersAndSort();
-  const grid = document.getElementById('articlesGrid');
   const total = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
   if (currentPage > totalPages) currentPage = 1;
 
-  document.getElementById('resultsCount').textContent = t('results', Math.min(PER_PAGE, total - (currentPage - 1) * PER_PAGE), total);
+  const resultsSpan = document.getElementById('resultsCount');
+  if (resultsSpan) {
+    resultsSpan.textContent = t('results', Math.min(PER_PAGE, total - (currentPage - 1) * PER_PAGE), total);
+  }
 
-  // Update title to reflect current filter
-  const hl = document.getElementById('titleHighlight');
-  if (hl) hl.textContent = currentFilter === 'ALL' ? t('titleHighlight') : currentFilter;
-
+  const grid = document.getElementById('articlesGrid');
   if (!total) {
     grid.innerHTML = `<div class="state-box"><div class="icon">🔍</div><p>${t('noResults')}</p><p class="sub">${t('noResultsSub')}</p></div>`;
     document.getElementById('pagination').innerHTML = '';
@@ -317,17 +288,18 @@ function renderPage() {
 
   const start = (currentPage - 1) * PER_PAGE;
   const pageItems = filtered.slice(start, start + PER_PAGE);
+  const searchQuery = document.getElementById('searchInput')?.value.trim() || '';
 
   grid.innerHTML = pageItems.map((a, idx) => {
-    const isFeatured = idx === 0 && currentPage === 1 && currentFilter === 'ALL' && !document.getElementById('searchInput').value;
+    const isFeatured = idx === 0 && currentPage === 1 && currentFilter === 'ALL' && !searchQuery;
     if (isFeatured) {
       return `
         <a href="articles/${a.file}" class="article-card featured-article" data-cat="${a.category}">
           <div>
             <span class="featured-label">${t('featuredLabel')}</span><br>
             <span class="article-badge badge-${a.category}">${a.category}</span>
-            <h2 class="article-title">${a.title}</h2>
-            <p class="article-excerpt">${a.excerpt || ''}</p>
+            <h2 class="article-title">${escapeHtml(a.title)}</h2>
+            <p class="article-excerpt">${escapeHtml(a.excerpt || '')}</p>
             <div class="article-meta-row">
               <span>${fmtDate(a.date)}</span>
               <span class="read-more">${t('readMore')}</span>
@@ -341,8 +313,8 @@ function renderPage() {
     return `
       <a href="articles/${a.file}" class="article-card" data-cat="${a.category}">
         <span class="article-badge badge-${a.category}">${a.category}</span>
-        <h3 class="article-title">${a.title}</h3>
-        <p class="article-excerpt">${a.excerpt || ''}</p>
+        <h3 class="article-title">${escapeHtml(a.title)}</h3>
+        <p class="article-excerpt">${escapeHtml(a.excerpt || '')}</p>
         <div class="article-meta-row">
           <span>${fmtDate(a.date)}</span>
           <span class="read-more">${t('readMore')}</span>
@@ -351,6 +323,16 @@ function renderPage() {
   }).join('');
 
   renderPagination(totalPages);
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
 }
 
 function renderPagination(totalPages) {
@@ -362,7 +344,7 @@ function renderPagination(totalPages) {
     if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 1) {
       html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
     } else if (Math.abs(i - currentPage) === 2) {
-      html += `<span style="color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.7rem;padding:0 4px">…</span>`;
+      html += `<span style="color:var(--text-muted);padding:0 4px">…</span>`;
     }
   }
   html += `<button class="page-btn" onclick="goPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>${t('next')}</button>`;
@@ -375,13 +357,6 @@ function goPage(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function setFilter(cat) {
-  currentFilter = cat;
-  currentPage = 1;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
-  renderPage();
-}
-
 function onSearch() {
   currentPage = 1;
   renderPage();
@@ -390,44 +365,83 @@ function onSearch() {
 function setLang(lang) {
   currentLang = lang;
   document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.lang-btn:${lang === 'en' ? 'first' : 'last'}-child`).classList.add('active');
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
 
   // Update static text
   document.getElementById('eyebrow').textContent = t('eyebrow');
-  document.getElementById('titleHighlight').textContent = currentFilter === 'ALL' ? t('titleHighlight') : currentFilter;
   document.getElementById('titleMain').textContent = t('titleMain');
   document.getElementById('pageSub').textContent = t('pageSub');
   document.getElementById('searchInput').placeholder = t('searchPlaceholder');
+  document.getElementById('sortLabel').textContent = t('sortLabel');
   document.getElementById('footerText').textContent = t('footerText');
-  document.querySelector('.sort-label').textContent = t('sortLabel');
 
   const opts = document.querySelectorAll('#sortSelect option');
-  ['sortNewest','sortOldest','sortAZ','sortZA'].forEach((k,i) => { if(opts[i]) opts[i].textContent = t(k); });
+  if (opts[0]) opts[0].textContent = t('sortNewest');
+  if (opts[1]) opts[1].textContent = t('sortOldest');
+  if (opts[2]) opts[2].textContent = t('sortAZ');
+  if (opts[3]) opts[3].textContent = t('sortZA');
 
-  // Update filter buttons
-  const filterNames = { ALL: lang === 'ar' ? 'الكل' : 'ALL', GUIDE: lang === 'ar' ? 'دليل' : 'GUIDE', REVIEW: lang === 'ar' ? 'مراجعة' : 'REVIEW', NEWS: lang === 'ar' ? 'أخبار' : 'NEWS', WALKTHROUGH: lang === 'ar' ? 'شرح' : 'WALKTHROUGH' };
-  document.querySelectorAll('.filter-btn').forEach(b => { b.textContent = filterNames[b.dataset.cat] || b.dataset.cat; });
-
+  // Rebuild filter buttons with new language
+  buildFilterButtons();
+  
+  // Update title highlight based on current filter
+  const hl = document.getElementById('titleHighlight');
+  if (hl) hl.textContent = currentFilter === 'ALL' ? t('titleHighlight') : (t(`filter${currentFilter}`) || currentFilter);
+  
   if (allArticles.length) {
     document.getElementById('articleCount').textContent = t('articleCount', allArticles.length);
     renderPage();
   }
 }
 
-// Load manifest
-fetch(MANIFEST_URL)
-  .then(r => { if (!r.ok) throw new Error('manifest not found'); return r.json(); })
-  .then(data => {
-    allArticles = data.articles || [];
-    document.getElementById('articleCount').textContent = t('articleCount', allArticles.length);
-    renderPage();
-  })
-  .catch(() => {
-    document.getElementById('articlesGrid').innerHTML =
-      `<div class="state-box"><div class="icon">⚠️</div><p>${t('errorTitle')}</p><p class="sub">${t('errorSub')}</p></div>`;
-    document.getElementById('articleCount').textContent = '0 ARTICLES';
-  });
+// Try multiple paths to find manifest
+function loadManifest() {
+  const tryLoad = (path) => {
+    return fetch(path)
+      .then(res => res.ok ? res.json() : Promise.reject())
+      .catch(() => Promise.reject());
+  };
+
+  // Try paths in order
+  let promise = Promise.reject();
+  for (const path of MANIFEST_PATHS) {
+    promise = promise.catch(() => tryLoad(path).then(data => {
+      MANIFEST_URL = path;
+      return data;
+    }));
+  }
+
+  promise
+    .then(data => {
+      allArticles = data.articles || [];
+      document.getElementById('articleCount').textContent = t('articleCount', allArticles.length);
+      renderPage();
+    })
+    .catch(() => {
+      document.getElementById('articlesGrid').innerHTML = `
+        <div class="state-box">
+          <div class="icon">⚠️</div>
+          <p>${t('errorTitle')}</p>
+          <p class="sub">${t('errorSub')}</p>
+          <p class="sub" style="margin-top:1rem;font-size:0.55rem">Tried: ${MANIFEST_PATHS.join(', ')}</p>
+        </div>`;
+      document.getElementById('articleCount').textContent = '0 ARTICLES';
+    });
+}
+
+// Event listeners
+document.getElementById('searchInput')?.addEventListener('input', onSearch);
+document.getElementById('sortSelect')?.addEventListener('change', renderPage);
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLang(btn.dataset.lang));
+});
+
+// Initialize
+buildFilterButtons();
+setLang('en');
+loadManifest();
 </script>
 </body>
 </html>
