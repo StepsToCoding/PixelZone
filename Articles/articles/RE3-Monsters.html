@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Blog Post — PixelZone</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --neon-cyan:#00f5ff;
+    --neon-pink:#ff2d78;
+    --neon-green:#39ff14;
+    --bg-dark:#080b14;
+    --bg-card:#0d1220;
+    --bg-card2:#111827;
+    --text-main:#e8eaf6;
+    --text-muted:#7a8baa;
+    --border-glow:rgba(0,245,255,0.18);
+    /* Monster colors */
+    --zombie-color:#6b8c5c;
+    --licker-color:#c44b6c;
+    --tyrant-color:#2c3e4e;
+    --g-adult-color:#7a2e4a;
+    --birkin-color:#b85c1a;
+    --ivy-color:#4a7c59;
+  }
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
+  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
+  .logo span{color:var(--neon-pink)}
+  .back-btn{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;text-decoration:none;transition:color 0.2s}
+  .back-btn:hover{color:var(--neon-cyan)}
+  .back-arrow{font-size:1rem}
+
+  /* HERO BANNER */
+  .post-hero{position:relative;z-index:1;padding:4rem 2rem 3rem;max-width:860px;margin:0 auto}
+  .post-meta-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .post-type-badge{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;padding:4px 12px;border:1px solid}
+  .badge-review{color:var(--neon-pink);border-color:var(--neon-pink);background:rgba(255,45,120,0.08)}
+  .badge-guide{color:var(--neon-cyan);border-color:var(--neon-cyan);background:rgba(0,245,255,0.08)}
+  .badge-news{color:var(--neon-green);border-color:var(--neon-green);background:rgba(57,255,20,0.08)}
+  .badge-opinion{color:#b388ff;border-color:#b388ff;background:rgba(179,136,255,0.08)}
+  .post-date{font-size:0.8rem;color:var(--text-muted);letter-spacing:1px}
+  .post-author{font-size:0.8rem;color:var(--text-muted)}
+  .post-author span{color:var(--neon-cyan)}
+
+  .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem}
+
+  /* REVIEW SCORE BOX */
+  .review-score-box{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-pink);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+  .score-big{font-family:'Orbitron',monospace;font-size:3rem;font-weight:900;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.5);line-height:1}
+  .score-label{font-size:0.7rem;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--text-muted);margin-top:4px}
+  .score-stars{display:flex;gap:4px;margin:0.5rem 0}
+  .score-stars span{font-size:1.4rem;color:var(--neon-pink)}
+  .score-verdict{font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--text-main);font-weight:700}
+  .score-sub{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
+  .review-score-box.hidden{display:none}
+
+  /* TAGS */
+  .post-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
+  .post-tag{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:3px 10px;border:1px solid var(--border-glow);color:var(--text-muted)}
+
+  /* DIVIDER */
+  .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
+
+  /* ARTICLE BODY */
+  .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
+  .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
+  .post-body h3{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);margin:2rem 0 0.75rem;letter-spacing:1px}
+  .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
+  .post-body strong{color:var(--text-main)}
+  .post-body em{color:var(--neon-cyan);font-style:normal}
+  .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
+  .post-body li{margin-bottom:0.4rem;font-size:1.05rem;line-height:1.7}
+  .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
+  .post-body a{color:var(--neon-cyan);text-decoration:none;border-bottom:1px solid rgba(0,245,255,0.3)}
+  .post-body a:hover{border-color:var(--neon-cyan)}
+  .post-body img{width:100%;border:1px solid var(--border-glow);margin:1.5rem 0}
+  .post-body hr{border:none;border-top:1px solid var(--border-glow);margin:2rem 0}
+
+  /* Monster name styles - matching game aesthetics */
+  .monster-zombie{color:var(--zombie-color);text-shadow:0 0 3px rgba(107,140,92,0.5);font-weight:bold}
+  .monster-licker{color:var(--licker-color);text-shadow:0 0 3px rgba(196,75,108,0.5);font-weight:bold}
+  .monster-tyrant{color:var(--tyrant-color);text-shadow:0 0 4px rgba(44,62,78,0.7);font-weight:bold;letter-spacing:0.5px}
+  .monster-gadult{color:var(--g-adult-color);text-shadow:0 0 3px rgba(122,46,74,0.6);font-weight:bold}
+  .monster-birkin{color:var(--birkin-color);text-shadow:0 0 4px rgba(184,92,26,0.6);font-weight:bold}
+  .monster-ivy{color:var(--ivy-color);text-shadow:0 0 3px rgba(74,124,89,0.5);font-weight:bold}
+
+  /* ===== RE3 REMAKE MONSTER TITLE STYLES ===== */
+  /* Nemesis: Brutal, torn metal, biohazard stripes */
+  .monster-nemesis-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #2a2a2a 0%, #0a0a0a 50%, #4a1a1a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 8px rgba(255, 30, 30, 0.6);
+    letter-spacing: 6px;
+    position: relative;
+    display: inline-block;
+    border-left: 6px solid #ff2a2a;
+    padding-left: 18px;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .monster-nemesis-title::before {
+    content: "⚠️";
+    font-size: 1.2rem;
+    margin-right: 10px;
+    filter: drop-shadow(0 0 4px red);
+  }
+  .monster-nemesis-title::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: repeating-linear-gradient(90deg, #ff2a2a, #ff2a2a 10px, #222 10px, #222 20px);
+  }
+
+  /* Nicholai: Stencil, sneaky, mercenary style */
+  .monster-nicholai-title {
+    font-family: 'Rajdhani', monospace;
+    font-size: 1.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #b8b8b8;
+    text-shadow: 3px 3px 0px #1a1a1a, 0 0 0px #00f5ff;
+    letter-spacing: 3px;
+    background: linear-gradient(145deg, #9e9e9e, #3a3a3a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    border-bottom: 2px dashed var(--neon-cyan);
+    padding-bottom: 5px;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .monster-nicholai-title::before {
+    content: "🗡️ ";
+    font-size: 1.3rem;
+    color: var(--neon-cyan);
+    text-shadow: none;
+  }
+
+  /* Dr. Bard: Clinical, cold, laboratory specimen */
+  .monster-bard-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #b0bed0;
+    letter-spacing: 2px;
+    background: linear-gradient(120deg, #e0e8f0, #6c7a8e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    border-left: 4px solid var(--neon-cyan);
+    padding-left: 14px;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    font-style: normal;
+  }
+  .monster-bard-title::before {
+    content: "🧪 ";
+    font-size: 1.2rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 3px cyan;
+  }
+
+  /* Umbrella: Corporate, imposing, dystopian */
+  .monster-umbrella-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #8b8b8b;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    letter-spacing: 8px;
+    background: linear-gradient(135deg, #5a5a5a, #1a1a1a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    position: relative;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .monster-umbrella-title::before {
+    content: "☠️ ";
+    font-size: 1.4rem;
+    color: #888;
+    text-shadow: 0 0 6px #ff2d78;
+  }
+  .monster-umbrella-title::after {
+    content: "CORPORATE EVIL";
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    color: var(--neon-pink);
+    font-weight: 400;
+  }
+
+  /* PRO/CON BOX */
+  .pro-con-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
+  .pro-box,.con-box{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.2rem 1.5rem}
+  .pro-box{border-top:2px solid var(--neon-green)}
+  .con-box{border-top:2px solid var(--neon-pink)}
+  .pro-box h4,.con-box h4{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;margin-bottom:0.75rem}
+  .pro-box h4{color:var(--neon-green)}
+  .con-box h4{color:var(--neon-pink)}
+  .pro-box ul,.con-box ul{list-style:none;padding:0}
+  .pro-box li,.con-box li{font-size:0.9rem;color:var(--text-muted);padding:3px 0;display:flex;gap:8px;align-items:flex-start}
+  .pro-box li::before{content:'✓';color:var(--neon-green);flex-shrink:0}
+  .con-box li::before{content:'✗';color:var(--neon-pink);flex-shrink:0}
+
+  /* FOOTER */
+  footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
+  .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  <a href="../index.html" class="back-btn"><span class="back-arrow">←</span> BACK TO HOME</a>
+</nav>
+
+<div class="post-hero">
+  <div class="post-meta-top">
+    <span class="post-type-badge badge-review" id="postType">ARTICLE</span>
+  </div>
+
+  <h1 class="post-title" id="postTitle">Resident Evil 3 Remake — Monsters & Villains Deep Dive</h1>
+
+  <div class="glow-divider"></div>
+</div>
+
+<div class="post-body">
+
+  <p><strong>⚠️ ALERT! ⚠️</strong> This article contains major spoilers about the story of <em>Resident Evil 3 Remake</em>.</p>
+  <p><strong>My advice:</strong> Do not read this until you've finished the game. You've been warned.</p>
+
+  <!-- Nemesis -->
+  <h2><span class="monster-nemesis-title">Nemesis</span></h2>
+  <p>The flagship villain of Resident Evil 3 Remake is Nemesis, a bio-organic weapon designed by Umbrella to hunt and eliminate S.T.A.R.S. members. Unlike the slower, more methodical Mr. X from the RE2 remake, this version of Nemesis is relentlessly aggressive. He sprints, leaps across rooftops, deploys a flamethrower and later a railgun, and adapts to the player's movements with terrifying speed. His design leans further into body horror, with exposed muscle tissue, a skeletal grin, and parasitic tentacles that allow him to ambush from unexpected angles. While some critics note that his appearances are more scripted than sandbox-driven, Nemesis remains a standout antagonist who transforms each encounter into a high-stakes chase.</p>
+  <blockquote><strong>My Advice: Never fight Nemesis head-on unless the game forces you. Save your grenades for his stun-lock phases, and always keep moving — his tentacle grab has ridiculous range.</strong></blockquote>
+
+  <!-- Nicholai -->
+  <h2><span class="monster-nicholai-title">Nicholai Ginovaef</span></h2>
+  <p>If Nemesis represents biological terror, Nicholai Ginovaef embodies human cruelty. A U.B.C.S. mercenary secretly working for Umbrella's bio-weapon assessment division, Nicholai is a cold, calculating opportunist. His mission is not to save survivors but to document B.O.W. performance in live-fire conditions. To that end, he betrays his own comrades, sets traps for civilians, and sabotages escape efforts without hesitation. The remake amplifies his smug, cowardly demeanor—he avoids direct confrontation whenever possible, preferring to let Nemesis do the dirty work. This makes his eventual showdown with Jill Valentine not just a fight for survival, but a deeply satisfying act of payback.</p>
+  <blockquote><strong>My Advice: Keep a magnum round for Nicholai's final encounter — he tries to escape twice, and you don't want to miss the chance to put him down for good.</strong></blockquote>
+  
+  <!-- Dr. Bard -->
+  <h2><span class="monster-bard-title">Dr. Nathaniel Bard</span></h2>
+  <p>Unlike the overt monstrosity of Nemesis or the petty malice of Nicholai, Dr. Nathaniel Bard represents the banality of corporate evil. As the lead scientist behind the NE-α parasite that controls Nemesis, Bard is not a cartoon villain. He speaks calmly, dresses professionally, and genuinely believes his research serves the greater good through bioweapon containment. Yet this rationality makes him more disturbing. When Raccoon City collapses, Bard cares less about the dying population than about losing his data. He helps Jill develop a vaccine only to test his work, not out of altruism. In many ways, Bard is Umbrella's true face: science without conscience.</p>
+  <blockquote><strong>My Advice: Pay attention to his audio logs — they reveal that Nemesis could have been stopped earlier if Bard had prioritised ethics over results.</strong></blockquote>
+  
+  <!-- Umbrella -->
+  <h2><span class="monster-umbrella-title">Umbrella Corporation</span></h2>
+  <p>Behind every monster and mercenary stands the Umbrella Corporation itself. As the pharmaceutical giant responsible for the T-virus outbreak, Umbrella treats Raccoon City as a live-fire laboratory. The company deploys Nemesis, Nicholai, and even Bard to gather combat data while hypocritically maintaining a public facade of disaster relief. In Resident Evil 3 Remake, Umbrella never appears as a single character, but its influence permeates every villain's motivation. Whether through biological weapons or human mercenaries, Umbrella's profit-driven, amoral culture is the root evil that Jill Valentine ultimately fights to expose.</p>
+  <blockquote><strong>My Advice: Don't expect a big boss fight against Umbrella itself — the real enemy is the system, and you beat it by surviving and exposing the truth.</strong></blockquote>
+  
+</div>
+
+<footer>
+  <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
+  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+</footer>
+
+</body>
+</html>
