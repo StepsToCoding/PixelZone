@@ -1,6 +1,13 @@
 {
   "articles": [
     {
+      "title": "Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery",
+      "date": "2026-04-30",
+      "category": "GUIDE",
+      "excerpt": "Now let's talk about the VILLAINS of Insomniac's New York.",
+      "file": "SM Villains.html"
+    },
+    {
       "title": "Resident Evil 2 Remake: A Bestiary of Nightmares",
       "date": "2026-04-30",
       "category": "GUIDE",
@@ -17,15 +24,15 @@
   ],
   "walkthroughs": [
     {
-      "title": "Code Combat – The Beginning",
-      "game": "Code Combat",
-      "youtubeId": "RByZottzSMU",
-      "duration": "8:57",
+      "title": "The worst game of all time?",
+      "game": "Doki doki lecture club",
+      "youtubeId": "asdjjqoye",
+      "duration": "14:32",
       "views": "127000"
     },
     {
-      "title": "THe among us files explained",
-      "game": "SUS",
+      "title": "Sussiest among us imposter",
+      "game": "AMONG UZ",
       "youtubeId": "abc123xyz",
       "duration": "1:02:15",
       "views": "89000"
