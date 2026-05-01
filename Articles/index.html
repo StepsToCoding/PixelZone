@@ -156,23 +156,32 @@
 
 <script>
 // ==============================================
-// FIXED: ARTICLES PAGE WITH CORRECT MANIFEST PATH
+// ARTICLES PAGE WITH BILINGUAL SUPPORT
 // ==============================================
 
-// Try multiple possible manifest paths (works everywhere)
+// Try multiple possible manifest paths
 const MANIFEST_PATHS = [
-  '../pixelzone-manifest.json',      // When in Articles/ folder (same as Walkthroughs/)
-  'pixelzone-manifest.json',         // When in root
-  '/pixelzone-manifest.json',        // Absolute path from domain root
+  '../pixelzone-manifest.json',
+  'pixelzone-manifest.json',
+  '/pixelzone-manifest.json',
 ];
 
-let MANIFEST_URL = '../pixelzone-manifest.json'; // default
+let MANIFEST_URL = '../pixelzone-manifest.json';
 let allArticles = [];
 let filtered = [];
 let currentFilter = 'ALL';
 let currentPage = 1;
 let currentLang = 'en';
 const PER_PAGE = 9;
+
+// Save language to localStorage so it persists
+function saveLanguagePreference(lang) {
+  localStorage.setItem('pixelzoneLang', lang);
+}
+
+function getSavedLanguage() {
+  return localStorage.getItem('pixelzoneLang') || 'en';
+}
 
 const i18n = {
   en: {
@@ -290,11 +299,14 @@ function renderPage() {
   const pageItems = filtered.slice(start, start + PER_PAGE);
   const searchQuery = document.getElementById('searchInput')?.value.trim() || '';
 
+  // ⭐ KEY CHANGE: Add ?lang= parameter to every article link!
+  const articleUrl = (filename) => `articles/${filename}?lang=${currentLang}`;
+
   grid.innerHTML = pageItems.map((a, idx) => {
     const isFeatured = idx === 0 && currentPage === 1 && currentFilter === 'ALL' && !searchQuery;
     if (isFeatured) {
       return `
-        <a href="articles/${a.file}" class="article-card featured-article" data-cat="${a.category}">
+        <a href="${articleUrl(a.file)}" class="article-card featured-article" data-cat="${a.category}">
           <div>
             <span class="featured-label">${t('featuredLabel')}</span><br>
             <span class="article-badge badge-${a.category}">${a.category}</span>
@@ -311,7 +323,7 @@ function renderPage() {
         </a>`;
     }
     return `
-      <a href="articles/${a.file}" class="article-card" data-cat="${a.category}">
+      <a href="${articleUrl(a.file)}" class="article-card" data-cat="${a.category}">
         <span class="article-badge badge-${a.category}">${a.category}</span>
         <h3 class="article-title">${escapeHtml(a.title)}</h3>
         <p class="article-excerpt">${escapeHtml(a.excerpt || '')}</p>
@@ -364,6 +376,7 @@ function onSearch() {
 
 function setLang(lang) {
   currentLang = lang;
+  saveLanguagePreference(lang);
   document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
@@ -396,7 +409,6 @@ function setLang(lang) {
   }
 }
 
-// Try multiple paths to find manifest
 function loadManifest() {
   const tryLoad = (path) => {
     return fetch(path)
@@ -404,7 +416,6 @@ function loadManifest() {
       .catch(() => Promise.reject());
   };
 
-  // Try paths in order
   let promise = Promise.reject();
   for (const path of MANIFEST_PATHS) {
     promise = promise.catch(() => tryLoad(path).then(data => {
@@ -438,9 +449,10 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', () => setLang(btn.dataset.lang));
 });
 
-// Initialize
+// Initialize with saved language preference
+const savedLang = getSavedLanguage();
 buildFilterButtons();
-setLang('en');
+setLang(savedLang);
 loadManifest();
 </script>
 </body>
