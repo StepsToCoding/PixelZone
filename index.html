@@ -750,6 +750,11 @@
   let cachedArticles = [];
   let cachedWalkthroughs = [];
 
+  // Get saved language from localStorage
+  function getSavedLanguage() {
+    return localStorage.getItem('pixelzoneLang') || 'en';
+  }
+
   // Helper to update static UI elements based on language
   function updateStaticUI(lang) {
     const t = translations[lang];
@@ -778,6 +783,35 @@
     return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
+  // Get display title and excerpt based on language (bilingual support)
+  function getDisplayTitle(article, lang) {
+    if (lang === 'ar' && article.title_ar) {
+      return article.title_ar;
+    }
+    return article.title_en || article.title || 'Untitled';
+  }
+
+  function getDisplayExcerpt(article, lang) {
+    if (lang === 'ar' && article.excerpt_ar) {
+      return article.excerpt_ar;
+    }
+    return article.excerpt_en || article.excerpt || '';
+  }
+
+  // Get correct article file based on language
+  function getArticleFile(article, lang) {
+    // If bilingual with separate files
+    if (article.is_bilingual) {
+      if (lang === 'ar' && article.file_ar) {
+        return article.file_ar;
+      } else if (lang === 'en' && article.file_en) {
+        return article.file_en;
+      }
+    }
+    // Fallback to default file
+    return article.file;
+  }
+
   // Render articles using latest 3 (sorted by date desc)
   function renderArticles(lang) {
     const grid = document.getElementById('homeArticlesGrid');
@@ -786,9 +820,10 @@
       grid.innerHTML = `<div class="state-box"><div class="icon">📭</div><p>${t.noArticlesMsg}</p></div>`;
       return;
     }
+    
     // SORT by date descending and take first 3 -> exactly latest 3 articles
     const latestArticles = [...cachedArticles]
-      .filter(a => a.date) // ensure date exists
+      .filter(a => a.date)
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 3);
 
@@ -798,12 +833,17 @@
     }
 
     grid.innerHTML = latestArticles.map(art => {
+      const displayTitle = getDisplayTitle(art, lang);
+      const displayExcerpt = getDisplayExcerpt(art, lang);
+      const articleFile = getArticleFile(art, lang);
       const readMoreText = t.readMore;
+      const category = art.category || 'GUIDE';
+      
       return `
-        <a href="Articles/articles/${art.file}" class="article-card" data-cat="${art.category}">
-          <span class="article-badge badge-${art.category}">${art.category}</span>
-          <h3 class="article-title">${art.title}</h3>
-          <p class="article-excerpt">${art.excerpt}</p>
+        <a href="Articles/articles/${articleFile}?lang=${lang}" class="article-card" data-cat="${category}">
+          <span class="article-badge badge-${category}">${category}</span>
+          <h3 class="article-title">${escapeHtml(displayTitle)}</h3>
+          <p class="article-excerpt">${escapeHtml(displayExcerpt)}</p>
           <div class="article-meta-row">
             <span>${formatDate(art.date, lang)}</span>
             <span class="read-more">${readMoreText}</span>
@@ -834,13 +874,23 @@
             ${w.duration && w.duration !== '—' ? `<span class="wt-duration">${w.duration}</span>` : ''}
           </div>
           <div class="wt-info">
-            <p class="wt-game">${w.game}</p>
-            <p class="wt-title">${w.title}</p>
+            <p class="wt-game">${escapeHtml(w.game)}</p>
+            <p class="wt-title">${escapeHtml(w.title)}</p>
             ${viewsText ? `<p class="wt-views">${viewsText}</p>` : ''}
           </div>
         </a>
       `;
     }).join('');
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
   }
 
   function refreshAllContent() {
@@ -865,6 +915,8 @@
         btn.classList.remove('active');
       }
     });
+    // Save language preference
+    localStorage.setItem('pixelzoneLang', currentLang);
   }
 
   function setLang(lang) {
@@ -881,9 +933,6 @@
       .then(data => {
         cachedArticles = data.articles || [];
         cachedWalkthroughs = data.walkthroughs || [];
-        // Ensure articles have date for sorting; filter invalid ones
-        cachedArticles = cachedArticles.filter(art => art.date && art.title);
-        // Sort walkthroughs by order if needed but keep as is then slice top3
         refreshAllContent();
       })
       .catch(err => {
@@ -901,11 +950,14 @@
     });
   });
 
+  // Initialize with saved language
+  const savedLang = getSavedLanguage();
+  currentLang = savedLang;
+  
   // initial load
   loadManifest();
   
-  // Explanation note (visible in console): How latest 3 articles work?
-  console.log("📌 Loading latest 3 articles: fetch manifest → filter articles with date → sort descending (newest first) → .slice(0,3) → render. Works automatically with any valid 'date' field (ISO format).");
+  console.log("📌 Homepage with bilingual article support active!");
 </script>
 </body>
 </html>
