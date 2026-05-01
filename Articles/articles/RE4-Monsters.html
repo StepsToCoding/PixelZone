@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Blog Post — PixelZone</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --neon-cyan:#00f5ff;
+    --neon-pink:#ff2d78;
+    --neon-green:#39ff14;
+    --bg-dark:#080b14;
+    --bg-card:#0d1220;
+    --bg-card2:#111827;
+    --text-main:#e8eaf6;
+    --text-muted:#7a8baa;
+    --border-glow:rgba(0,245,255,0.18);
+    /* Monster colors */
+    --zombie-color:#6b8c5c;
+    --licker-color:#c44b6c;
+    --tyrant-color:#2c3e4e;
+    --g-adult-color:#7a2e4a;
+    --birkin-color:#b85c1a;
+    --ivy-color:#4a7c59;
+  }
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
+  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
+  .logo span{color:var(--neon-pink)}
+  .back-btn{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;text-decoration:none;transition:color 0.2s}
+  .back-btn:hover{color:var(--neon-cyan)}
+  .back-arrow{font-size:1rem}
+
+  /* HERO BANNER */
+  .post-hero{position:relative;z-index:1;padding:4rem 2rem 3rem;max-width:860px;margin:0 auto}
+  .post-meta-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .post-type-badge{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;padding:4px 12px;border:1px solid}
+  .badge-review{color:var(--neon-pink);border-color:var(--neon-pink);background:rgba(255,45,120,0.08)}
+  .badge-guide{color:var(--neon-cyan);border-color:var(--neon-cyan);background:rgba(0,245,255,0.08)}
+  .badge-news{color:var(--neon-green);border-color:var(--neon-green);background:rgba(57,255,20,0.08)}
+  .badge-opinion{color:#b388ff;border-color:#b388ff;background:rgba(179,136,255,0.08)}
+  .post-date{font-size:0.8rem;color:var(--text-muted);letter-spacing:1px}
+  .post-author{font-size:0.8rem;color:var(--text-muted)}
+  .post-author span{color:var(--neon-cyan)}
+
+  .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem}
+
+  /* REVIEW SCORE BOX */
+  .review-score-box{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-pink);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+  .score-big{font-family:'Orbitron',monospace;font-size:3rem;font-weight:900;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.5);line-height:1}
+  .score-label{font-size:0.7rem;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--text-muted);margin-top:4px}
+  .score-stars{display:flex;gap:4px;margin:0.5rem 0}
+  .score-stars span{font-size:1.4rem;color:var(--neon-pink)}
+  .score-verdict{font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--text-main);font-weight:700}
+  .score-sub{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
+  .review-score-box.hidden{display:none}
+
+  /* TAGS */
+  .post-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
+  .post-tag{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:3px 10px;border:1px solid var(--border-glow);color:var(--text-muted)}
+
+  /* DIVIDER */
+  .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
+
+  /* ARTICLE BODY */
+  .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
+  .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
+  .post-body h3{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);margin:2rem 0 0.75rem;letter-spacing:1px}
+  .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
+  .post-body strong{color:var(--text-main)}
+  .post-body em{color:var(--neon-cyan);font-style:normal}
+  .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
+  .post-body li{margin-bottom:0.4rem;font-size:1.05rem;line-height:1.7}
+  .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
+  .post-body a{color:var(--neon-cyan);text-decoration:none;border-bottom:1px solid rgba(0,245,255,0.3)}
+  .post-body a:hover{border-color:var(--neon-cyan)}
+  .post-body img{width:100%;border:1px solid var(--border-glow);margin:1.5rem 0}
+  .post-body hr{border:none;border-top:1px solid var(--border-glow);margin:2rem 0}
+
+  /* Monster name styles - matching game aesthetics */
+  .monster-zombie{color:var(--zombie-color);text-shadow:0 0 3px rgba(107,140,92,0.5);font-weight:bold}
+  .monster-licker{color:var(--licker-color);text-shadow:0 0 3px rgba(196,75,108,0.5);font-weight:bold}
+  .monster-tyrant{color:var(--tyrant-color);text-shadow:0 0 4px rgba(44,62,78,0.7);font-weight:bold;letter-spacing:0.5px}
+  .monster-gadult{color:var(--g-adult-color);text-shadow:0 0 3px rgba(122,46,74,0.6);font-weight:bold}
+  .monster-birkin{color:var(--birkin-color);text-shadow:0 0 4px rgba(184,92,26,0.6);font-weight:bold}
+  .monster-ivy{color:var(--ivy-color);text-shadow:0 0 3px rgba(74,124,89,0.5);font-weight:bold}
+
+  /* ===== RE4 REMAKE VILLAIN TITLE STYLES ===== */
+  
+  /* Bitores Mendez: Suffering Custodian — wood, village, broken authority */
+  .monster-mendez-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #8b5a2b 0%, #3e2a1f 50%, #5c3a1a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 8px rgba(139, 90, 43, 0.6);
+    letter-spacing: 4px;
+    position: relative;
+    display: inline-block;
+    border-left: 6px solid #8b5a2b;
+    padding-left: 18px;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .monster-mendez-title::before {
+    content: "🪵 ";
+    font-size: 1.2rem;
+    filter: drop-shadow(0 0 4px #8b5a2b);
+  }
+  .monster-mendez-title::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: repeating-linear-gradient(90deg, #8b5a2b, #8b5a2b 10px, #3e2a1f 10px, #3e2a1f 20px);
+  }
+
+  /* Ramon Salazar: Petulant God — gold, nobility, decay */
+  .monster-ramon-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: linear-gradient(145deg, #d4af37, #8b7300, #4a3a00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+    letter-spacing: 5px;
+    display: inline-block;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 5px;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    position: relative;
+  }
+  .monster-ramon-title::before {
+    content: "👑 ";
+    font-size: 1.3rem;
+    text-shadow: 0 0 6px gold;
+  }
+  .monster-ramon-title::after {
+    content: "CASTLE";
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    color: #d4af37;
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  /* Jack Krauser: Mirror of Regret — military, scarred, tactical */
+  .monster-krauser-title {
+    font-family: 'Rajdhani', monospace;
+    font-size: 1.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6c7a4d;
+    text-shadow: 2px 2px 0px #1a2a0a, 0 0 8px #39ff14;
+    letter-spacing: 4px;
+    background: linear-gradient(120deg, #8f9e6b, #3a4a2a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    border-left: 4px solid #39ff14;
+    padding-left: 14px;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .monster-krauser-title::before {
+    content: "🔪 ";
+    font-size: 1.3rem;
+    color: #39ff14;
+    text-shadow: 0 0 6px #39ff14;
+  }
+
+  /* Osmund Saddler: Corporate Cultist — religious, corporate, plague */
+  .monster-saddler-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #5a4a3a;
+    text-shadow: 0 0 10px rgba(90, 74, 58, 0.8);
+    letter-spacing: 6px;
+    background: linear-gradient(135deg, #8a7a6a, #3a2a1a, #1a0a00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    position: relative;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    border-right: 3px solid #ff2d78;
+    padding-right: 12px;
+  }
+  .monster-saddler-title::before {
+    content: "⛪ ";
+    font-size: 1.4rem;
+    color: #ff2d78;
+    text-shadow: 0 0 6px #ff2d78;
+  }
+  .monster-saddler-title::after {
+    content: "LOS ILLUMINADOS";
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    color: var(--neon-pink);
+    font-weight: 400;
+  }
+
+  /* The Verdugo: Pure Predator — alien, insectoid, silent nightmare */
+  .monster-verdugo-title {
+    font-family: 'Rajdhani', monospace;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #4a6a7a;
+    text-shadow: 0 0 12px #00f5ff, 0 0 4px #0a3a4a;
+    letter-spacing: 6px;
+    background: linear-gradient(135deg, #6a9aaa, #1a3a4a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    position: relative;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 2px solid var(--neon-cyan);
+    padding-bottom: 6px;
+  }
+  .monster-verdugo-title::before {
+    content: "🕷️ ";
+    font-size: 1.3rem;
+    filter: drop-shadow(0 0 6px cyan);
+  }
+  .monster-verdugo-title::after {
+    content: "THE RIGHT HAND";
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    color: var(--neon-cyan);
+    font-weight: 400;
+    opacity: 0.8;
+  }
+
+  /* PRO/CON BOX */
+  .pro-con-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
+  .pro-box,.con-box{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.2rem 1.5rem}
+  .pro-box{border-top:2px solid var(--neon-green)}
+  .con-box{border-top:2px solid var(--neon-pink)}
+  .pro-box h4,.con-box h4{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;margin-bottom:0.75rem}
+  .pro-box h4{color:var(--neon-green)}
+  .con-box h4{color:var(--neon-pink)}
+  .pro-box ul,.con-box ul{list-style:none;padding:0}
+  .pro-box li,.con-box li{font-size:0.9rem;color:var(--text-muted);padding:3px 0;display:flex;gap:8px;align-items:flex-start}
+  .pro-box li::before{content:'✓';color:var(--neon-green);flex-shrink:0}
+  .con-box li::before{content:'✗';color:var(--neon-pink);flex-shrink:0}
+
+  /* FOOTER */
+  footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
+  .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  <a href="../index.html" class="back-btn"><span class="back-arrow">←</span> BACK TO HOME</a>
+</nav>
+
+<div class="post-hero">
+  <div class="post-meta-top">
+    <span class="post-type-badge badge-review" id="postType">ARTICLE</span>
+  </div>
+
+  <h1 class="post-title" id="postTitle">Resident Evil 4 Remake — Villains Deep Dive</h1>
+
+  <div class="glow-divider"></div>
+</div>
+
+<div class="post-body">
+
+  <p><strong>⚠️ ALERT! ⚠️</strong> This article contains major spoilers about the story of <em>Resident Evil 4 Remake</em>.</p>
+  <p><strong>My advice:</strong> Do not read this until you've finished the game. You've been warned.</p>
+
+  <!-- Mendez -->
+  <h2><span class="monster-mendez-title">Bitores Mendez: The Suffering Custodian</span></h2>
+  <p>Often dismissed as a mere "big guy" boss in the original, Mendez is transformed in the remake into a figure of tragic, horrifying authority. He isn’t just a brute; he’s the village’s castellan, a father figure twisted by Las Plagas into a warden of flesh and ritual. His body, grotesquely elongated and hinged like a nightmare insect, reflects his dual role—still clinging to a semblance of human posture while being fundamentally broken to serve Saddler’s hive. The remake emphasizes his silent, weary observation of Leon, making each encounter feel less like a random monster attack and more like a grim executioner reluctantly doing his duty. His death isn't triumphant; when his lower half detaches and he continues crawling forward, it’s a pathetic, desperate end for a man whose faith was exploited into a biological prison. He’s the reminder that Saddler’s greatest weapon isn't the Plaga—it's the illusion of community.</p>
+  <blockquote>💡 My Advice: Mendez is vulnerable to fire. Use the burning barrels and the hanging lanterns in the barn to stagger him. When he goes into "quadruped mode" after losing his lower half, keep moving in wide circles — he charges in straight lines. A fully upgraded Red9 or riot gun to the exposed Plaga core ends him fast.</blockquote>
+  
+  <!-- Ramon -->
+  <h2><span class="monster-ramon-title">Ramon Salazar: The Petulant God of the Castle</span></h2>
+  <p>If Mendez is the broken father, Salazar is the spoiled, petulant god of a crumbling altar. The remake wisely strips away the cartoonish shrillness of the original and replaces it with a chilling, aristocratic narcissism. This isn’t a child playing at villainy; it’s a hundred-year-old parasite in a young man’s body who has internalized his family’s guilt and twisted it into worship of the Plaga. His castle isn't just a lair—it's his giant, ornate dollhouse, and Leon is the invasive insect breaking his toys. The highlight of his character is the sheer theatrical cruelty he exudes, from stalking Leon via clockwork knights to revealing that the very statues surrounding you are weapons. When he merges with his right-hand Plaga, it feels less like a monster transformation and more like him finally shedding the "weak" human shell to reveal the true, monstrous ego within. He doesn't want to kill you; he wants you to appreciate his genius before you die.</p>
+  <blockquote>💡 My Advice: Before the fight, shoot all three hanging duct covers in the boss arena — they drop golden eggs. Throwing a golden egg at Salazar deals massive damage (almost 70% of his health). Use the pillars to block his poison breath, and target the glowing weak spots on his tentacles first.</blockquote>
+  
+  <!-- Krauser -->
+  <h2><span class="monster-krauser-title">Jack Krauser: The Mirror of Regret</span></h2>
+  <p>Krauser is no longer a generic rival soldier; in the remake, he’s Leon’s dark doppelgänger, a haunted mirror held up to everything Leon refuses to become. Their history is visceral here—flashbacks of Operation Javier show not just camaraderie, but shared trauma. Krauser’s mutation isn't a power-up; it’s a self-inflicted desecration, a desperate attempt to replace the humanity he lost in that jungle with the cold efficiency of a weapon. The knife fight on the cliffside isn't just a gameplay set-piece; it’s a conversation. Every slash is Krauser arguing that survival requires abandoning honor, while Leon’s parries prove that tactics and will can beat raw, mutated strength. His death is melancholic, not triumphant. When he finally acknowledges Leon’s skill, it’s the only honest moment he’s had in years—a soldier finally admitting he took the wrong exit from hell.</p>
+  <blockquote>💡 My Advice: Krauser is weak to the knife — more than any gun. Parry his attacks, then slash away. During his mutated form, aim for the eyes on his giant arm. Flash grenades stun him for a long time, giving you free knife hits to the head.</blockquote>
+  
+  <!-- Saddler -->
+  <h2><span class="monster-saddler-title">Osmund Saddler: The Corporate Cultist</span></h2>
+  <p>Gone is the mustache-twirling, "I-would-have-gotten-away-with-it-too" Saddler. The remake Saddler is far more terrifying because he genuinely believes in his own rhetoric. He’s less a mad sorcerer and more a tech-bro cult leader fused with a televangelist—complete with calm, measured diction and a disturbing habit of framing global extinction as "salvation." The Plaga isn't just a weapon; it's a philosophy, a "fair" system that eradicates class, weakness, and free will. His true horror emerges when you realize he has already won: Ashley is under his control, the island is a self-sustaining factory of conversion, and even Leon’s bravado is merely a delay. The boss fight, a chaotic, multi-stage transformation, isn't a sign of his power—it’s his mask finally slipping to reveal the ravenous, desperate animal underneath. When Leon kills him, he isn’t killing a monster; he’s killing a bad idea, and those are always harder to put down.</p>
+  <blockquote>💡 My Advice: Destroy the glowing Plaga orbs on his body in the first phase — they’re his weak points. In the second phase (giant spider form), use the RPG if you have one for an instant kill. If not, aim for the large yellow eye on his torso. Stay mid-range to avoid his instant-kill grab.</blockquote>
+  
+  <!-- Verdugo -->
+  <h2><span class="monster-verdugo-title">The Verdugo (The Right Hand): Pure Predator</span></h2>
+  <p>You can’t write about RE4R villains without mentioning the Verdugo, because it proves Capcom understands horror pacing. Saddler’s "Right Hand" isn't a character; it’s an event. Unlike the other villains, it has no dialogue, no motivation beyond the kill, and that makes it the purest nightmare in the game. The sequence in the sub-zero waste disposal chamber is masterful—a ticking clock, a hunter that can one-shot you, and the desperate realization that your bullets are only making it angry. The Remake cranks this up by making the Verdugo faster, smarter, and capable of crawling through vents, turning a linear escape into a terrifying game of cat-and-mouse. Defeating it via the liquid nitrogen valves feels less like a "boss fight" and more like a desperate industrial accident you barely survive. It is the id of Resident Evil: a reminder that sometimes, a villain doesn't need a tragic backstory or a monologue—just claws, carapace, and an unshakable will to turn you into slurry.</p>
+  <blockquote>💡 My Advice: You don't have to kill it — just survive for 4 minutes until the elevator arrives. But if you want it dead: freeze it with the liquid nitrogen valves (only 4 uses), then unload a fully upgraded magnum or shotgun into its head. Rinse and repeat. Never stop moving.</blockquote>
+</div>
+
+<footer>
+  <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
+  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+</footer>
+
+</body>
+</html>
