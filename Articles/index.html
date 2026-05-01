@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Articles — PixelZone</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
@@ -19,7 +19,8 @@
     --text-muted:#7a8baa;
     --border-glow:rgba(0,245,255,0.18);
   }
-  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden}
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;min-height:100vh;overflow-x:hidden}
+  body.lang-ar{font-family:'Cairo','Rajdhani',sans-serif}
   .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
   .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
@@ -30,7 +31,7 @@
   .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s}
   .nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
   .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
-  .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+  .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani','Cairo',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
   .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
   .page-header{position:relative;z-index:1;padding:3.5rem 2rem 2.5rem;max-width:1100px;margin:0 auto}
@@ -49,13 +50,13 @@
   .filter-btn[data-cat="NEWS"].active{background:var(--neon-green);border-color:var(--neon-green);color:#080b14}
   .filter-btn[data-cat="WALKTHROUGH"].active{background:var(--neon-purple);border-color:var(--neon-purple);color:#080b14}
   .search-wrap{margin-left:auto;position:relative}
-  .search-input{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.9rem;padding:7px 14px 7px 36px;width:220px;outline:none}
+  .search-input{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;font-size:0.9rem;padding:7px 14px 7px 36px;width:220px;outline:none}
   .search-input:focus{border-color:rgba(0,245,255,0.5)}
   .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.85rem}
 
   .sort-bar{position:relative;z-index:1;padding:0 2rem 1.5rem;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1rem}
   .sort-label{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px;color:var(--text-muted)}
-  .sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.85rem;padding:6px 12px;cursor:pointer}
+  .sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;font-size:0.85rem;padding:6px 12px;cursor:pointer}
   .results-count{margin-left:auto;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px;color:var(--text-muted)}
 
   .articles-section{position:relative;z-index:1;padding:0 2rem 3rem;max-width:1100px;margin:0 auto}
@@ -77,11 +78,6 @@
   .article-card.featured-article .article-title{font-size:1.15rem}
   .featured-label{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--neon-cyan);background:rgba(0,245,255,0.08);padding:4px 12px;display:inline-block;margin-bottom:0.75rem}
   .featured-date-big{font-family:'Orbitron',monospace;font-size:0.7rem;color:var(--text-muted)}
-
-  .skeleton{background:linear-gradient(90deg,var(--bg-card) 25%,#161e30 50%,var(--bg-card) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
-  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-  .skel-card{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.5rem}
-  .skel-line{height:12px;margin-bottom:12px;border-radius:2px}
 
   .state-box{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted)}
   .state-box .icon{font-size:3rem;opacity:0.3;margin-bottom:1rem}
@@ -156,10 +152,9 @@
 
 <script>
 // ==============================================
-// ARTICLES PAGE WITH BILINGUAL SUPPORT
+// BILINGUAL ARTICLES PAGE
 // ==============================================
 
-// Try multiple possible manifest paths
 const MANIFEST_PATHS = [
   '../pixelzone-manifest.json',
   'pixelzone-manifest.json',
@@ -174,7 +169,6 @@ let currentPage = 1;
 let currentLang = 'en';
 const PER_PAGE = 9;
 
-// Save language to localStorage so it persists
 function saveLanguagePreference(lang) {
   localStorage.setItem('pixelzoneLang', lang);
 }
@@ -264,15 +258,20 @@ function applyFiltersAndSort() {
 
   filtered = allArticles.filter(a => {
     const matchCat = currentFilter === 'ALL' || a.category === currentFilter;
-    const matchQ = !q || a.title.toLowerCase().includes(q) || (a.excerpt || '').toLowerCase().includes(q);
+    // Search in both English and Arabic titles
+    const titleEn = (a.title_en || '').toLowerCase();
+    const titleAr = (a.title_ar || '').toLowerCase();
+    const excerptEn = (a.excerpt_en || '').toLowerCase();
+    const excerptAr = (a.excerpt_ar || '').toLowerCase();
+    const matchQ = !q || titleEn.includes(q) || titleAr.includes(q) || excerptEn.includes(q) || excerptAr.includes(q);
     return matchCat && matchQ;
   });
 
   filtered.sort((a, b) => {
     if (sort === 'newest') return new Date(b.date) - new Date(a.date);
     if (sort === 'oldest') return new Date(a.date) - new Date(b.date);
-    if (sort === 'az') return a.title.localeCompare(b.title);
-    if (sort === 'za') return b.title.localeCompare(a.title);
+    if (sort === 'az') return (a.title_en || '').localeCompare(b.title_en || '');
+    if (sort === 'za') return (b.title_en || '').localeCompare(a.title_en || '');
     return 0;
   });
 }
@@ -299,19 +298,32 @@ function renderPage() {
   const pageItems = filtered.slice(start, start + PER_PAGE);
   const searchQuery = document.getElementById('searchInput')?.value.trim() || '';
 
-  // ⭐ KEY CHANGE: Add ?lang= parameter to every article link!
-  const articleUrl = (filename) => `articles/${filename}?lang=${currentLang}`;
-
   grid.innerHTML = pageItems.map((a, idx) => {
+    // ⭐ KEY CHANGE: Use bilingual title and excerpt based on current language
+    const displayTitle = currentLang === 'ar' && a.title_ar ? a.title_ar : (a.title_en || 'Untitled');
+    const displayExcerpt = currentLang === 'ar' && a.excerpt_ar ? a.excerpt_ar : (a.excerpt_en || '');
+    
+    // Determine correct article file (supports separate files for each language)
+    let articleFile = a.file;
+    if (a.is_bilingual) {
+      if (currentLang === 'ar' && a.file_ar) {
+        articleFile = a.file_ar;
+      } else if (currentLang === 'en' && a.file_en) {
+        articleFile = a.file_en;
+      }
+    }
+    
+    const articleUrl = `articles/${articleFile}?lang=${currentLang}`;
     const isFeatured = idx === 0 && currentPage === 1 && currentFilter === 'ALL' && !searchQuery;
+    
     if (isFeatured) {
       return `
-        <a href="${articleUrl(a.file)}" class="article-card featured-article" data-cat="${a.category}">
+        <a href="${articleUrl}" class="article-card featured-article" data-cat="${a.category}">
           <div>
             <span class="featured-label">${t('featuredLabel')}</span><br>
             <span class="article-badge badge-${a.category}">${a.category}</span>
-            <h2 class="article-title">${escapeHtml(a.title)}</h2>
-            <p class="article-excerpt">${escapeHtml(a.excerpt || '')}</p>
+            <h2 class="article-title">${escapeHtml(displayTitle)}</h2>
+            <p class="article-excerpt">${escapeHtml(displayExcerpt)}</p>
             <div class="article-meta-row">
               <span>${fmtDate(a.date)}</span>
               <span class="read-more">${t('readMore')}</span>
@@ -323,10 +335,10 @@ function renderPage() {
         </a>`;
     }
     return `
-      <a href="${articleUrl(a.file)}" class="article-card" data-cat="${a.category}">
+      <a href="${articleUrl}" class="article-card" data-cat="${a.category}">
         <span class="article-badge badge-${a.category}">${a.category}</span>
-        <h3 class="article-title">${escapeHtml(a.title)}</h3>
-        <p class="article-excerpt">${escapeHtml(a.excerpt || '')}</p>
+        <h3 class="article-title">${escapeHtml(displayTitle)}</h3>
+        <p class="article-excerpt">${escapeHtml(displayExcerpt)}</p>
         <div class="article-meta-row">
           <span>${fmtDate(a.date)}</span>
           <span class="read-more">${t('readMore')}</span>
@@ -378,11 +390,15 @@ function setLang(lang) {
   currentLang = lang;
   saveLanguagePreference(lang);
   document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  if (lang === 'ar') {
+    document.body.classList.add('lang-ar');
+  } else {
+    document.body.classList.remove('lang-ar');
+  }
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
 
-  // Update static text
   document.getElementById('eyebrow').textContent = t('eyebrow');
   document.getElementById('titleMain').textContent = t('titleMain');
   document.getElementById('pageSub').textContent = t('pageSub');
@@ -396,10 +412,8 @@ function setLang(lang) {
   if (opts[2]) opts[2].textContent = t('sortAZ');
   if (opts[3]) opts[3].textContent = t('sortZA');
 
-  // Rebuild filter buttons with new language
   buildFilterButtons();
   
-  // Update title highlight based on current filter
   const hl = document.getElementById('titleHighlight');
   if (hl) hl.textContent = currentFilter === 'ALL' ? t('titleHighlight') : (t(`filter${currentFilter}`) || currentFilter);
   
@@ -436,20 +450,17 @@ function loadManifest() {
           <div class="icon">⚠️</div>
           <p>${t('errorTitle')}</p>
           <p class="sub">${t('errorSub')}</p>
-          <p class="sub" style="margin-top:1rem;font-size:0.55rem">Tried: ${MANIFEST_PATHS.join(', ')}</p>
         </div>`;
       document.getElementById('articleCount').textContent = '0 ARTICLES';
     });
 }
 
-// Event listeners
 document.getElementById('searchInput')?.addEventListener('input', onSearch);
 document.getElementById('sortSelect')?.addEventListener('change', renderPage);
 document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', () => setLang(btn.dataset.lang));
 });
 
-// Initialize with saved language preference
 const savedLang = getSavedLanguage();
 buildFilterButtons();
 setLang(savedLang);

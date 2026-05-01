@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="pageTitle">Blog Post — PixelZone</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Resident Evil 2 Remake Review — PixelZone | بيكسل زون</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
@@ -18,19 +18,21 @@
     --text-muted:#7a8baa;
     --border-glow:rgba(0,245,255,0.18);
   }
-  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  body.lang-ar{font-family:'Cairo','Rajdhani',sans-serif}
   .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
   .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
-  /* NAV */
   nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
   .logo span{color:var(--neon-pink)}
-  .back-btn{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;text-decoration:none;transition:color 0.2s}
-  .back-btn:hover{color:var(--neon-cyan)}
-  .back-arrow{font-size:1rem}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
+  .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
+  .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani','Cairo',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+  .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
-  /* HERO BANNER */
   .post-hero{position:relative;z-index:1;padding:4rem 2rem 3rem;max-width:860px;margin:0 auto}
   .post-meta-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
   .post-type-badge{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;padding:4px 12px;border:1px solid}
@@ -43,8 +45,8 @@
   .post-author span{color:var(--neon-cyan)}
 
   .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem}
+  .post-title-ar{font-family:'Cairo','Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.4;color:var(--text-main);margin-bottom:1.5rem}
 
-  /* REVIEW SCORE BOX */
   .review-score-box{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-pink);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
   .score-big{font-family:'Orbitron',monospace;font-size:3rem;font-weight:900;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.5);line-height:1}
   .score-label{font-size:0.7rem;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--text-muted);margin-top:4px}
@@ -54,29 +56,22 @@
   .score-sub{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
   .review-score-box.hidden{display:none}
 
-  /* TAGS */
   .post-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
   .post-tag{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:3px 10px;border:1px solid var(--border-glow);color:var(--text-muted)}
 
-  /* DIVIDER */
   .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
+  [dir="rtl"] .glow-divider{background:linear-gradient(270deg,var(--neon-cyan),transparent)}
 
-  /* ARTICLE BODY */
   .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
   .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
-  .post-body h3{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);margin:2rem 0 0.75rem;letter-spacing:1px}
   .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
   .post-body strong{color:var(--text-main)}
   .post-body em{color:var(--neon-cyan);font-style:normal}
   .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
   .post-body li{margin-bottom:0.4rem;font-size:1.05rem;line-height:1.7}
   .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
-  .post-body a{color:var(--neon-cyan);text-decoration:none;border-bottom:1px solid rgba(0,245,255,0.3)}
-  .post-body a:hover{border-color:var(--neon-cyan)}
-  .post-body img{width:100%;border:1px solid var(--border-glow);margin:1.5rem 0}
-  .post-body hr{border:none;border-top:1px solid var(--border-glow);margin:2rem 0}
+  [dir="rtl"] .post-body blockquote{border-left:none;border-right:3px solid var(--neon-pink)}
 
-  /* PRO/CON BOX */
   .pro-con-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
   .pro-box,.con-box{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.2rem 1.5rem}
   .pro-box{border-top:2px solid var(--neon-green)}
@@ -89,7 +84,6 @@
   .pro-box li::before{content:'✓';color:var(--neon-green);flex-shrink:0}
   .con-box li::before{content:'✗';color:var(--neon-pink);flex-shrink:0}
 
-  /* FOOTER */
   footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
   .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
 </style>
@@ -99,58 +93,66 @@
 <div class="grid-bg"></div>
 
 <nav>
-  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
-  <a href="../index.html" class="back-btn"><span class="back-arrow">←</span> BACK TO HOME</a>
+  <a href="../../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  <ul class="nav-links">
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../../Games/index.html">Games</a></li>
+    <li><a href="../index.html" class="active">Articles</a></li>
+    <li><a href="../../Walkthroughs/index.html">Walkthroughs</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+  </div>
 </nav>
 
 <div class="post-hero">
   <div class="post-meta-top">
-    <!-- CHANGE: badge class to badge-review / badge-guide / badge-news / badge-opinion -->
-    <span class="post-type-badge badge-review" id="postType">REVIEW</span>
-    <span class="post-date" id="postDate">April 29, 2026</span>
-    <span class="post-author">by <span>PixelZone</span></span>
+    <span class="post-type-badge badge-review" id="postTypeEn">REVIEW</span>
+    <span class="post-type-badge badge-review" id="postTypeAr" style="display:none">مراجعة</span>
+    <span class="post-date" id="postDateEn">April 29, 2026</span>
+    <span class="post-date" id="postDateAr" style="display:none">٢٩ أبريل ٢٠٢٦</span>
+    <span class="post-author" id="postAuthorEn">by <span>PixelZone</span></span>
+    <span class="post-author" id="postAuthorAr" style="display:none">بقلم <span>بيكسل زون</span></span>
   </div>
 
-  <!-- CHANGE: Your post title here -->
-  <h1 class="post-title" id="postTitle">Resident Evil 2 Remastered REVIEW </h1>
+  <h1 class="post-title" id="postTitleEn">Resident Evil 2 Remake REVIEW</h1>
+  <h1 class="post-title-ar" id="postTitleAr" style="display:none">مراجعة ريزدنت إيفل 2 ريميك</h1>
 
-  <!-- REVIEW SCORE BOX — delete this whole block if it's not a review -->
   <div class="review-score-box" id="scoreBox">
     <div>
       <div class="score-big" id="scoreNum">9.5</div>
-      <div class="score-label">OVERALL SCORE</div>
+      <div class="score-label" id="scoreLabelEn">OVERALL SCORE</div>
+      <div class="score-label" id="scoreLabelAr" style="display:none">النتيجة النهائية</div>
     </div>
     <div>
       <div class="score-stars" id="scoreStars">★★★★★</div>
-      <div class="score-verdict" id="scoreVerdict">OUTSTANDING</div>
-      <div class="score-sub" id="scoreSub">A must-play for any fan of Resident evil OR Puzzle / zombie games</div>
+      <div class="score-verdict" id="scoreVerdictEn">OUTSTANDING</div>
+      <div class="score-verdict" id="scoreVerdictAr" style="display:none">ممتاز</div>
+      <div class="score-sub" id="scoreSubEn">A must-play for any fan of Resident Evil OR Puzzle / zombie games</div>
+      <div class="score-sub" id="scoreSubAr" style="display:none">لعبة لا تُفوت لعشاق ريزدنت إيفل أو ألعاب الألغاز / الزومبي</div>
     </div>
   </div>
 
-  <!-- CHANGE: Add your tags -->
   <div class="post-tags">
-    <span class="post-tag" id="tag1">ACTION</span>
-    <span class="post-tag" id="tag2">STORY</span>
-	<span class="post-tag" id="tag3">PUZZLE</span>
-	<span class="post-tag" id="tag3">RESIDENT EVIL</span>
-    <span class="post-tag" id="tag3">PC</span>
-	<span class="post-tag" id="tag3">PS4</span>
-	<span class="post-tag" id="tag3">PS5</span>
-	
+    <span class="post-tag">ACTION</span>
+    <span class="post-tag">STORY</span>
+    <span class="post-tag">PUZZLE</span>
+    <span class="post-tag">RESIDENT EVIL</span>
+    <span class="post-tag">PC</span>
+    <span class="post-tag">PS4</span>
+    <span class="post-tag">PS5</span>
   </div>
 
   <div class="glow-divider"></div>
 </div>
 
-<!-- ============================================
-     WRITE YOUR POST CONTENT BELOW THIS LINE
-     ============================================ -->
-<div class="post-body">
-
-  <p>Resident evil 2 remastered <strong>IS ONE OF THE BEST IF NOT THE BEST </strong> RE games.</p>
+<!-- ENGLISH CONTENT -->
+<div class="post-body" id="contentEn">
+  <p>Resident evil 2 remastered <strong>IS ONE OF THE BEST IF NOT THE BEST</strong> RE games.</p>
 
   <h2>GAMEPLAY</h2>
-  <p>The game play of re2 is Typical to the other resident evil games with just some slight diffrences, you play as leon or claire and play as the second character in the 2nd run <strong>Note: This Article will be spoiler free so don't worry about it</strong> , The game <em>Just like the other resident evil games</em> Also has herbs and first aid spray. <em>For some stupid reason, the knife breaks tho </em></p>
+  <p>The game play of re2 is Typical to the other resident evil games with just some slight diffrences, you play as leon or claire and play as the second character in the 2nd run <strong>Note: This Article will be spoiler free so don't worry about it</strong> , The game <em>Just like the other resident evil games</em> Also has herbs and first aid spray. <em>For some stupid reason, the knife breaks tho</em></p>
 
   <blockquote>What makes it unique is the characters, and the story</blockquote>
 
@@ -162,7 +164,6 @@
     <li>There is a side character you will ABSOLUTELY love playing as for a little part</li>
   </ul>
 
-  <!-- PRO/CON BOX — Great for reviews, remove if not needed -->
   <div class="pro-con-box">
     <div class="pro-box">
       <h4>✦ PROS</h4>
@@ -170,7 +171,7 @@
         <li>AMAZING GRAPHICS</li>
         <li>Tight, responsive controls</li>
         <li>Great Story</li>
-		<li>Runs well on low end PCs </li>
+        <li>Runs well on low end PCs</li>
       </ul>
     </div>
     <div class="con-box">
@@ -183,17 +184,100 @@
   </div>
 
   <h2>Final Verdict</h2>
-  <p>YOU WILL <strong> ABSOLUTELY </strong>love resident evil 2 <em>especially</em> If you like puzzle games , shooter games Or resident evil games</p>
-
+  <p>YOU WILL <strong>ABSOLUTELY</strong> love resident evil 2 <em>especially</em> If you like puzzle games , shooter games Or resident evil games</p>
 </div>
-<!-- ============================================
-     END OF POST CONTENT
-     ============================================ -->
+
+<!-- ARABIC CONTENT -->
+<div class="post-body" id="contentAr" style="display:none">
+  <p>ريزدنت إيفل 2 ريميك <strong>هي واحدة من أفضل ألعاب RE إن لم تكن الأفضل</strong>.</p>
+
+  <h2>طريقة اللعب</h2>
+  <p>طريقة اللعب في RE2 نموذجية لألعاب ريزدنت إيفل الأخرى مع بعض الاختلافات البسيطة، أنت تلعب بدور ليون أو كلير وتلعب بالشخصية الثانية في الجولة الثانية <strong>ملاحظة: هذه المراجعة خالية من الحرق لذا لا تقلق</strong>. اللعبة <em>مثل ألعاب ريزدنت إيفل الأخرى</em> تحتوي أيضًا على الأعشاب وبخاخ الإسعافات الأولية. <em>لسبب غبي، السكين ينكسر مع ذلك</em></p>
+
+  <blockquote>ما يجعلها فريدة هو الشخصيات والقصة</blockquote>
+
+  <h2>القصة</h2>
+  <p>كما قلت <strong>هذا لن يحتوي على حرق للقصة</strong> لذا لا تقلق</p>
+  <ul>
+    <li>القصة رائعة سواء لعبت مع كلير أو ليون</li>
+    <li>هناك قصة إضافية تفتح بعد الانتهاء من كلتا اللعبتين</li>
+    <li>هناك شخصية جانبية ستحب اللعب بها absolutely لجزء صغير</li>
+  </ul>
+
+  <div class="pro-con-box">
+    <div class="pro-box">
+      <h4>✦ الإيجابيات</h4>
+      <ul>
+        <li>رسومات مذهلة</li>
+        <li>تحكم سلس وسريع الاستجابة</li>
+        <li>قصة رائعة</li>
+        <li>يعمل بشكل جيد على أجهزة الكمبيوتر منخفضة الإمكانيات</li>
+      </ul>
+    </div>
+    <div class="con-box">
+      <h4>✦ السلبيات</h4>
+      <ul>
+        <li>قد تكون صعبة بعض الشيء في بعض الأقسام</li>
+        <li>زعيم معين مزعج جدًا ستفهم السبب عندما تلعبه</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>الحكم النهائي</h2>
+  <p><strong>بالتأكيد</strong> ستحب ريزدنت إيفل 2 <em>خاصةً</em> إذا كنت تحب ألعاب الألغاز أو ألعاب الرماية أو ألعاب ريزدنت إيفل</p>
+</div>
 
 <footer>
   <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
-  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+  <p id="footerTextEn">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+  <p id="footerTextAr" style="display:none">© ٢٠٢٦ بيكسل زون — الألعاب للجميع، في كل مكان</p>
 </footer>
 
+<script>
+let currentLang = localStorage.getItem('pixelzoneLang') || 'en';
+const urlParams = new URLSearchParams(window.location.search);
+const urlLang = urlParams.get('lang');
+if (urlLang && (urlLang === 'en' || urlLang === 'ar')) {
+  currentLang = urlLang;
+  localStorage.setItem('pixelzoneLang', currentLang);
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('pixelzoneLang', lang);
+  document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  if (lang === 'ar') document.body.classList.add('lang-ar');
+  else document.body.classList.remove('lang-ar');
+  
+  document.getElementById('contentEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('contentAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('postTitleEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('postTitleAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('postTypeEn').style.display = lang === 'en' ? 'inline-block' : 'none';
+  document.getElementById('postTypeAr').style.display = lang === 'ar' ? 'inline-block' : 'none';
+  document.getElementById('postDateEn').style.display = lang === 'en' ? 'inline' : 'none';
+  document.getElementById('postDateAr').style.display = lang === 'ar' ? 'inline' : 'none';
+  document.getElementById('postAuthorEn').style.display = lang === 'en' ? 'inline' : 'none';
+  document.getElementById('postAuthorAr').style.display = lang === 'ar' ? 'inline' : 'none';
+  document.getElementById('scoreLabelEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('scoreLabelAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('scoreVerdictEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('scoreVerdictAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('scoreSubEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('scoreSubAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('footerTextEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('footerTextAr').style.display = lang === 'ar' ? 'block' : 'none';
+  
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+});
+
+setLanguage(currentLang);
+</script>
 </body>
 </html>

@@ -1,39 +1,54 @@
 {
   "articles": [
     {
-      "title": "Resident Evil 2 Remake: A Bestiary of Nightmares",
-      "date": "2026-05-01",
+      "title_en": "Resident Evil 3 Remake — Monsters & Villains Deep Dive",
+      "title_ar": "ريزدنت إيفل 3 ريميك — الغوص في أعماق الوحوش والأشرار",
+      "excerpt_en": "⚠️ ALERT! ⚠️ This article contains major spoilers about the story of Resident Evil 3 Remake.",
+      "excerpt_ar": "⚠️ تنبيه! ⚠️ يحتوي هذا المقال على حرق لأحداث قصة ريزدنت إيفل 3 ريميك.",
       "category": "GUIDE",
-      "excerpt": "Now let's talk about the MONSTERS of Raccoon City.",
-      "file": "RE2-Monsters.html"
+      "date": "2026-05-01",
+      "file": "RE3-Monsters.html",
+      "is_bilingual": true
     },
     {
-      "title": "Resident Evil 4 Remake — Villains Deep Dive",
-      "date": "2026-05-01",
+      "title_en": "Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery",
+      "title_ar": "كوابيس سبايدر مان: ترتيب قائمة أشرار إنسومنياك",
+      "excerpt_en": "Now let's talk about the VILLAINS of Insomniac's New York.",
+      "excerpt_ar": "لنتحدث الآن عن الأشرار في نيويورك من إنتاج إنسومنياك.",
       "category": "GUIDE",
-      "excerpt": "⚠️ ALERT! ⚠️ This article contains major spoilers about the story of Resident Evil 4 Remake.",
-      "file": "RE4-Monsters.html"
+      "date": "2026-05-01",
+      "file": "SM-Villains.html",
+      "is_bilingual": true
     },
     {
-      "title": "Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery",
-      "date": "2026-05-01",
+      "title_en": "Resident Evil 4 Remake — Villains Deep Dive",
+      "title_ar": "ريزدنت إيفل 4 ريميك — الغوص في أعماق الأشرار",
+      "excerpt_en": "⚠️ ALERT! ⚠️ This article contains major spoilers about the story of Resident Evil 4 Remake.",
+      "excerpt_ar": "⚠️ تنبيه! ⚠️ يحتوي هذا المقال على حرق لأحداث قصة ريزدنت إيفل 4 ريميك.",
       "category": "GUIDE",
-      "excerpt": "Now let's talk about the VILLAINS of Insomniac's New York.",
-      "file": "SM-Villains.html"
+      "date": "2026-05-01",
+      "file": "RE4-Monsters.html",
+      "is_bilingual": true
     },
     {
-      "title": "Resident Evil 3 Remake — Monsters & Villains Deep Dive",
-      "date": "2026-05-01",
+      "title_en": "Resident Evil 2 Remake: A Bestiary of Nightmares",
+      "title_ar": "ريزدنت إيفل 2 ريميك: موسوعة الكوابيس",
+      "excerpt_en": "Now let's talk about the MONSTERS of Raccoon City.",
+      "excerpt_ar": "لنتحدث الآن عن الوحوش في مدينة الراكون.",
       "category": "GUIDE",
-      "excerpt": "⚠️ ALERT! ⚠️ This article contains major spoilers about the story of Resident Evil 3 Remake.",
-      "file": "RE3-Monsters.html"
+      "date": "2026-05-01",
+      "file": "RE2-Monsters.html",
+      "is_bilingual": true
     },
     {
-      "title": "Resident Evil 2 Remastered REVIEW",
-      "date": "2026-04-29",
+      "title_en": "Resident Evil 2 Remake REVIEW",
+      "title_ar": "مراجعة ريزدنت إيفل 2 ريميك",
+      "excerpt_en": "Resident evil 2 remastered IS ONE OF THE BEST IF NOT THE BEST RE games.",
+      "excerpt_ar": "ريزدنت إيفل 2 ريميك هي واحدة من أفضل ألعاب RE إن لم تكن الأفضل.",
       "category": "REVIEW",
-      "excerpt": "Resident evil 2 remastered IS ONE OF THE BEST IF NOT THE BEST RE games.",
-      "file": "RE2-Remastered-Review.html"
+      "date": "2026-04-29",
+      "file": "RE2-Remastered-Review.html",
+      "is_bilingual": true
     }
   ],
   "walkthroughs": [

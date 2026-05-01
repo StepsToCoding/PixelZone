@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="pageTitle">Blog Post — PixelZone</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Resident Evil 2 Remake — A Bestiary of Nightmares | بيكسل زون</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
@@ -17,7 +17,6 @@
     --text-main:#e8eaf6;
     --text-muted:#7a8baa;
     --border-glow:rgba(0,245,255,0.18);
-    /* Monster colors */
     --zombie-color:#6b8c5c;
     --licker-color:#c44b6c;
     --tyrant-color:#2c3e4e;
@@ -25,19 +24,21 @@
     --birkin-color:#b85c1a;
     --ivy-color:#4a7c59;
   }
-  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  body.lang-ar{font-family:'Cairo','Rajdhani',sans-serif}
   .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
   .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
-  /* NAV */
   nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
   .logo span{color:var(--neon-pink)}
-  .back-btn{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;text-decoration:none;transition:color 0.2s}
-  .back-btn:hover{color:var(--neon-cyan)}
-  .back-arrow{font-size:1rem}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
+  .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
+  .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani','Cairo',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+  .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
-  /* HERO BANNER */
   .post-hero{position:relative;z-index:1;padding:4rem 2rem 3rem;max-width:860px;margin:0 auto}
   .post-meta-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
   .post-type-badge{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;padding:4px 12px;border:1px solid}
@@ -50,40 +51,19 @@
   .post-author span{color:var(--neon-cyan)}
 
   .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem}
-
-  /* REVIEW SCORE BOX */
-  .review-score-box{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-pink);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
-  .score-big{font-family:'Orbitron',monospace;font-size:3rem;font-weight:900;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.5);line-height:1}
-  .score-label{font-size:0.7rem;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--text-muted);margin-top:4px}
-  .score-stars{display:flex;gap:4px;margin:0.5rem 0}
-  .score-stars span{font-size:1.4rem;color:var(--neon-pink)}
-  .score-verdict{font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--text-main);font-weight:700}
-  .score-sub{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
-  .review-score-box.hidden{display:none}
-
-  /* TAGS */
-  .post-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
-  .post-tag{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:3px 10px;border:1px solid var(--border-glow);color:var(--text-muted)}
-
-  /* DIVIDER */
+  .post-title-ar{font-family:'Cairo','Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.4;color:var(--text-main);margin-bottom:1.5rem}
   .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
+  [dir="rtl"] .glow-divider{background:linear-gradient(270deg,var(--neon-cyan),transparent)}
 
-  /* ARTICLE BODY */
   .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
   .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
-  .post-body h3{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);margin:2rem 0 0.75rem;letter-spacing:1px}
   .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
   .post-body strong{color:var(--text-main)}
   .post-body em{color:var(--neon-cyan);font-style:normal}
   .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
-  .post-body li{margin-bottom:0.4rem;font-size:1.05rem;line-height:1.7}
   .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
-  .post-body a{color:var(--neon-cyan);text-decoration:none;border-bottom:1px solid rgba(0,245,255,0.3)}
-  .post-body a:hover{border-color:var(--neon-cyan)}
-  .post-body img{width:100%;border:1px solid var(--border-glow);margin:1.5rem 0}
-  .post-body hr{border:none;border-top:1px solid var(--border-glow);margin:2rem 0}
-
-  /* Monster name styles - matching game aesthetics */
+  [dir="rtl"] .post-body blockquote{border-left:none;border-right:3px solid var(--neon-pink)}
+  
   .monster-zombie{color:var(--zombie-color);text-shadow:0 0 3px rgba(107,140,92,0.5);font-weight:bold}
   .monster-licker{color:var(--licker-color);text-shadow:0 0 3px rgba(196,75,108,0.5);font-weight:bold}
   .monster-tyrant{color:var(--tyrant-color);text-shadow:0 0 4px rgba(44,62,78,0.7);font-weight:bold;letter-spacing:0.5px}
@@ -91,20 +71,6 @@
   .monster-birkin{color:var(--birkin-color);text-shadow:0 0 4px rgba(184,92,26,0.6);font-weight:bold}
   .monster-ivy{color:var(--ivy-color);text-shadow:0 0 3px rgba(74,124,89,0.5);font-weight:bold}
 
-  /* PRO/CON BOX */
-  .pro-con-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
-  .pro-box,.con-box{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.2rem 1.5rem}
-  .pro-box{border-top:2px solid var(--neon-green)}
-  .con-box{border-top:2px solid var(--neon-pink)}
-  .pro-box h4,.con-box h4{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;margin-bottom:0.75rem}
-  .pro-box h4{color:var(--neon-green)}
-  .con-box h4{color:var(--neon-pink)}
-  .pro-box ul,.con-box ul{list-style:none;padding:0}
-  .pro-box li,.con-box li{font-size:0.9rem;color:var(--text-muted);padding:3px 0;display:flex;gap:8px;align-items:flex-start}
-  .pro-box li::before{content:'✓';color:var(--neon-green);flex-shrink:0}
-  .con-box li::before{content:'✗';color:var(--neon-pink);flex-shrink:0}
-
-  /* FOOTER */
   footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
   .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
 </style>
@@ -114,22 +80,35 @@
 <div class="grid-bg"></div>
 
 <nav>
-  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
-  <a href="../index.html" class="back-btn"><span class="back-arrow">←</span> BACK TO HOME</a>
+  <a href="../../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  <ul class="nav-links">
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../../Games/index.html">Games</a></li>
+    <li><a href="../index.html" class="active">Articles</a></li>
+    <li><a href="../../Walkthroughs/index.html">Walkthroughs</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+  </div>
 </nav>
 
 <div class="post-hero">
   <div class="post-meta-top">
-    <span class="post-type-badge badge-review" id="postType">ARTICLE</span>
+    <span class="post-type-badge badge-review" id="postTypeEn">ARTICLE</span>
+    <span class="post-type-badge badge-review" id="postTypeAr" style="display:none">مقال</span>
+    <span class="post-date" id="postDateEn">May 1, 2026</span>
+    <span class="post-date" id="postDateAr" style="display:none">١ مايو ٢٠٢٦</span>
   </div>
 
-  <h1 class="post-title" id="postTitle">Resident Evil 2 Remake: A Bestiary of Nightmares</h1>
+  <h1 class="post-title" id="postTitleEn">Resident Evil 2 Remake: A Bestiary of Nightmares</h1>
+  <h1 class="post-title-ar" id="postTitleAr" style="display:none">ريزدنت إيفل 2 ريميك: موسوعة الكوابيس</h1>
 
   <div class="glow-divider"></div>
 </div>
 
-<div class="post-body">
-
+<!-- ENGLISH CONTENT (EXACTLY AS YOU WROTE IT) -->
+<div class="post-body" id="contentEn">
   <p>Now let's talk about the <strong>MONSTERS</strong> of Raccoon City.</p>
   <p><strong>⚠️ ALERT! ⚠️</strong> This article contains major spoilers about the story of <em>Resident Evil 2 Remake</em>.</p>
   <p><strong>My advice:</strong> Do not read this until you've finished the game. You've been warned.</p>
@@ -157,13 +136,82 @@
   <h2><span class="monster-ivy">The Ivy (Plant 43 Zombies)</span></h2>
   <p>Forget the <span class="monster-zombie">zombies</span>. Forget the <span class="monster-licker">Lickers</span>. The Plant 43 enemies—called <span class="monster-ivy">Ivies</span>—are the reason you'll hoard flamethrower fuel like it's gold. These things are former Umbrella researchers who got dosed with a mutated plant strain, and the result is pure botanical nightmare fuel. They don't shamble. They <em>stalk</em>. Their movements are jerky, insectoid, and completely silent except for the wet squelch of vine roots tearing through carpet. The remake's genius redesign made them almost unrecognizable as human—just vaguely humanoid shapes made of green-black vines, with a "head" that splits open like a Venus flytrap to reveal a screaming human jaw still fused inside. Mechanically, they break every rule the game taught you. Shooting them in the head? Useless. They don't have brains anymore. Body shots? They just stagger and keep coming. You need fire. Without it, they'll grab you and perform a "kiss" that injects instant-kill toxins down your throat. Worse, even after you "kill" them, their bodies lie on the floor like harmless piles of weeds… until you walk past, and they reassemble themselves three seconds later. The <span class="monster-ivy">Ivies</span> teach you one brutal lesson: in the NEST lab, the green stuff wants you dead just as badly as the flesh-eating stuff does.</p>
   <blockquote><strong>My Advice:</strong> Burn them with fire. The flamethrower is the hard counter. One quick burst makes them flail and die permanently. Without fire, you're just delaying the inevitable.</blockquote>
+</div>
 
+<!-- ARABIC CONTENT -->
+<div class="post-body" id="contentAr" style="display:none">
+  <p>لنتحدث الآن عن <strong>الوحوش</strong> في مدينة الراكون.</p>
+  <p><strong>⚠️ تنبيه! ⚠️</strong> يحتوي هذا المقال على حرق لأحداث قصة <em>ريزدنت إيفل 2 ريميك</em>.</p>
+  <p><strong>نصيحتي:</strong> لا تقرأ هذا حتى تنهي اللعبة. لقد حذَّرتك.</p>
+
+  <h2><span class="monster-zombie">الزومبي</span></h2>
+  <p>أولاً، الخبز والزبدة: <span class="monster-zombie">الزومبي</span>. في النسخة الأصلية، كانوا بطيئين لكن أيقونيين. في هذا الريميك، هم كوابيس حقيقية من حيث الفيزياء والضغط. هؤلاء ليسوا مجرد جثث تمشي؛ إنهم نواقل يائسة ومتشنجة للعدوى. الريميك يتقن متانتهم بشكل مثالي—يمكنك أن تصيب رأس أحدهم وتشاهده ينهار، أو يمكنك وضع ست رصاصات في صدره وتشاهده يواصل الزحف نحوك. العبقرية الحقيقية هنا هي محاكاة "الموت الحي". أحيانًا يتظاهرون بالموت على الأرض، فقط ليمسكوا بكاحلك عندما تمر بجانبهم. في أحيان أخرى، يزحفون بسرعة؛ وأحيانًا أخرى، ببطء مؤلم. هذا عدم القدرة على التكهن يحول كل ممر مظلم إلى مقامرة. هل تهدر الذخيرة لتضمن سقوطه، أم تحاول المراوغة وتخاطر بأن ينخر في رقبتك؟ هذا التوتر هو قلب اللعبة.</p>
+  <blockquote><strong>نصيحتي:</strong> أطلق النار على رؤوسهم بمسدس شوتغون أو لايتنينغ هوك لتتأكد من بقائهم ميتين نهائيًا. استهدف الجمجمة، وليس الصدر.</blockquote>
+
+  <h2><span class="monster-licker">الليكرز</span></h2>
+  <p>إذا كان <span class="monster-zombie">الزومبي</span> يختبر إدارة ذخيرتك، فإن <span class="monster-licker">الليكر</span> يختبر أعصابك. الريميك أخذ تصميم الدماغ المكشوف من الأصل ورفع عامل البشاعة إلى الحادي عشر—عضلات متموجة، نسيج وعائي، وذلك اللسان الطويل المريع. لكن التطور في أسلوب اللعب هو ما يجعلهم يتألقون. <span class="monster-licker">الليكرز</span> مكفوفون تمامًا، ويعتمدون على تحديد المواقع بالصدى. هذا يعني أنه يمكنك نظريًا المشي بجانب واحد إذا زحفت ببطء. <em>لكن.</em> اللعبة تحب أن تزاوجهم مع أبراج متفجرة أو—الأفضل—<span class="monster-zombie">زومبي</span>. فجأة، تصبح محاصرًا في غرفة حيث لا يمكنك إطلاق النار على <span class="monster-zombie">الزومبي</span> لأن صوت الطلقة سينبه <span class="monster-licker">الليكر</span> على السقف. أنت مُجبر على لعبة الموت البطيء، على أمل ألا يكتشفك <span class="monster-zombie">الزومبي</span> أولاً. إنها لعبة شطرنج رعب البقاء الخالصة.</p>
+  <blockquote><strong>نصيحتي:</strong> تحرك ببطء عندما يكونون قريبين. المشي منحنياً يقلل الضوضاء. ليس لديهم عيون—فقط آذان. استخدم ذلك لصالحك.</blockquote>
+
+  <h2><span class="monster-tyrant">الطاغية (السيد إكس)</span></h2>
+  <p>انسَ الوحوش التي تراها؛ أكثرهم رعبًا هو الذي <em>تسمعه</em>. <span class="monster-tyrant">السيد إكس</span> ليس مجرد معركة زعيم؛ إنه ميكانيكية مستوى بأقدام. الريميك حوله من مخيف مفاجئ مكتوب إلى مطارد دائم يعمل بالذكاء الاصطناعي. تلك الخطوات الثقيلة التي تتردد في مركز الشرطة تخلق رعبًا بدائيًا لا يمكن لأي عدو آخر مجاراته. إنه يجبرك على التخلي عن تخطيطك الدقيق. تريد حل لغز الخزنة؟ للأسف—لقد دخل الغرفة للتو. تحتاج إلى الحصول على ذلك المفتاح من الخزانة؟ سيتعين عليك قيادته في مطاردة عبر ثلاثة طوابق أولاً. إنه لا يركض، لكنه لا يحتاج إلى ذلك. إنه يواصل المشي فقط، متجاهلاً الرصاص، ويجبرك على الزوايا، ويضغط وقت اتخاذك للقرار إلى ثوانٍ محمومة. إنه يحول مركز الشرطة من صندوق ألغاز إلى فخ.</p>
+  <blockquote><strong>نصيحتي:</strong> مثل <span class="monster-licker">الليكرز</span>، تحرك ببطء. بل الأفضل، توقف عن المشي تمامًا إذا استطعت. اختبئ في غرفة آمنة (حيث تحفظ لعبتك)—لا يمكنه متابعتك إلى هناك. استخدم ذلك لالتقاط أنفاسك.</blockquote>
+  
+  <h2><span class="monster-gadult">جي-البالغون</span></h2>
+  <p>أخيرًا، لنتحدث عن <span class="monster-gadult">جي-البالغين</span> الذين يسكنون المجاري. هذه الكتل الضخمة المنتفخة من العيون والصفراء هي طريقة اللعبة لمعاقبتك على حفظ الموارد بطريقة خاطئة. إنهم بطيئون لكن لديهم قبضة قاتلة من ضربة واحدة إذا اقتربت أكثر من اللازم. العبقرية هنا هي موقعهم. المجاري هي ممرات ضيقة خانقة بالكاد بها مساحة للمراوغة. يمكنك إما إهدار الطلقات القوية من الشوتغون أو الذخيرة الحمضية لإذابتهم، أو يمكنك محاولة استدراج هجومهم البطيء والمرور من بجانبهم. لكن إذا أمسكوك، فإما أن تحصل على طفيلي مضمون في مخزونك (عليك قطعه بعيدًا) أو رسالة موت فورية. إنهم يمثلون رعب الجسد لفيروس G بشكل مثالي: رغبة لا يمكن السيطرة عليها في التكاثر، مما يخلق أورامًا قبيحة تبكي فقط تريد إجبارك على الانضمام إلى فوضاهم.</p>
+  <blockquote><strong>نصيحتي:</strong> أطلق النار على العين العملاقة في ذراعهم اليسرى. طلقة واحدة جيدة الموضع تصعقهم. اثنان أو ثلاثة تقتلهم. لا تدعهم يعانقونك.</blockquote>
+  
+  <h2><span class="monster-birkin">ويليام بيركن</span></h2>
+  <p><span class="monster-birkin">ويليام بيركن</span> ليس مجرد زعيم؛ إنها مأساة تقاتلها خمس مرات. الريميك يأخذ طفرة G الأصلية ويحولها إلى أوبرا رعب جسدي مفجعة. في البداية، هو لا يزال بشريًا تقريبًا—عالم يائس يحقن عمل حياته ليحفظ نفسه من رصاصة. لكن بحلول نهاية أول مطاردة في المجاري، بدأ بالفعل في الانزلاق. ذراعه اليمنى تنمو ليصبح ذلك الكتف العين الضاحك البشع، ولغة جسده بالكامل تتحول من إنسان محموم إلى وحش مفترس. ما يجعل <span class="monster-birkin">بيركن</span> مرعبًا ليس حجمه فقط أو هجماته القاتلة من ضربة واحدة—إنه الذكاء خلف العينين الذي يتآكل ببطء. في شكله الأول، لا يزال يستخدم الأنابيب والتكتيكات. بحلول تحوله النهائي، هو مجرد كومة صارخة من الأسنان والمخالب والأنسجة الميتة تزحف نحوك في أضواء الطوارئ للقطار. الريميك يضيف تفاصيل جميلة ومقززة: الطريقة التي تنبض بها مقلة عينه بشكل مستقل، صوت التمزق الرطب عندما يمزق صدره، والهمهمات المثيرة للشفقة التي يصدرها عندما يصعق. تكاد تشعر بالأسف تجاه الرجل. تقريبًا. ثم يقوم بتحطيم عمود فولاذي عبر أضلاعك.</p>
+  <blockquote><strong>نصيحتي:</strong> ركز النار على عيونه العملاقة. كل شكل له نقاط ضعف. القنابل والقاذف اللهب هم أفضل أصدقائك. لا تكن طماعًا—فهو يعاقب الثقة المفرطة.</blockquote>
+  
+  <h2><span class="monster-ivy">الآيفي (نبات 43 زومبي)</span></h2>
+  <p>انسَ <span class="monster-zombie">الزومبي</span>. انسَ <span class="monster-licker">الليكرز</span>. أعداء النبات 43—الذين يسمون <span class="monster-ivy">آيفي</span>—هم السبب الذي سيجعلك تكتنز وقود القاذف اللهب وكأنه ذهب. هذه الأشياء هي باحثون سابقون في أمبريلا تم حقنهم بسلالة نباتية متحولة، والنتيجة هي وقود كوابيس نباتي خالص. إنهم لا يزحفون. إنهم <em>يتتبعون</em>. حركاتهم متشنجة، تشبه الحشرات، وصامتة تمامًا باستثناء صوت طحن جذور الكرمة وهي تمزق السجاد. إعادة تصميم الريميك العبقرية جعلتهم تقريبًا غير معروفين كبشر—مجرد أشكال شبيهة بالبشر مصنوعة من كروم خضراء-سوداء، مع "رأس" ينشق مثل مصيدة فينوس ليُظهر فكًا بشريًا صارخًا لا يزال ملتصقًا بالداخل. من الناحية الميكانيكية، إنهم يكسرون كل قاعدة علمتك إياها اللعبة. إطلاق النار على رؤوسهم؟ غير مجدي. لم يعد لديهم أدمغة. طلقات الجسد؟ فقط يتعثرون ويستمرون في القدوم. أنت بحاجة إلى النار. بدونه، سيمسكون بك ويقومون بـ "قبلة" تحقن سمومًا مميتة في حلقك. والأسوأ من ذلك، حتى بعد "قتلهم"، تبقى أجسادهم على الأرض مثل أكوام الأعشاب الضارة غير الضارة… حتى تمر بجانبهم، ويعيدون تجميع أنفسهم بعد ثلاث ثوانٍ. <span class="monster-ivy">الآيفي</span> يعلمونك درسًا قاسيًا واحدًا: في مختبر NEST، الأشياء الخضراء تريد موتك بقدر ما تريد الأشياء آكلة اللحوم ذلك.</p>
+  <blockquote><strong>نصيحتي:</strong> احرقهم بالنار. القاذف اللهب هو العلاج الحتمي. دفعة سريعة واحدة تجعلهم يتخبطون ويموتون نهائيًا. بدون النار، أنت فقط تؤجل ما لا مفر منه.</blockquote>
 </div>
 
 <footer>
   <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
-  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+  <p id="footerTextEn">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+  <p id="footerTextAr" style="display:none">© ٢٠٢٦ بيكسل زون — الألعاب للجميع، في كل مكان</p>
 </footer>
 
+<script>
+let currentLang = localStorage.getItem('pixelzoneLang') || 'en';
+const urlParams = new URLSearchParams(window.location.search);
+const urlLang = urlParams.get('lang');
+if (urlLang && (urlLang === 'en' || urlLang === 'ar')) {
+  currentLang = urlLang;
+  localStorage.setItem('pixelzoneLang', currentLang);
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('pixelzoneLang', lang);
+  document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  if (lang === 'ar') document.body.classList.add('lang-ar');
+  else document.body.classList.remove('lang-ar');
+  
+  document.getElementById('contentEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('contentAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('postTitleEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('postTitleAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('postTypeEn').style.display = lang === 'en' ? 'inline-block' : 'none';
+  document.getElementById('postTypeAr').style.display = lang === 'ar' ? 'inline-block' : 'none';
+  document.getElementById('postDateEn').style.display = lang === 'en' ? 'inline' : 'none';
+  document.getElementById('postDateAr').style.display = lang === 'ar' ? 'inline' : 'none';
+  document.getElementById('footerTextEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('footerTextAr').style.display = lang === 'ar' ? 'block' : 'none';
+  
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+});
+
+setLanguage(currentLang);
+</script>
 </body>
 </html>

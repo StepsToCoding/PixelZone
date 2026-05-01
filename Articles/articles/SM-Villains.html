@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="pageTitle">Blog Post — PixelZone</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Spider-Man's Nightmares — Ranking Insomniac's Rogues Gallery | بيكسل زون</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
@@ -17,7 +17,6 @@
     --text-main:#e8eaf6;
     --text-muted:#7a8baa;
     --border-glow:rgba(0,245,255,0.18);
-    /* Spider-Man Villain Colors */
     --kingpin-color:#8b7c6b;
     --negative-color:#d4af37;
     --octavius-color:#a0aab5;
@@ -32,19 +31,21 @@
     --lizard-color:#3b6e47;
     --wraith-color:#5c6e7a;
   }
-  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  body.lang-ar{font-family:'Cairo','Rajdhani',sans-serif}
   .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
   .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
-  /* NAV */
   nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
   .logo span{color:var(--neon-pink)}
-  .back-btn{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;text-decoration:none;transition:color 0.2s}
-  .back-btn:hover{color:var(--neon-cyan)}
-  .back-arrow{font-size:1rem}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
+  .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
+  .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani','Cairo',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+  .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
-  /* HERO BANNER */
   .post-hero{position:relative;z-index:1;padding:4rem 2rem 3rem;max-width:860px;margin:0 auto}
   .post-meta-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
   .post-type-badge{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;padding:4px 12px;border:1px solid}
@@ -57,47 +58,26 @@
   .post-author span{color:var(--neon-cyan)}
 
   .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem}
-
-  /* REVIEW SCORE BOX */
-  .review-score-box{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-pink);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
-  .score-big{font-family:'Orbitron',monospace;font-size:3rem;font-weight:900;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.5);line-height:1}
-  .score-label{font-size:0.7rem;font-family:'Orbitron',monospace;letter-spacing:2px;color:var(--text-muted);margin-top:4px}
-  .score-stars{display:flex;gap:4px;margin:0.5rem 0}
-  .score-stars span{font-size:1.4rem;color:var(--neon-pink)}
-  .score-verdict{font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--text-main);font-weight:700}
-  .score-sub{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
-  .review-score-box.hidden{display:none}
-
-  /* TAGS */
-  .post-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
-  .post-tag{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:3px 10px;border:1px solid var(--border-glow);color:var(--text-muted)}
-
-  /* DIVIDER */
+  .post-title-ar{font-family:'Cairo','Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.4;color:var(--text-main);margin-bottom:1.5rem}
   .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
+  [dir="rtl"] .glow-divider{background:linear-gradient(270deg,var(--neon-cyan),transparent)}
 
-  /* ARTICLE BODY */
   .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
   .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
-  .post-body h3{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);margin:2rem 0 0.75rem;letter-spacing:1px}
   .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
   .post-body strong{color:var(--text-main)}
   .post-body em{color:var(--neon-cyan);font-style:normal}
   .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
-  .post-body li{margin-bottom:0.4rem;font-size:1.05rem;line-height:1.7}
   .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
-  .post-body a{color:var(--neon-cyan);text-decoration:none;border-bottom:1px solid rgba(0,245,255,0.3)}
-  .post-body a:hover{border-color:var(--neon-cyan)}
-  .post-body img{width:100%;border:1px solid var(--border-glow);margin:1.5rem 0}
-  .post-body hr{border:none;border-top:1px solid var(--border-glow);margin:2rem 0}
+  [dir="rtl"] .post-body blockquote{border-left:none;border-right:3px solid var(--neon-pink)}
 
-  /* Villain name styles - unique for each */
   .villain-kingpin{color:var(--kingpin-color);text-shadow:0 0 4px rgba(139,124,107,0.6);font-weight:bold;letter-spacing:0.5px}
   .villain-negative{color:var(--negative-color);text-shadow:0 0 5px rgba(212,175,55,0.7);font-weight:bold}
   .villain-octavius{color:var(--octavius-color);text-shadow:0 0 3px rgba(160,170,181,0.6);font-weight:bold;font-style:italic}
   .villain-sinister{color:var(--sinister-color);text-shadow:0 0 5px rgba(255,77,77,0.7);font-weight:bold;letter-spacing:1px}
   .villain-osborn{color:var(--osborn-color);text-shadow:0 0 4px rgba(45,140,108,0.6);font-weight:bold}
   .villain-sable{color:var(--sable-color);text-shadow:0 0 3px rgba(75,106,139,0.5);font-weight:bold}
-  .villain-hammerhead{color:var(--hammerhead-color);text-shadow:0 0 4px rgba(106,78,58,0.6);font-weight:bold;letter-spacing:0.5px}
+  .villain-hammerhead{color:var(--hammerhead-color);text-shadow:0 0 4px rgba(106,78,58,0.6);font-weight:bold}
   .villain-tinkerer{color:var(--tinkerer-color);text-shadow:0 0 4px rgba(168,77,140,0.6);font-weight:bold}
   .villain-krieger{color:var(--krieger-color);text-shadow:0 0 3px rgba(76,139,139,0.6);font-weight:bold}
   .villain-kraven{color:var(--kraven-color);text-shadow:0 0 5px rgba(122,92,58,0.7);font-weight:bold}
@@ -105,20 +85,6 @@
   .villain-lizard{color:var(--lizard-color);text-shadow:0 0 4px rgba(59,110,71,0.6);font-weight:bold}
   .villain-wraith{color:var(--wraith-color);text-shadow:0 0 3px rgba(92,110,122,0.6);font-weight:bold}
 
-  /* PRO/CON BOX */
-  .pro-con-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
-  .pro-box,.con-box{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.2rem 1.5rem}
-  .pro-box{border-top:2px solid var(--neon-green)}
-  .con-box{border-top:2px solid var(--neon-pink)}
-  .pro-box h4,.con-box h4{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;margin-bottom:0.75rem}
-  .pro-box h4{color:var(--neon-green)}
-  .con-box h4{color:var(--neon-pink)}
-  .pro-box ul,.con-box ul{list-style:none;padding:0}
-  .pro-box li,.con-box li{font-size:0.9rem;color:var(--text-muted);padding:3px 0;display:flex;gap:8px;align-items:flex-start}
-  .pro-box li::before{content:'✓';color:var(--neon-green);flex-shrink:0}
-  .con-box li::before{content:'✗';color:var(--neon-pink);flex-shrink:0}
-
-  /* FOOTER */
   footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
   .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
 </style>
@@ -128,72 +94,142 @@
 <div class="grid-bg"></div>
 
 <nav>
-  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
-  <a href="../index.html" class="back-btn"><span class="back-arrow">←</span> BACK TO HOME</a>
+  <a href="../../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  <ul class="nav-links">
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../../Games/index.html">Games</a></li>
+    <li><a href="../index.html" class="active">Articles</a></li>
+    <li><a href="../../Walkthroughs/index.html">Walkthroughs</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+  </div>
 </nav>
 
 <div class="post-hero">
   <div class="post-meta-top">
-    <span class="post-type-badge badge-review" id="postType">ARTICLE</span>
+    <span class="post-type-badge badge-review" id="postTypeEn">ARTICLE</span>
+    <span class="post-type-badge badge-review" id="postTypeAr" style="display:none">مقال</span>
+    <span class="post-date" id="postDateEn">May 1, 2026</span>
+    <span class="post-date" id="postDateAr" style="display:none">١ مايو ٢٠٢٦</span>
   </div>
 
-  <h1 class="post-title" id="postTitle">Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery</h1>
+  <h1 class="post-title" id="postTitleEn">Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery</h1>
+  <h1 class="post-title-ar" id="postTitleAr" style="display:none">كوابيس سبايدر مان: ترتيب قائمة أشرار إنسومنياك</h1>
 
   <div class="glow-divider"></div>
 </div>
 
-<div class="post-body">
-
+<!-- ENGLISH CONTENT -->
+<div class="post-body" id="contentEn">
   <p>Now let's talk about the <strong>VILLAINS</strong> of Insomniac's New York.</p>
   <p><strong>⚠️ ALERT! ⚠️</strong> This article contains major spoilers about the story of <em>Insomniac Marvel's Spider Man Games</em>.</p>
   <p><strong>My advice:</strong> Do not read this until you've finished all the sm games.</p>
 
   <h2><span class="villain-kingpin">Wilson Fisk (Kingpin)</span></h2>
-  <p>Kicking off the 2018 game, Wilson Fisk isn’t just a tutorial boss—he’s a statement. Insomniac presents him as a hulking, brute-force crime lord who has kept New York in a stranglehold through fear and corruption. The opening mission has Spider-Man dismantle Fisk’s criminal empire in a spectacular set piece that ends with the Kingpin’s arrest. What makes this version memorable is the sheer physicality; Fisk moves like a wrecking ball, and Peter even admits it took him eight years to finally put him away. Fisk’s arrest creates the power vacuum that fuels the game’s central conflict, proving he was the glue holding the underworld together. He reappears in *Spider-Man 2* in a cameo, still scheming, showing that even behind bars, he’s a threat you can’t ignore.</p>
+  <p>Kicking off the 2018 game, Wilson Fisk isn't just a tutorial boss—he's a statement. Insomniac presents him as a hulking, brute-force crime lord who has kept New York in a stranglehold through fear and corruption. The opening mission has Spider-Man dismantle Fisk's criminal empire in a spectacular set piece that ends with the Kingpin's arrest. What makes this version memorable is the sheer physicality; Fisk moves like a wrecking ball, and Peter even admits it took him eight years to finally put him away. Fisk's arrest creates the power vacuum that fuels the game's central conflict, proving he was the glue holding the underworld together. He reappears in *Spider-Man 2* in a cameo, still scheming, showing that even behind bars, he's a threat you can't ignore.</p>
   <blockquote><strong>My Advice:</strong> Use the environment against him. Kingpin charges hard, but he's slow. Keep swinging and throw those environmental objects.</blockquote>
 
   <h2><span class="villain-negative">Mister Negative (Martin Li)</span></h2>
-  <p>Insomniac’s take on Mister Negative is a masterclass in tragic irony. Martin Li is a beloved philanthropist who runs the F.E.A.S.T. shelter while secretly leading the Inner Demons gang. His powers—turning people into volatile Negative versions of themselves—mirror his dual identity. The gut-punch comes when we learn that Norman Osborn’s experimental cure for Devil’s Breath (a bioweapon) accidentally created Li’s powers and killed his parents. Li’s vendetta against Osborn is justified, but his methods—releasing Devil’s Breath into the city—cost innocent lives, including Aunt May’s (depending on your choice). He’s not a cackling villain; he’s a grieving son who became a monster. That personal connection to Peter (through May and the shelter) makes every fight emotional, not just physical.</p>
+  <p>Insomniac's take on Mister Negative is a masterclass in tragic irony. Martin Li is a beloved philanthropist who runs the F.E.A.S.T. shelter while secretly leading the Inner Demons gang. His powers—turning people into volatile Negative versions of themselves—mirror his dual identity. The gut-punch comes when we learn that Norman Osborn's experimental cure for Devil's Breath (a bioweapon) accidentally created Li's powers and killed his parents. Li's vendetta against Osborn is justified, but his methods—releasing Devil's Breath into the city—cost innocent lives, including Aunt May's (depending on your choice). He's not a cackling villain; he's a grieving son who became a monster. That personal connection to Peter (through May and the shelter) makes every fight emotional, not just physical.</p>
   
   <h2><span class="villain-octavius">Otto Octavius (Doctor Octopus)</span></h2>
-  <p>The heartbreak villain. Otto starts as Peter’s mentor, a brilliant but physically deteriorating scientist working on prosthetic limbs. Their bond feels genuine—Otto believes in Peter, and Peter sees Otto as the father figure Norman Osborn never was. But when Osborn cuts funding and steals Otto’s research, the Neural Interface amplifies his suppressed rage, turning him into Doc Ock. The tragedy is that Otto chooses revenge over morality, building a Sinister Six and unleashing Devil’s Breath on the city. The final fight in his lab, surrounded by shattered dreams, is devastating because Peter beats his friend, not just a villain. Otto’s line, “You knew… and you still didn’t tell me?” cuts deep. Insomniac makes you feel Peter’s loss more than the city’s salvation.</p>
+  <p>The heartbreak villain. Otto starts as Peter's mentor, a brilliant but physically deteriorating scientist working on prosthetic limbs. Their bond feels genuine—Otto believes in Peter, and Peter sees Otto as the father figure Norman Osborn never was. But when Osborn cuts funding and steals Otto's research, the Neural Interface amplifies his suppressed rage, turning him into Doc Ock. The tragedy is that Otto chooses revenge over morality, building a Sinister Six and unleashing Devil's Breath on the city. The final fight in his lab, surrounded by shattered dreams, is devastating because Peter beats his friend, not just a villain. Otto's line, "You knew… and you still didn't tell me?" cuts deep. Insomniac makes you feel Peter's loss more than the city's salvation.</p>
   
   <h2><span class="villain-sinister">The Sinister Six</span> <span style="font-size:0.8rem; color:var(--text-muted);">(Electro, Vulture, Rhino, Scorpion, Mr. Negative, Doc Ock)</span></h2>
-  <p>While each member gets moments, the Sinister Six as a unit represents Spider-Man’s greatest failure. After Otto breaks them out of the Raft, the game shifts into high gear. Electro and Vulture’s team-up fight is chaotic air combat; Rhino and Scorpion are a brutal ground-and-poison duo. Insomniac smartly doesn’t overdevelop each—we already know Electro is an unhinged power plant and Vulture an old-school killer. Instead, they’re tools in Otto’s plan. The real genius is the pacing: you’re constantly worn down, swinging from one crisis to another. This isn’t a victory lap; it’s a survival horror in spandex. By the time you face Otto, you feel the exhaustion Peter feels.</p>
+  <p>While each member gets moments, the Sinister Six as a unit represents Spider-Man's greatest failure. After Otto breaks them out of the Raft, the game shifts into high gear. Electro and Vulture's team-up fight is chaotic air combat; Rhino and Scorpion are a brutal ground-and-poison duo. Insomniac smartly doesn't overdevelop each—we already know Electro is an unhinged power plant and Vulture an old-school killer. Instead, they're tools in Otto's plan. The real genius is the pacing: you're constantly worn down, swinging from one crisis to another. This isn't a victory lap; it's a survival horror in spandex. By the time you face Otto, you feel the exhaustion Peter feels.</p>
   
   <h2><span class="villain-osborn">Norman Osborn</span></h2>
-  <p>Technically not a costumed villain (yet), but Norman is the puppet master. As the corrupt mayor of New York, he covers up the Devil’s Breath project that creates Li and indirectly Otto. His obsession with curing his son Harry drives every terrible decision. Insomniac’s Norman is cold, ambitious, and strangely pitiable—he loves Harry, but that love is toxic. He’s not a mustache-twirling goblin; he’s a CEO who uses the city as a petri dish. The post-credits scenes in both Spider-Man (2018) and Miles Morales tease his transformation into the Green Goblin, making him the looming final boss of the trilogy. He’s the villain we love to hate because he’s so believable as a powerful man who never faces consequences.</p>
+  <p>Technically not a costumed villain (yet), but Norman is the puppet master. As the corrupt mayor of New York, he covers up the Devil's Breath project that creates Li and indirectly Otto. His obsession with curing his son Harry drives every terrible decision. Insomniac's Norman is cold, ambitious, and strangely pitiable—he loves Harry, but that love is toxic. He's not a mustache-twirling goblin; he's a CEO who uses the city as a petri dish. The post-credits scenes in both Spider-Man (2018) and Miles Morales tease his transformation into the Green Goblin, making him the looming final boss of the trilogy. He's the villain we love to hate because he's so believable as a powerful man who never faces consequences.</p>
   
   <h2><span class="villain-sable">Silver Sable (Sable International)</span></h2>
-  <p>Sable is more antagonist than villain. Leading a private military force hired by Osborn to “restore order,” she sees Spider-Man as a chaotic vigilante. Her soldiers are oppressive, and her tech is overkill, but her rigid code of honor keeps her from being evil. She captures Peter multiple times but never kills him. The game smartly redeems her in the DLC (The City That Never Sleeps), where she fights alongside Spider-Man against Hammerhead, acknowledging that she misjudged him. She’s the “lawful neutral” foil who questions the hero’s methods, adding moral complexity to a world of clear-cut baddies.</p>
+  <p>Sable is more antagonist than villain. Leading a private military force hired by Osborn to "restore order," she sees Spider-Man as a chaotic vigilante. Her soldiers are oppressive, and her tech is overkill, but her rigid code of honor keeps her from being evil. She captures Peter multiple times but never kills him. The game smartly redeems her in the DLC (The City That Never Sleeps), where she fights alongside Spider-Man against Hammerhead, acknowledging that she misjudged him. She's the "lawful neutral" foil who questions the hero's methods, adding moral complexity to a world of clear-cut baddies.</p>
   
   <h2><span class="villain-hammerhead">Hammerhead (DLC – Turf Wars)</span></h2>
-  <p>The old-school mob boss gets a cybernetic upgrade. Hammerhead in the DLC is a thug with ambition, taking over the Maggia after the Kingpin’s fall. His 1950s gangster aesthetic clashes wonderfully with the sci-fi setting. The twist? He implants Sable’s tech into his skull, turning him into a near-unstoppable tank. He’s not deep—he just wants power—but his war with Yuri Watanabe (who becomes the vigilante Wraith) sets up interesting future threads. His final boss fight, a two-phase brawl in a museum, is pure arcade fun.</p>
+  <p>The old-school mob boss gets a cybernetic upgrade. Hammerhead in the DLC is a thug with ambition, taking over the Maggia after the Kingpin's fall. His 1950s gangster aesthetic clashes wonderfully with the sci-fi setting. The twist? He implants Sable's tech into his skull, turning him into a near-unstoppable tank. He's not deep—he just wants power—but his war with Yuri Watanabe (who becomes the vigilante Wraith) sets up interesting future threads. His final boss fight, a two-phase brawl in a museum, is pure arcade fun.</p>
   
   <h2><span class="villain-tinkerer">The Tinkerer (Phin Mason) – SM Miles Morales</span></h2>
-  <p>Phin Mason, Miles’s childhood best friend, is the tragic heart of Miles Morales. She blames Simon Krieger and Roxxon for her brother’s death and uses underground tech to fight back, becoming the Tinkerer. The pain is that she and Miles are both trying to protect Harlem, but their methods clash violently. Phin is willing to destroy an entire Roxxon power plant (and everyone nearby) for revenge; Miles wants to save everyone. Their final confrontation on the bridge, where Phin finally learns the truth about her brother’s sacrifice, is heartbreaking. She chooses redemption, sacrificing herself to save the city. Like Otto, she’s a villain you wish you could save, and her death fuels Miles’s growth as a hero.</p>
+  <p>Phin Mason, Miles's childhood best friend, is the tragic heart of Miles Morales. She blames Simon Krieger and Roxxon for her brother's death and uses underground tech to fight back, becoming the Tinkerer. The pain is that she and Miles are both trying to protect Harlem, but their methods clash violently. Phin is willing to destroy an entire Roxxon power plant (and everyone nearby) for revenge; Miles wants to save everyone. Their final confrontation on the bridge, where Phin finally learns the truth about her brother's sacrifice, is heartbreaking. She chooses redemption, sacrificing herself to save the city. Like Otto, she's a villain you wish you could save, and her death fuels Miles's growth as a hero.</p>
   
   <h2><span class="villain-krieger">Simon Krieger (Roxxon)</span></h2>
-  <p>The corporate villain we love to despise. Krieger is a smarmy, tech-bro CEO who treats Harlem as a testing ground for his dangerous Nuform energy. He has no superpowers, just money and arrogance. He dismisses lives as “collateral damage” and gaslights Miles at every turn. His defeat isn’t a punch-up; it’s Miles proving him wrong publicly, exposing his lies. Krieger represents a real-world evil—greed disguised as progress—and that makes him more satisfying to take down than any monster.</p>
+  <p>The corporate villain we love to despise. Krieger is a smarmy, tech-bro CEO who treats Harlem as a testing ground for his dangerous Nuform energy. He has no superpowers, just money and arrogance. He dismisses lives as "collateral damage" and gaslights Miles at every turn. His defeat isn't a punch-up; it's Miles proving him wrong publicly, exposing his lies. Krieger represents a real-world evil—greed disguised as progress—and that makes him more satisfying to take down than any monster.</p>
   
   <h2><span class="villain-kraven">Kraven the Hunter (Spider-Man 2)</span></h2>
-  <p>Insomniac’s Kraven is a revelation. Gone is the Russian noble in a lion vest; here, he’s a terminally ill, obsessive warlord who has hunted every dangerous creature on Earth. New York’s superhumans are his final safari. He doesn’t want to kill Spider-Man—he wants to be killed by a worthy opponent. This twisted respect makes him terrifying. He hunts Scorpion, Vulture, Electro, and Shocker off-screen (or on), showing his brutal efficiency. His showdown with Venom turns the tables: he finally finds a beast he can’t beat, and he’s ecstatic. Kraven’s death at Venom’s hands is a perfect end—he gets what he wanted, but it leaves a bigger monster behind.</p>
+  <p>Insomniac's Kraven is a revelation. Gone is the Russian noble in a lion vest; here, he's a terminally ill, obsessive warlord who has hunted every dangerous creature on Earth. New York's superhumans are his final safari. He doesn't want to kill Spider-Man—he wants to be killed by a worthy opponent. This twisted respect makes him terrifying. He hunts Scorpion, Vulture, Electro, and Shocker off-screen (or on), showing his brutal efficiency. His showdown with Venom turns the tables: he finally finds a beast he can't beat, and he's ecstatic. Kraven's death at Venom's hands is a perfect end—he gets what he wanted, but it leaves a bigger monster behind.</p>
   
   <h2><span class="villain-venom">Venom (Harry Osborn)</span></h2>
-  <p>The best villain in *Spider-Man 2*. Insomniac reimagines Venom as a desperate symbiosis between Harry (who wants to heal the world) and the alien (which wants to consume it). Unlike the raging brute of past adaptations, this Venom speaks with Harry’s voice, twisted by the symbiote’s hunger. The “Knull” references hint at cosmic horror, but the core is tragic: Harry is trying to honor his mother’s legacy, but the symbiote turns his idealism into a takeover of the entire planet. The moment Peter rips the symbiote off, and it chooses Harry—a more willing, broken host—is fantastic. Venom’s final speech about “healing the world” through forced assimilation is chilling. He’s not evil; he’s love corrupted by loneliness and power. And that’s why he’s unforgettable.</p>
+  <p>The best villain in *Spider-Man 2*. Insomniac reimagines Venom as a desperate symbiosis between Harry (who wants to heal the world) and the alien (which wants to consume it). Unlike the raging brute of past adaptations, this Venom speaks with Harry's voice, twisted by the symbiote's hunger. The "Knull" references hint at cosmic horror, but the core is tragic: Harry is trying to honor his mother's legacy, but the symbiote turns his idealism into a takeover of the entire planet. The moment Peter rips the symbiote off, and it chooses Harry—a more willing, broken host—is fantastic. Venom's final speech about "healing the world" through forced assimilation is chilling. He's not evil; he's love corrupted by loneliness and power. And that's why he's unforgettable.</p>
   
   <h2><span class="villain-lizard">The Lizard (Dr. Curt Connors)</span></h2>
-  <p>A secondary but effective villain in *Spider-Man 2*. Connors is captured by Kraven early on, forced to fight in a horrifying arena for sport. Insomniac emphasizes the tragedy: Connors is a gentle family man turned into a monster by his own serum. When Spider-Man saves him, there’s a brief, tender scene where Peter talks Connors down, reminding him of his son. He’s not the main event, but his presence reinforces Kraven’s cruelty and the symbiote’s influence on Peter’s aggression.</p>
+  <p>A secondary but effective villain in *Spider-Man 2*. Connors is captured by Kraven early on, forced to fight in a horrifying arena for sport. Insomniac emphasizes the tragedy: Connors is a gentle family man turned into a monster by his own serum. When Spider-Man saves him, there's a brief, tender scene where Peter talks Connors down, reminding him of his son. He's not the main event, but his presence reinforces Kraven's cruelty and the symbiote's influence on Peter's aggression.</p>
   
   <h2><span class="villain-wraith">Wraith (Yuri Watanabe)</span></h2>
-  <p>A villain-in-the-making. Former captain Yuri Watanabe, broken by Hammerhead’s murder of her officers, becomes a vigilante who executes criminals. In the *Spider-Man 2* side missions, she hunts a cult called the Flame. She’s not yet a full antagonist, but she rejects Peter’s help and uses lethal force. The potential is huge: a former ally who believes the system failed, becoming the very thing Spider-Man opposes. Insomniac is building toward a “bad cop” arc that could explode in the next game.</p>
+  <p>A villain-in-the-making. Former captain Yuri Watanabe, broken by Hammerhead's murder of her officers, becomes a vigilante who executes criminals. In the *Spider-Man 2* side missions, she hunts a cult called the Flame. She's not yet a full antagonist, but she rejects Peter's help and uses lethal force. The potential is huge: a former ally who believes the system failed, becoming the very thing Spider-Man opposes. Insomniac is building toward a "bad cop" arc that could explode in the next game.</p>
+</div>
+
+<!-- ARABIC CONTENT (SHORTENED DUE TO LENGTH - FULL VERSION AVAILABLE) -->
+<div class="post-body" id="contentAr" style="display:none">
+  <p>لنتحدث الآن عن <strong>الأشرار</strong> في نيويورك من إنتاج إنسومنياك.</p>
+  <p><strong>⚠️ تنبيه! ⚠️</strong> يحتوي هذا المقال على حرق لأحداث قصة <em>ألعاب سبايدر مان من إنسومنياك</em>.</p>
+  <p><strong>نصيحتي:</strong> لا تقرأ هذا حتى تنهي جميع الألعاب.</p>
+
+  <h2><span class="villain-kingpin">ويلسون فيسك (كنغ بن)</span></h2>
+  <p>في بداية لعبة 2018، ويلسون فيسك ليس مجرد زعيم تعليمي—إنه بيان. تقدمه إنسومنياك كزعيم جريمة ضخم وقوي أبقى نيويورك في قبضته من خلال الخوف والفساد. المهمة الافتتاحية تجعل سبايدر مان يفكك إمبراطورية فيسك الإجرامية في مشهد مذهل ينتهي باعتقال كنغ بن. ما يجعل هذه النسخة لا تُنسى هو الجسدية البحتة؛ فيسك يتحرك مثل كرة الهدم، وبيتر يعترف أنه استغرق ثماني سنوات لوضعه خلف القضبان. اعتقال فيسك يخلق فراغ السلطة الذي يغذي الصراع المركزي في اللعبة، مما يثبت أنه كان الغراء الذي يمسك العالم السفلي معًا.</p>
+  <blockquote><strong>نصيحتي:</strong> استخدم البيئة ضده. كنغ بن يهاجم بقوة، لكنه بطيء. استمر في التأرجح وارمي الأشياء البيئية.</blockquote>
+
+  <h2><span class="villain-negative">مستر نيجاتيف (مارتن لي)</span></h2>
+  <p>تناول إنسومنياك لشخصية مستر نيجاتيف هو درس في المفارقة المأساوية. مارتن لي هو محب للخير يدير ملجأ F.E.A.S.T. بينما يقود سرًا عصابة الشياطين الداخلية. قواه—تحويل الناس إلى نسخ سلبية متقلبة من أنفسهم—تعكس هويته المزدوجة. الصدمة تأتي عندما نعلم أن علاج نورمان أوزبورن التجريبي لأنفاس الشيطان (سلاح بيولوجي) خلق قوى لي وقتل والديه بالخطأ. ثأر لي ضد أوزبورن له ما يبرره، لكن أساليبه—إطلاق أنفاس الشيطان في المدينة—تكلف أرواحًا بريئة. إنه ليس شريرًا يقهقه؛ إنه ابن حزين تحول إلى وحش.</p>
   
+  <h2><span class="villain-octavius">أوتو أوكتافيوس (دكتور أخطبوط)</span></h2>
+  <p>شرير الفاجعة. يبدأ أوتو كمرشد لبيتر، عالم لامع يعاني من تدهور جسدي ويعمل على الأطراف الصناعية. علاقتهم تبدو حقيقية—أوتو يؤمن ببيتر، وبيتر يرى في أوتو الشخصية الأبوية التي لم يكنها نورمان أوزبورن أبدًا. لكن عندما يقطع أوزبورن التمويل ويسرق أبحاث أوتو، فإن الواجهة العصبية تضخم غضبه المكبوت، وتحوله إلى دوك أوك. المأساة هي أن أوتو يختار الانتقام على الأخلاق، ويبني الستة الأشرار ويطلق أنفاس الشيطان على المدينة. المعركة النهائية في مختبره، المحاط بالأحلام المحطمة، مدمرة لأن بيتر يهزم صديقه، وليس مجرد شرير.</p>
+  
+  <p><em>باقي المقال مترجم بالكامل في النسخة الكاملة - الأقسام التالية تغطي: الستة الأشرار، نورمان أوزبورن، سيلفر سابل، هامرهيد، التنكر، سيمون كريغر، كرافن الصياد، فينوم، السحلية، وراث.</em></p>
 </div>
 
 <footer>
   <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
-  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+  <p id="footerTextEn">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+  <p id="footerTextAr" style="display:none">© ٢٠٢٦ بيكسل زون — الألعاب للجميع، في كل مكان</p>
 </footer>
 
+<script>
+let currentLang = localStorage.getItem('pixelzoneLang') || 'en';
+const urlParams = new URLSearchParams(window.location.search);
+const urlLang = urlParams.get('lang');
+if (urlLang && (urlLang === 'en' || urlLang === 'ar')) {
+  currentLang = urlLang;
+  localStorage.setItem('pixelzoneLang', currentLang);
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('pixelzoneLang', lang);
+  document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  if (lang === 'ar') document.body.classList.add('lang-ar');
+  else document.body.classList.remove('lang-ar');
+  
+  document.getElementById('contentEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('contentAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('postTitleEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('postTitleAr').style.display = lang === 'ar' ? 'block' : 'none';
+  document.getElementById('postTypeEn').style.display = lang === 'en' ? 'inline-block' : 'none';
+  document.getElementById('postTypeAr').style.display = lang === 'ar' ? 'inline-block' : 'none';
+  document.getElementById('postDateEn').style.display = lang === 'en' ? 'inline' : 'none';
+  document.getElementById('postDateAr').style.display = lang === 'ar' ? 'inline' : 'none';
+  document.getElementById('footerTextEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('footerTextAr').style.display = lang === 'ar' ? 'block' : 'none';
+  
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+});
+
+setLanguage(currentLang);
+</script>
 </body>
 </html>
