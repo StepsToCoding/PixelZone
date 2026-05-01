@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="pageTitle">Blog Post — PixelZone</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<title id="pageTitle">Resident Evil 4 Remake — Villains Deep Dive | بيكسل زون</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
     --neon-cyan:#00f5ff;
     --neon-pink:#ff2d78;
     --neon-green:#39ff14;
+    --neon-purple:#bf5fff;
     --bg-dark:#080b14;
     --bg-card:#0d1220;
     --bg-card2:#111827;
@@ -25,7 +26,8 @@
     --birkin-color:#b85c1a;
     --ivy-color:#4a7c59;
   }
-  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
+  body.lang-ar{font-family:'Cairo','Rajdhani',sans-serif}
   .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
   .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
@@ -33,9 +35,12 @@
   nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
   .logo span{color:var(--neon-pink)}
-  .back-btn{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;text-decoration:none;transition:color 0.2s}
-  .back-btn:hover{color:var(--neon-cyan)}
-  .back-arrow{font-size:1rem}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
+  .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
+  .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani','Cairo',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+  .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
   /* HERO BANNER */
   .post-hero{position:relative;z-index:1;padding:4rem 2rem 3rem;max-width:860px;margin:0 auto}
@@ -50,6 +55,7 @@
   .post-author span{color:var(--neon-cyan)}
 
   .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem}
+  .post-title-ar{font-family:'Cairo','Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.4;color:var(--text-main);margin-bottom:1.5rem}
 
   /* REVIEW SCORE BOX */
   .review-score-box{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-pink);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
@@ -64,20 +70,22 @@
   /* TAGS */
   .post-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
   .post-tag{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:3px 10px;border:1px solid var(--border-glow);color:var(--text-muted)}
+  .post-tag-ar{font-family:'Cairo','Orbitron',monospace}
 
   /* DIVIDER */
   .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
+  [dir="rtl"] .glow-divider{background:linear-gradient(270deg,var(--neon-cyan),transparent)}
 
   /* ARTICLE BODY */
   .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
   .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
-  .post-body h3{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:var(--text-main);margin:2rem 0 0.75rem;letter-spacing:1px}
   .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
   .post-body strong{color:var(--text-main)}
   .post-body em{color:var(--neon-cyan);font-style:normal}
   .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
   .post-body li{margin-bottom:0.4rem;font-size:1.05rem;line-height:1.7}
   .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
+  [dir="rtl"] .post-body blockquote{border-left:none;border-right:3px solid var(--neon-pink)}
   .post-body a{color:var(--neon-cyan);text-decoration:none;border-bottom:1px solid rgba(0,245,255,0.3)}
   .post-body a:hover{border-color:var(--neon-cyan)}
   .post-body img{width:100%;border:1px solid var(--border-glow);margin:1.5rem 0}
@@ -91,9 +99,7 @@
   .monster-birkin{color:var(--birkin-color);text-shadow:0 0 4px rgba(184,92,26,0.6);font-weight:bold}
   .monster-ivy{color:var(--ivy-color);text-shadow:0 0 3px rgba(74,124,89,0.5);font-weight:bold}
 
-  /* ===== RE4 REMAKE VILLAIN TITLE STYLES ===== */
-  
-  /* Bitores Mendez: Suffering Custodian — wood, village, broken authority */
+  /* RE4 REMAKE VILLAIN TITLE STYLES */
   .monster-mendez-title {
     font-family: 'Orbitron', monospace;
     font-size: 1.8rem;
@@ -112,11 +118,7 @@
     margin-top: 1.8rem;
     margin-bottom: 0.8rem;
   }
-  .monster-mendez-title::before {
-    content: "🪵 ";
-    font-size: 1.2rem;
-    filter: drop-shadow(0 0 4px #8b5a2b);
-  }
+  .monster-mendez-title::before { content: "🪵 "; font-size: 1.2rem; filter: drop-shadow(0 0 4px #8b5a2b); }
   .monster-mendez-title::after {
     content: "";
     position: absolute;
@@ -127,7 +129,6 @@
     background: repeating-linear-gradient(90deg, #8b5a2b, #8b5a2b 10px, #3e2a1f 10px, #3e2a1f 20px);
   }
 
-  /* Ramon Salazar: Petulant God — gold, nobility, decay */
   .monster-ramon-title {
     font-family: 'Orbitron', monospace;
     font-size: 1.7rem;
@@ -146,11 +147,7 @@
     margin-bottom: 0.8rem;
     position: relative;
   }
-  .monster-ramon-title::before {
-    content: "👑 ";
-    font-size: 1.3rem;
-    text-shadow: 0 0 6px gold;
-  }
+  .monster-ramon-title::before { content: "👑 "; font-size: 1.3rem; text-shadow: 0 0 6px gold; }
   .monster-ramon-title::after {
     content: "CASTLE";
     font-size: 0.55rem;
@@ -163,45 +160,34 @@
     opacity: 0.7;
   }
 
-  /* Jack Krauser: Mirror of Regret — military, scarred, tactical */
   .monster-krauser-title {
     font-family: 'Rajdhani', monospace;
     font-size: 1.7rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #6c7a4d;
-    text-shadow: 2px 2px 0px #1a2a0a, 0 0 8px #39ff14;
-    letter-spacing: 4px;
     background: linear-gradient(120deg, #8f9e6b, #3a4a2a);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    letter-spacing: 4px;
     display: inline-block;
     border-left: 4px solid #39ff14;
     padding-left: 14px;
     margin-top: 1.8rem;
     margin-bottom: 0.8rem;
   }
-  .monster-krauser-title::before {
-    content: "🔪 ";
-    font-size: 1.3rem;
-    color: #39ff14;
-    text-shadow: 0 0 6px #39ff14;
-  }
+  .monster-krauser-title::before { content: "🔪 "; font-size: 1.3rem; color: #39ff14; text-shadow: 0 0 6px #39ff14; }
 
-  /* Osmund Saddler: Corporate Cultist — religious, corporate, plague */
   .monster-saddler-title {
     font-family: 'Orbitron', monospace;
     font-size: 1.6rem;
     font-weight: 900;
     text-transform: uppercase;
-    color: #5a4a3a;
-    text-shadow: 0 0 10px rgba(90, 74, 58, 0.8);
-    letter-spacing: 6px;
     background: linear-gradient(135deg, #8a7a6a, #3a2a1a, #1a0a00);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    letter-spacing: 6px;
     display: inline-block;
     position: relative;
     margin-top: 1.8rem;
@@ -209,12 +195,7 @@
     border-right: 3px solid #ff2d78;
     padding-right: 12px;
   }
-  .monster-saddler-title::before {
-    content: "⛪ ";
-    font-size: 1.4rem;
-    color: #ff2d78;
-    text-shadow: 0 0 6px #ff2d78;
-  }
+  .monster-saddler-title::before { content: "⛪ "; font-size: 1.4rem; color: #ff2d78; text-shadow: 0 0 6px #ff2d78; }
   .monster-saddler-title::after {
     content: "LOS ILLUMINADOS";
     font-size: 0.55rem;
@@ -226,19 +207,16 @@
     font-weight: 400;
   }
 
-  /* The Verdugo: Pure Predator — alien, insectoid, silent nightmare */
   .monster-verdugo-title {
     font-family: 'Rajdhani', monospace;
     font-size: 1.8rem;
     font-weight: 600;
     text-transform: uppercase;
-    color: #4a6a7a;
-    text-shadow: 0 0 12px #00f5ff, 0 0 4px #0a3a4a;
-    letter-spacing: 6px;
     background: linear-gradient(135deg, #6a9aaa, #1a3a4a);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    letter-spacing: 6px;
     display: inline-block;
     position: relative;
     margin-top: 1.8rem;
@@ -246,11 +224,7 @@
     border-bottom: 2px solid var(--neon-cyan);
     padding-bottom: 6px;
   }
-  .monster-verdugo-title::before {
-    content: "🕷️ ";
-    font-size: 1.3rem;
-    filter: drop-shadow(0 0 6px cyan);
-  }
+  .monster-verdugo-title::before { content: "🕷️ "; font-size: 1.3rem; filter: drop-shadow(0 0 6px cyan); }
   .monster-verdugo-title::after {
     content: "THE RIGHT HAND";
     font-size: 0.55rem;
@@ -262,6 +236,13 @@
     font-weight: 400;
     opacity: 0.8;
   }
+
+  /* Arabic title styles */
+  [dir="rtl"] .monster-mendez-title { border-left: none; border-right: 6px solid #8b5a2b; padding-left: 0; padding-right: 18px; }
+  [dir="rtl"] .monster-mendez-title::after { left: auto; right: 0; }
+  [dir="rtl"] .monster-krauser-title { border-left: none; border-right: 4px solid #39ff14; padding-left: 0; padding-right: 14px; }
+  [dir="rtl"] .monster-saddler-title { border-right: none; border-left: 3px solid #ff2d78; padding-right: 0; padding-left: 12px; }
+  [dir="rtl"] .monster-saddler-title::after { right: auto; left: 0; }
 
   /* PRO/CON BOX */
   .pro-con-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
@@ -286,55 +267,160 @@
 <div class="grid-bg"></div>
 
 <nav>
-  <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
-  <a href="../index.html" class="back-btn"><span class="back-arrow">←</span> BACK TO HOME</a>
+  <a href="../../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  <ul class="nav-links">
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../../Games/index.html">Games</a></li>
+    <li><a href="../index.html" class="active">Articles</a></li>
+    <li><a href="../../Walkthroughs/index.html">Walkthroughs</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+  </div>
 </nav>
 
 <div class="post-hero">
   <div class="post-meta-top">
-    <span class="post-type-badge badge-review" id="postType">ARTICLE</span>
+    <span class="post-type-badge badge-review" id="postTypeEn">ARTICLE</span>
+    <span class="post-type-badge badge-review" id="postTypeAr" style="display:none">مقال</span>
+    <span class="post-date" id="postDateEn">May 1, 2026</span>
+    <span class="post-date" id="postDateAr" style="display:none">١ مايو ٢٠٢٦</span>
+    <span class="post-author" id="postAuthorEn">by <span>PixelZone</span></span>
+    <span class="post-author" id="postAuthorAr" style="display:none">بقلم <span>بيكسل زون</span></span>
   </div>
 
-  <h1 class="post-title" id="postTitle">Resident Evil 4 Remake — Villains Deep Dive</h1>
+  <!-- English Title -->
+  <h1 class="post-title" id="postTitleEn">Resident Evil 4 Remake — Villains Deep Dive</h1>
+  <!-- Arabic Title -->
+  <h1 class="post-title-ar" id="postTitleAr" style="display:none">ريزدنت إيفل 4 ريميك — الغوص في أعماق الأشرار</h1>
 
   <div class="glow-divider"></div>
 </div>
 
-<div class="post-body">
-
+<!-- ============================================ -->
+<!-- ENGLISH CONTENT (EXACTLY AS YOU WROTE IT)    -->
+<!-- ============================================ -->
+<div class="post-body" id="contentEn">
   <p><strong>⚠️ ALERT! ⚠️</strong> This article contains major spoilers about the story of <em>Resident Evil 4 Remake</em>.</p>
   <p><strong>My advice:</strong> Do not read this until you've finished the game. You've been warned.</p>
 
-  <!-- Mendez -->
   <h2><span class="monster-mendez-title">Bitores Mendez: The Suffering Custodian</span></h2>
-  <p>Often dismissed as a mere "big guy" boss in the original, Mendez is transformed in the remake into a figure of tragic, horrifying authority. He isn’t just a brute; he’s the village’s castellan, a father figure twisted by Las Plagas into a warden of flesh and ritual. His body, grotesquely elongated and hinged like a nightmare insect, reflects his dual role—still clinging to a semblance of human posture while being fundamentally broken to serve Saddler’s hive. The remake emphasizes his silent, weary observation of Leon, making each encounter feel less like a random monster attack and more like a grim executioner reluctantly doing his duty. His death isn't triumphant; when his lower half detaches and he continues crawling forward, it’s a pathetic, desperate end for a man whose faith was exploited into a biological prison. He’s the reminder that Saddler’s greatest weapon isn't the Plaga—it's the illusion of community.</p>
+  <p>Often dismissed as a mere "big guy" boss in the original, Mendez is transformed in the remake into a figure of tragic, horrifying authority. He isn't just a brute; he's the village's castellan, a father figure twisted by Las Plagas into a warden of flesh and ritual. His body, grotesquely elongated and hinged like a nightmare insect, reflects his dual role—still clinging to a semblance of human posture while being fundamentally broken to serve Saddler's hive. The remake emphasizes his silent, weary observation of Leon, making each encounter feel less like a random monster attack and more like a grim executioner reluctantly doing his duty. His death isn't triumphant; when his lower half detaches and he continues crawling forward, it's a pathetic, desperate end for a man whose faith was exploited into a biological prison. He's the reminder that Saddler's greatest weapon isn't the Plaga—it's the illusion of community.</p>
   <blockquote>💡 My Advice: Mendez is vulnerable to fire. Use the burning barrels and the hanging lanterns in the barn to stagger him. When he goes into "quadruped mode" after losing his lower half, keep moving in wide circles — he charges in straight lines. A fully upgraded Red9 or riot gun to the exposed Plaga core ends him fast.</blockquote>
   
-  <!-- Ramon -->
   <h2><span class="monster-ramon-title">Ramon Salazar: The Petulant God of the Castle</span></h2>
-  <p>If Mendez is the broken father, Salazar is the spoiled, petulant god of a crumbling altar. The remake wisely strips away the cartoonish shrillness of the original and replaces it with a chilling, aristocratic narcissism. This isn’t a child playing at villainy; it’s a hundred-year-old parasite in a young man’s body who has internalized his family’s guilt and twisted it into worship of the Plaga. His castle isn't just a lair—it's his giant, ornate dollhouse, and Leon is the invasive insect breaking his toys. The highlight of his character is the sheer theatrical cruelty he exudes, from stalking Leon via clockwork knights to revealing that the very statues surrounding you are weapons. When he merges with his right-hand Plaga, it feels less like a monster transformation and more like him finally shedding the "weak" human shell to reveal the true, monstrous ego within. He doesn't want to kill you; he wants you to appreciate his genius before you die.</p>
+  <p>If Mendez is the broken father, Salazar is the spoiled, petulant god of a crumbling altar. The remake wisely strips away the cartoonish shrillness of the original and replaces it with a chilling, aristocratic narcissism. This isn't a child playing at villainy; it's a hundred-year-old parasite in a young man's body who has internalized his family's guilt and twisted it into worship of the Plaga. His castle isn't just a lair—it's his giant, ornate dollhouse, and Leon is the invasive insect breaking his toys. The highlight of his character is the sheer theatrical cruelty he exudes, from stalking Leon via clockwork knights to revealing that the very statues surrounding you are weapons. When he merges with his right-hand Plaga, it feels less like a monster transformation and more like him finally shedding the "weak" human shell to reveal the true, monstrous ego within. He doesn't want to kill you; he wants you to appreciate his genius before you die.</p>
   <blockquote>💡 My Advice: Before the fight, shoot all three hanging duct covers in the boss arena — they drop golden eggs. Throwing a golden egg at Salazar deals massive damage (almost 70% of his health). Use the pillars to block his poison breath, and target the glowing weak spots on his tentacles first.</blockquote>
   
-  <!-- Krauser -->
   <h2><span class="monster-krauser-title">Jack Krauser: The Mirror of Regret</span></h2>
-  <p>Krauser is no longer a generic rival soldier; in the remake, he’s Leon’s dark doppelgänger, a haunted mirror held up to everything Leon refuses to become. Their history is visceral here—flashbacks of Operation Javier show not just camaraderie, but shared trauma. Krauser’s mutation isn't a power-up; it’s a self-inflicted desecration, a desperate attempt to replace the humanity he lost in that jungle with the cold efficiency of a weapon. The knife fight on the cliffside isn't just a gameplay set-piece; it’s a conversation. Every slash is Krauser arguing that survival requires abandoning honor, while Leon’s parries prove that tactics and will can beat raw, mutated strength. His death is melancholic, not triumphant. When he finally acknowledges Leon’s skill, it’s the only honest moment he’s had in years—a soldier finally admitting he took the wrong exit from hell.</p>
+  <p>Krauser is no longer a generic rival soldier; in the remake, he's Leon's dark doppelgänger, a haunted mirror held up to everything Leon refuses to become. Their history is visceral here—flashbacks of Operation Javier show not just camaraderie, but shared trauma. Krauser's mutation isn't a power-up; it's a self-inflicted desecration, a desperate attempt to replace the humanity he lost in that jungle with the cold efficiency of a weapon. The knife fight on the cliffside isn't just a gameplay set-piece; it's a conversation. Every slash is Krauser arguing that survival requires abandoning honor, while Leon's parries prove that tactics and will can beat raw, mutated strength. His death is melancholic, not triumphant. When he finally acknowledges Leon's skill, it's the only honest moment he's had in years—a soldier finally admitting he took the wrong exit from hell.</p>
   <blockquote>💡 My Advice: Krauser is weak to the knife — more than any gun. Parry his attacks, then slash away. During his mutated form, aim for the eyes on his giant arm. Flash grenades stun him for a long time, giving you free knife hits to the head.</blockquote>
   
-  <!-- Saddler -->
   <h2><span class="monster-saddler-title">Osmund Saddler: The Corporate Cultist</span></h2>
-  <p>Gone is the mustache-twirling, "I-would-have-gotten-away-with-it-too" Saddler. The remake Saddler is far more terrifying because he genuinely believes in his own rhetoric. He’s less a mad sorcerer and more a tech-bro cult leader fused with a televangelist—complete with calm, measured diction and a disturbing habit of framing global extinction as "salvation." The Plaga isn't just a weapon; it's a philosophy, a "fair" system that eradicates class, weakness, and free will. His true horror emerges when you realize he has already won: Ashley is under his control, the island is a self-sustaining factory of conversion, and even Leon’s bravado is merely a delay. The boss fight, a chaotic, multi-stage transformation, isn't a sign of his power—it’s his mask finally slipping to reveal the ravenous, desperate animal underneath. When Leon kills him, he isn’t killing a monster; he’s killing a bad idea, and those are always harder to put down.</p>
-  <blockquote>💡 My Advice: Destroy the glowing Plaga orbs on his body in the first phase — they’re his weak points. In the second phase (giant spider form), use the RPG if you have one for an instant kill. If not, aim for the large yellow eye on his torso. Stay mid-range to avoid his instant-kill grab.</blockquote>
+  <p>Gone is the mustache-twirling, "I-would-have-gotten-away-with-it-too" Saddler. The remake Saddler is far more terrifying because he genuinely believes in his own rhetoric. He's less a mad sorcerer and more a tech-bro cult leader fused with a televangelist—complete with calm, measured diction and a disturbing habit of framing global extinction as "salvation." The Plaga isn't just a weapon; it's a philosophy, a "fair" system that eradicates class, weakness, and free will. His true horror emerges when you realize he has already won: Ashley is under his control, the island is a self-sustaining factory of conversion, and even Leon's bravado is merely a delay. The boss fight, a chaotic, multi-stage transformation, isn't a sign of his power—it's his mask finally slipping to reveal the ravenous, desperate animal underneath. When Leon kills him, he isn't killing a monster; he's killing a bad idea, and those are always harder to put down.</p>
+  <blockquote>💡 My Advice: Destroy the glowing Plaga orbs on his body in the first phase — they're his weak points. In the second phase (giant spider form), use the RPG if you have one for an instant kill. If not, aim for the large yellow eye on his torso. Stay mid-range to avoid his instant-kill grab.</blockquote>
   
-  <!-- Verdugo -->
   <h2><span class="monster-verdugo-title">The Verdugo (The Right Hand): Pure Predator</span></h2>
-  <p>You can’t write about RE4R villains without mentioning the Verdugo, because it proves Capcom understands horror pacing. Saddler’s "Right Hand" isn't a character; it’s an event. Unlike the other villains, it has no dialogue, no motivation beyond the kill, and that makes it the purest nightmare in the game. The sequence in the sub-zero waste disposal chamber is masterful—a ticking clock, a hunter that can one-shot you, and the desperate realization that your bullets are only making it angry. The Remake cranks this up by making the Verdugo faster, smarter, and capable of crawling through vents, turning a linear escape into a terrifying game of cat-and-mouse. Defeating it via the liquid nitrogen valves feels less like a "boss fight" and more like a desperate industrial accident you barely survive. It is the id of Resident Evil: a reminder that sometimes, a villain doesn't need a tragic backstory or a monologue—just claws, carapace, and an unshakable will to turn you into slurry.</p>
+  <p>You can't write about RE4R villains without mentioning the Verdugo, because it proves Capcom understands horror pacing. Saddler's "Right Hand" isn't a character; it's an event. Unlike the other villains, it has no dialogue, no motivation beyond the kill, and that makes it the purest nightmare in the game. The sequence in the sub-zero waste disposal chamber is masterful—a ticking clock, a hunter that can one-shot you, and the desperate realization that your bullets are only making it angry. The Remake cranks this up by making the Verdugo faster, smarter, and capable of crawling through vents, turning a linear escape into a terrifying game of cat-and-mouse. Defeating it via the liquid nitrogen valves feels less like a "boss fight" and more like a desperate industrial accident you barely survive. It is the id of Resident Evil: a reminder that sometimes, a villain doesn't need a tragic backstory or a monologue—just claws, carapace, and an unshakable will to turn you into slurry.</p>
   <blockquote>💡 My Advice: You don't have to kill it — just survive for 4 minutes until the elevator arrives. But if you want it dead: freeze it with the liquid nitrogen valves (only 4 uses), then unload a fully upgraded magnum or shotgun into its head. Rinse and repeat. Never stop moving.</blockquote>
+</div>
+
+<!-- ============================================ -->
+<!-- ARABIC CONTENT (TRANSLATED VERSION)          -->
+<!-- ============================================ -->
+<div class="post-body" id="contentAr" style="display:none">
+  <p><strong>⚠️ تنبيه! ⚠️</strong> يحتوي هذا المقال على حرق لأحداث قصة <em>ريزدنت إيفل 4 ريميك</em>.</p>
+  <p><strong>نصيحتي:</strong> لا تقرأ هذا حتى تنهي اللعبة. لقد حذَّرتك.</p>
+
+  <h2><span class="monster-mendez-title">بيتوريس مينديز: الحارس المعذب</span></h2>
+  <p>غالبًا ما تم التغاضي عن مينديز باعتباره مجرد زعيم "رجل كبير" في النسخة الأصلية، لكنه تحول في الريميك إلى شخصية ذات سلطة مأساوية مرعبة. إنه ليس مجرد وحش؛ إنه حارس القرية، شخصية أبوية شوهتها لاس بلاغاس لتصبح سجينًا من لحم وطقوس. جسده، الممدد بشكل بشع والمفصل مثل حشرة كابوسية، يعكس دوره المزدوج—لا يزال يتشبث بظل الوضعية البشرية بينما هو محطم بشكل أساسي ليخدم خلية سادلر. يسلط الريميك الضوء على ملاحظته الصامتة والمتعبة للاعب، مما يجعل كل مواجهة تبدو أقل كأنها هجوم وحش عشوائي وأكثر كأنها جلاد كئيب يؤدي واجبه على مضض. موته ليس انتصارًا؛ عندما ينفصل نصفه السفلي ويستمر في الزحف للأمام، إنها نهاية مثيرة للشفقة ويائسة لرجل استُغلت عقيدته لتصبح سجنًا بيولوجيًا. إنه تذكير بأن أعظم أسلحة سادلر ليست البلاغا—بل وهم المجتمع.</p>
+  <blockquote>💡 نصيحتي: مينديز ضعيف أمام النار. استخدم البراميل المشتعلة والفوانيس المعلقة في الحظيرة لإرباكه. عندما يتحول إلى "وضع الأربع أرجل" بعد فقدان نصفه السفلي، استمر في التحرك في دوائر واسعة — فهو يهاجم في خطوط مستقيمة. استخدام Red9 مطورة بالكامل أو مسدس رشاش على قلب البلاغا المكشوف ينهيه بسرعة.</blockquote>
+  
+  <h2><span class="monster-ramon-title">رامون سالازار: الإله المدلل للقلعة</span></h2>
+  <p>إذا كان مينديز هو الأب المحطم، فإن سالازار هو الإله المدلل والمتقلب لمذبح متهاوٍ. يجرد الريميك بحكمة الصراخ الكارتوني للنسخة الأصلية ويستبدله بنرجسية أرستقراطية مرعبة. هذا ليس طفلًا يلعب دور الشرير؛ إنه طفيلي عمره مئة عام في جسد رجل شاب استوعب ذنب عائلته ولوّاه إلى عبادة البلاغا. قلعته ليست مجرد وكر—إنها بيت دمى عملاق ومزخرف، وليون هو الحشرة الغازية التي تحطم ألعابه. أبرز ما في شخصيته هو القسوة المسرحية التي ينضح بها، من مطاردته لليون عبر فرسان الساعة إلى الكشف عن أن التماثيل المحيطة بك هي أسلحة. عندما يندمج مع البلاغا اليمنى، لا يبدو هذا كتحول وحش بل كتخليه أخيرًا عن قوقعة الإنسان "الضعيفة" ليكشف عن الأنا الوحشية الحقيقية بالداخل. إنه لا يريد قتلك؛ بل يريدك أن تقدِّر عبقريته قبل أن تموت.</p>
+  <blockquote>💡 نصيحتي: قبل القتال، أطلق النار على أغطية مجاري الهواء الثلاثة المعلقة في ساحة الزعيم — ستسقط بيضًا ذهبيًا. رمي بيضة ذهبية على سالازار يسبب ضررًا هائلًا (ما يقرب من 70٪ من صحته). استخدم الأعمدة لصد أنفاسه السامة، واستهدف النقاط الضعيفة المتوهجة على مخالبه أولاً.</blockquote>
+  
+  <h2><span class="monster-krauser-title">جاك كراوزر: مرآة الندم</span></h2>
+  <p>كراوزر لم يعد جنديًا منافسًا عاديًا؛ في الريميك، أصبح نظير ليون المظلم، مرآة مسكونة لكل شيء يرفض ليون أن يصبح عليه. تاريخهما واضح هنا—ذكريات الماضي لعملية خافيير تظهر ليس فقط الزمالة، بل الصدمة المشتركة. طفرة كراوزر ليست تعزيزًا للقوى؛ إنها تدنيس الذات، محاولة يائسة لاستبدال الإنسانية التي فقدها في تلك الغابة بكفاءة السلاح الباردة. معركة السكين على حافة الجرف ليست مجرد مشهد لعب؛ إنها محادثة. كل طعنة هي حجة من كراوزر بأن البقاء يتطلب التخلي عن الشرف، بينما تصديرات ليون تثبت أن التكتيكات والإرادة يمكنهما هزيمة القوة المتحولة الخام. موته حزين، ليس منتصرًا. عندما يعترف أخيرًا بمهارة ليون، إنها اللحظة الصادقة الوحيدة التي مر بها منذ سنوات—جندي يعترف أخيرًا بأنه سلك المخرج الخطأ من الجحيم.</p>
+  <blockquote>💡 نصيحتي: كراوزر ضعيف أمام السكين — أكثر من أي سلاح ناري. تصدى لهجماته، ثم انقض بالطعنات. خلال شكله المتحول، استهدف العيون على ذراعه العملاقة. القنابل المضيئة تصعقه لفترة طويلة، مما يمنحك طعنات سكين مجانية على الرأس.</blockquote>
+  
+  <h2><span class="monster-saddler-title">أوزموند سادلر: عبّادي الشركات</span></h2>
+  <p>اختفى سادلر المدعّم بشوارب الكرتون الذي يقول "كنت لأفلت بها أيضًا". سادلر في الريميك مرعب أكثر بكثير لأنه يؤمن حقًا بخطابه الخاص. إنه أقل ساحر مجنون وأكثر زعيم طائفة تقني ممزوج بمبشر تلفزيوني—بخطاب هادئ ومحسوب وعادة مزعجة في تصوير الانقراض العالمي على أنه "خلاص". البلاغا ليست مجرد سلاح؛ إنها فلسفة، نظام "عادل" يستأصل الطبقة والضعف والإرادة الحرة. رعبه الحقيقي يظهر عندما تدرك أنه قد فاز بالفعل: آشلي تحت سيطرته، الجزيرة مصنع مكتفٍ ذاتيًا للتحول، وحتى شجاعة ليون هي مجرد تأخير. معركة الزعيم، التحول الفوضوي متعدد المراحل، ليست علامة على قوته—إنه قناعه الذي ينزلق أخيرًا ليكشف عن الحيوان الجائع واليائس تحته. عندما يقتله ليون، إنه لا يقتل وحشًا؛ إنه يقتل فكرة سيئة، وتلك دائمًا أصعب في القضاء عليها.</p>
+  <blockquote>💡 نصيحتي: دمر كرات البلاغا المتوهجة على جسده في المرحلة الأولى — فهي نقاط ضعفه. في المرحلة الثانية (شكل العنكبوت العملاق)، استخدم آر بي جي إذا كان لديك واحد لقتل فوري. إذا لم يكن كذلك، استهدف العين الصفراء الكبيرة على جذعه. ابق في المدى المتوسط لتجنب قبضته القاتلة الفورية.</blockquote>
+  
+  <h2><span class="monster-verdugo-title">فيردوقو (اليد اليمنى): مفترس خالص</span></h2>
+  <p>لا يمكنك الكتابة عن أشرار RE4R دون ذكر فيردوقو، لأنه يثبت أن كابكوم تفهم إيقاع الرعب. "اليد اليمنى" لسادلر ليست شخصية؛ إنه حدث. على عكس الأشرار الآخرين، ليس لديه حوار، ولا دافع وراء القتل، وهذا ما يجعله الكابوس الأكثر نقاءً في اللعبة. التسلسل في غرفة التخلص من النفايات دون الصفر هو تحفة فنية—ساعة موقوتة، صياد يمكنه قتلك بضربة واحدة، والإدراك اليائس بأن رصاصاتك فقط تجعله أكثر غضبًا. يزيد الريميك من هذا بجعل فيردوقو أسرع وأذكى وقادرًا على الزحف عبر الفتحات، محولًا الهروب الخطي إلى لعبة قط وفأر مرعبة. هزيمته عبر صمامات النيتروجين السائل تبدو أقل كـ "معركة زعيم" وأكثر كحادث صناعي يائس بالكاد تنجو منه. إنه الهويس (id) لريزدنت إيفل: تذكير بأنه في بعض الأحيان، الشرير لا يحتاج إلى قصة درامية أو مونولوج—فقط مخالب وهيكل خارجي وإرادة لا تتزعزع لتحويلك إلى حساء.</p>
+  <blockquote>💡 نصيحتي: ليس عليك قتله — فقط نج لمدة 4 دقائق حتى يصل المصعد. ولكن إذا أردته ميتًا: جمده بصمامات النيتروجين السائل (يوجد 4 استخدامات فقط)، ثم أفرغ مخزون مسدس ماغنم مطور بالكامل أو بندقية صيد في رأسه. كرر العملية. لا تتوقف عن الحركة أبدًا.</blockquote>
 </div>
 
 <footer>
   <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
-  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+  <p id="footerTextEn">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
+  <p id="footerTextAr" style="display:none">© ٢٠٢٦ بيكسل زون — الألعاب للجميع، في كل مكان</p>
 </footer>
 
+<script>
+// ==============================================
+// BILINGUAL ARTICLE SCRIPT
+// ==============================================
+
+// Get current language from localStorage or URL parameter
+let currentLang = localStorage.getItem('pixelzoneLang') || 'en';
+
+// Also check URL parameter (if coming from articles page)
+const urlParams = new URLSearchParams(window.location.search);
+const urlLang = urlParams.get('lang');
+if (urlLang && (urlLang === 'en' || urlLang === 'ar')) {
+  currentLang = urlLang;
+  localStorage.setItem('pixelzoneLang', currentLang);
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('pixelzoneLang', lang);
+  
+  // Set RTL/LTR
+  document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  if (lang === 'ar') {
+    document.body.classList.add('lang-ar');
+  } else {
+    document.body.classList.remove('lang-ar');
+  }
+  
+  // Toggle content visibility
+  document.getElementById('contentEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('contentAr').style.display = lang === 'ar' ? 'block' : 'none';
+  
+  // Toggle titles
+  document.getElementById('postTitleEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('postTitleAr').style.display = lang === 'ar' ? 'block' : 'none';
+  
+  // Toggle meta info
+  document.getElementById('postTypeEn').style.display = lang === 'en' ? 'inline-block' : 'none';
+  document.getElementById('postTypeAr').style.display = lang === 'ar' ? 'inline-block' : 'none';
+  document.getElementById('postDateEn').style.display = lang === 'en' ? 'inline' : 'none';
+  document.getElementById('postDateAr').style.display = lang === 'ar' ? 'inline' : 'none';
+  document.getElementById('postAuthorEn').style.display = lang === 'en' ? 'inline' : 'none';
+  document.getElementById('postAuthorAr').style.display = lang === 'ar' ? 'inline' : 'none';
+  
+  // Toggle footer
+  document.getElementById('footerTextEn').style.display = lang === 'en' ? 'block' : 'none';
+  document.getElementById('footerTextAr').style.display = lang === 'ar' ? 'block' : 'none';
+  
+  // Update active button
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+// Language switcher event listeners
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+});
+
+// Initialize with saved/URL language
+setLanguage(currentLang);
+</script>
 </body>
 </html>
