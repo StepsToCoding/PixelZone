@@ -1,16 +1,6 @@
 {
   "articles": [
     {
-      "title_en": "Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery",
-      "title_ar": "كوابيس سبايدر مان: ترتيب قائمة أشرار إنسومنياك",
-      "excerpt_en": "Now let's talk about the VILLAINS of Insomniac's New York.",
-      "excerpt_ar": "لنتحدث الآن عن الأشرار في نيويورك من إنتاج إنسومنياك.",
-      "category": "GUIDE",
-      "date": "2026-05-01",
-      "file": "SM-Villains.html",
-      "is_bilingual": true
-    },
-    {
       "title_en": "Resident Evil 2 Remake: A Bestiary of Nightmares",
       "title_ar": "ريزدنت إيفل 2 ريميك: موسوعة الكوابيس",
       "excerpt_en": "Now let's talk about the MONSTERS of Raccoon City.",
@@ -21,13 +11,13 @@
       "is_bilingual": true
     },
     {
-      "title_en": "Resident Evil 3 Remake — Monsters & Villains Deep Dive",
-      "title_ar": "ريزدنت إيفل 3 ريميك — الغوص في أعماق الوحوش والأشرار",
-      "excerpt_en": "⚠️ ALERT! ⚠️ This article contains major spoilers about the story of Resident Evil 3 Remake.",
-      "excerpt_ar": "⚠️ تنبيه! ⚠️ يحتوي هذا المقال على حرق لأحداث قصة ريزدنت إيفل 3 ريميك.",
+      "title_en": "Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery",
+      "title_ar": "كوابيس سبايدر مان: ترتيب قائمة أشرار إنسومنياك",
+      "excerpt_en": "Now let's talk about the VILLAINS of Insomniac's New York.",
+      "excerpt_ar": "لنتحدث الآن عن الأشرار في نيويورك من إنتاج إنسومنياك.",
       "category": "GUIDE",
       "date": "2026-05-01",
-      "file": "RE3-Monsters.html",
+      "file": "SM-Villains.html",
       "is_bilingual": true
     },
     {
@@ -41,13 +31,13 @@
       "is_bilingual": true
     },
     {
-      "title_en": "Your English Title Here",
-      "title_ar": "عنوانك بالعربية هنا",
-      "excerpt_en": "Write your English introduction paragraph here. This is where you hook the reader. Keep it punchy — one or two sentences that make them want to keep reading....",
-      "excerpt_ar": "اكتب مقدمة المقال بالعربية هنا. هذه الفقرة تجذب القارئ وتجعله يريد الاستمرار في القراءة. اجعلها جذابة ومباشرة.",
+      "title_en": "Resident Evil 3 Remake — Monsters & Villains Deep Dive",
+      "title_ar": "ريزدنت إيفل 3 ريميك — الغوص في أعماق الوحوش والأشرار",
+      "excerpt_en": "⚠️ ALERT! ⚠️ This article contains major spoilers about the story of Resident Evil 3 Remake.",
+      "excerpt_ar": "⚠️ تنبيه! ⚠️ يحتوي هذا المقال على حرق لأحداث قصة ريزدنت إيفل 3 ريميك.",
       "category": "GUIDE",
-      "date": "2026-04-29",
-      "file": "NewBlogTemplate.html",
+      "date": "2026-05-01",
+      "file": "RE3-Monsters.html",
       "is_bilingual": true
     },
     {

@@ -1,0 +1,16 @@
+# PixelZone Robots.txt
+# Live site: https://stepstocoding.github.io/PixelZone/
+
+User-agent: *
+Allow: /
+Disallow: /Games/games/
+Disallow: /Articles/articles/*?lang=
+
+# Sitemap location
+Sitemap: https://stepstocoding.github.io/PixelZone/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
+
+# Host
+Host: https://stepstocoding.github.io/PixelZone
