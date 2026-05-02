@@ -6,7 +6,6 @@
 <title>PIXELZONE · GAME CORE · PLAY</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-/* ===== BASE STYLES (unchanged, except gamepad styles) ===== */
 *{margin:0;padding:0;box-sizing:border-box}
 
 :root{
@@ -192,19 +191,19 @@ input[type="file"] { display: none; }
   word-break: break-word;
 }
 
-/* ===== CUSTOMIZABLE GAMEPAD ===== */
+/* ===== MOBILE-ONLY GAMEPAD ===== */
 .gamepad-container {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1000;
-  background: rgba(8, 11, 20, 0.9);
+  background: rgba(8, 11, 20, 0.95);
   backdrop-filter: blur(16px);
   border: 1px solid var(--neon-cyan);
   border-radius: 16px;
   box-shadow: 0 0 20px rgba(0,245,255,0.3);
-  transition: all 0.1s;
-  touch-action: none; /* for drag */
+  display: none; /* Hidden by default, shown only on mobile */
+  touch-action: none;
 }
 .gamepad-header {
   display: flex;
@@ -240,7 +239,7 @@ input[type="file"] { display: none; }
   padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 .gamepad-row {
   display: flex;
@@ -255,7 +254,7 @@ input[type="file"] { display: none; }
   font-weight: bold;
   font-size: 1rem;
   min-width: 60px;
-  padding: 10px 0;
+  padding: 12px 0;
   text-align: center;
   border-radius: 12px;
   cursor: pointer;
@@ -274,7 +273,7 @@ input[type="file"] { display: none; }
   border-top: 1px solid var(--border-glow);
   display: none;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 .gamepad-settings.open {
   display: flex;
@@ -286,19 +285,20 @@ input[type="file"] { display: none; }
   gap: 10px;
   font-size: 0.7rem;
 }
-.setting-row input {
+.setting-row input, .setting-row textarea {
   background: var(--bg-card);
   border: 1px solid var(--border-glow);
   color: var(--text-main);
-  padding: 4px 8px;
-  width: 80px;
+  padding: 6px 10px;
+  width: 100%;
   font-family: monospace;
+  font-size: 0.7rem;
 }
 .setting-row button {
   background: rgba(255,45,120,0.2);
   border: 1px solid var(--neon-pink);
   color: var(--neon-pink);
-  padding: 2px 8px;
+  padding: 4px 12px;
   cursor: pointer;
 }
 .resize-handle {
@@ -312,11 +312,11 @@ input[type="file"] { display: none; }
   border-radius: 2px;
   opacity: 0.5;
 }
+
+/* Only show on mobile devices */
 @media (max-width: 768px) {
-  .gamepad-btn {
-    min-width: 50px;
-    padding: 8px 0;
-    font-size: 0.9rem;
+  .gamepad-container {
+    display: block;
   }
 }
 </style>
@@ -341,12 +341,14 @@ input[type="file"] { display: none; }
 
 <div class="title" id="gameTitle">Loading...</div>
 <div class="game-container"><div id="game"></div></div>
+
 <div class="save-panel" id="savePanel" style="display: none;">
-  <button class="save-btn" onclick="downloadSaveFile()">💾 DOWNLOAD SAVE</button>
+  <button class="save-btn" id="saveGameBtn" onclick="downloadSaveFile()">💾 DOWNLOAD SAVE</button>
   <label class="file-input-label" for="loadSaveInput">📂 LOAD SAVE FILE</label>
   <input type="file" id="loadSaveInput" accept=".pzsave" onchange="uploadSaveFile(this)">
   <span id="saveStatus" class="status-msg"></span>
 </div>
+
 <div class="loading" id="loadingText">🔧 Initializing Ruffle & game engine...</div>
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
@@ -364,84 +366,119 @@ input[type="file"] { display: none; }
     if (container?.requestFullscreen) container.requestFullscreen();
   };
 
-  // ========== SAVE/LOAD (unchanged, functional) ==========
-  async function downloadSaveFile() { /* ... keep existing code ... */ }
-  async function uploadSaveFile(input) { /* ... keep existing code ... */ }
-  function showSaveStatus(msg, color) { /* ... keep ... */ }
-  // For brevity, I'll keep original save/load logic (same as before)
-  // (The full script will have the complete save/load functions – unchanged)
-  // I'm including a compact version here, but the final answer will contain full.
-
-  // ========== CUSTOM VIRTUAL GAMEPAD ==========
-  let gamepadElement = null;
-  let isDragging = false;
-  let dragOffsetX = 0, dragOffsetY = 0;
-  let isResizing = false;
-  let startWidth = 0, startHeight = 0, startX = 0, startY = 0;
-
-  // Default key mapping (button label -> key code)
-  let keyMap = {
-    "▲ UP": "ArrowUp",
-    "▼ DOWN": "ArrowDown",
-    "◀ LEFT": "ArrowLeft",
-    "▶ RIGHT": "ArrowRight",
-    "␣ SPACE": " ",
-    "↵ ENTER": "Enter",
-    "⇧ SHIFT": "Shift",
-    "⌃ CTRL": "Control",
-    "W": "KeyW",
-    "A": "KeyA",
-    "S": "KeyS",
-    "D": "KeyD",
-    "E": "KeyE",
-    "R": "KeyR"
-  };
-
-  function loadGamepadSettings() {
-    const saved = localStorage.getItem('pixelzone_gamepad');
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        if (data.keyMap) keyMap = data.keyMap;
-        if (data.position) {
-          const container = document.querySelector('.gamepad-container');
-          if (container) {
-            container.style.left = data.position.left;
-            container.style.top = data.position.top;
-            container.style.right = 'auto';
-            container.style.bottom = 'auto';
-          }
+  // ========== SAVE/LOAD FUNCTIONS ==========
+  async function downloadSaveFile() {
+    if (!currentGameName || !currentPlayer) {
+      showSaveStatus("⚠️ Game not loaded yet!", "#ff2d78");
+      return;
+    }
+    try {
+      let gameSpecificStorage = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.includes(currentGameName) || key.includes(currentGameFile?.replace('.swf', '')))) {
+          gameSpecificStorage[key] = localStorage.getItem(key);
         }
-        if (data.size) {
-          const container = document.querySelector('.gamepad-container');
-          if (container) {
-            container.style.width = data.size.width;
-          }
-        }
-      } catch(e) {}
+      }
+      const saveFile = {
+        gameName: currentGameName,
+        gameFile: currentGameFile,
+        timestamp: Date.now(),
+        version: "1.0",
+        localStorageData: gameSpecificStorage,
+        cookies: document.cookie,
+        note: "Save file for " + currentGameName
+      };
+      const jsonStr = JSON.stringify(saveFile);
+      const encoded = btoa(encodeURIComponent(jsonStr));
+      const blob = new Blob([encoded], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${currentGameName}_save_${new Date().toISOString().slice(0,19)}.pzsave`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showSaveStatus("✅ Save file downloaded!", "#39ff14");
+    } catch (error) {
+      console.error("Save error:", error);
+      showSaveStatus("❌ Failed to create save file", "#ff2d78");
     }
   }
 
-  function saveGamepadSettings() {
-    const container = document.querySelector('.gamepad-container');
-    const settings = {
-      keyMap: keyMap,
-      position: { left: container.style.left, top: container.style.top },
-      size: { width: container.style.width }
+  async function uploadSaveFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (!currentGameName || !currentPlayer) {
+      showSaveStatus("⚠️ Wait for game to load first!", "#ff2d78");
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      try {
+        const encoded = e.target.result;
+        const decoded = decodeURIComponent(atob(encoded));
+        const saveData = JSON.parse(decoded);
+        if (saveData.gameName !== currentGameName) {
+          showSaveStatus(`🔒 Save file is for "${saveData.gameName}" but current game is "${currentGameName}"`, "#ff2d78");
+          input.value = '';
+          return;
+        }
+        let loadedCount = 0;
+        if (saveData.localStorageData) {
+          for (const [key, value] of Object.entries(saveData.localStorageData)) {
+            localStorage.setItem(key, value);
+            loadedCount++;
+          }
+        }
+        showSaveStatus(`✅ Save loaded! (Restored ${loadedCount} items)`, "#39ff14");
+        showSaveStatus("🔄 Game data restored! Please refresh the game to apply changes.", "#ffa500");
+        const refreshBtn = document.createElement('button');
+        refreshBtn.textContent = '🔄 RESTART GAME WITH SAVE';
+        refreshBtn.className = 'save-btn';
+        refreshBtn.onclick = () => location.reload();
+        document.getElementById('saveStatus').appendChild(refreshBtn);
+        setTimeout(() => { if(refreshBtn.parentNode) refreshBtn.remove(); }, 10000);
+      } catch (error) {
+        console.error("Load error:", error);
+        showSaveStatus("❌ Corrupted or invalid save file", "#ff2d78");
+      }
+      input.value = '';
     };
-    localStorage.setItem('pixelzone_gamepad', JSON.stringify(settings));
+    reader.readAsText(file);
+  }
+  
+  function showSaveStatus(msg, color) {
+    const statusSpan = document.getElementById('saveStatus');
+    if (statusSpan) {
+      statusSpan.innerHTML = msg;
+      statusSpan.style.color = color;
+      setTimeout(() => { if (statusSpan.innerHTML === msg) statusSpan.innerHTML = ''; }, 5000);
+    }
   }
 
-  function rebuildGamepadButtons() {
+  // ========== VIRTUAL GAMEPAD (Mobile Only) ==========
+  let gamepadContainer = null;
+  let keyMap = {
+    "▲": "ArrowUp", "▼": "ArrowDown", "◀": "ArrowLeft", "▶": "ArrowRight",
+    "␣": " ", "↵": "Enter",
+    "W": "KeyW", "A": "KeyA", "S": "KeyS", "D": "KeyD", "E": "KeyE", "R": "KeyR"
+  };
+
+  function sendKeyToGame(keyCode, type) {
+    if (!currentPlayer || !currentPlayer.element) return;
+    const event = new KeyboardEvent(type, { key: keyCode, code: keyCode, bubbles: true, cancelable: true });
+    currentPlayer.element.dispatchEvent(event);
+    document.dispatchEvent(event);
+  }
+
+  function rebuildGamepad() {
     const wrap = document.querySelector('.gamepad-buttons');
     if (!wrap) return;
-    // Clear and rebuild from current keyMap
     wrap.innerHTML = '';
-    // Create rows dynamically: we'll group into rows like original layout
-    const row1Keys = ["▲ UP", "▼ DOWN", "◀ LEFT", "▶ RIGHT"];
-    const row2Keys = ["␣ SPACE", "↵ ENTER", "⇧ SHIFT", "⌃ CTRL"];
-    const row3Keys = ["W", "A", "S", "D", "E", "R"];
-    const rows = [row1Keys, row2Keys, row3Keys];
+    const rows = [["▲", "▼", "◀", "▶"], ["␣", "↵"], ["W", "A", "S", "D", "E", "R"]];
     rows.forEach(row => {
       const rowDiv = document.createElement('div');
       rowDiv.className = 'gamepad-row';
@@ -450,28 +487,15 @@ input[type="file"] { display: none; }
         btn.className = 'gamepad-btn';
         btn.textContent = label;
         btn.setAttribute('data-key', keyMap[label] || label);
-        btn.addEventListener('touchstart', (e) => { e.preventDefault(); sendKeyDown(btn.dataset.key); });
-        btn.addEventListener('touchend', (e) => { e.preventDefault(); sendKeyUp(btn.dataset.key); });
-        btn.addEventListener('mousedown', (e) => { e.preventDefault(); sendKeyDown(btn.dataset.key); });
-        btn.addEventListener('mouseup', (e) => { sendKeyUp(btn.dataset.key); });
-        btn.addEventListener('mouseleave', () => sendKeyUp(btn.dataset.key));
+        btn.addEventListener('touchstart', (e) => { e.preventDefault(); sendKeyToGame(btn.dataset.key, 'keydown'); btn.style.background = 'var(--neon-cyan)'; btn.style.color = '#080b14'; });
+        btn.addEventListener('touchend', (e) => { e.preventDefault(); sendKeyToGame(btn.dataset.key, 'keyup'); btn.style.background = ''; btn.style.color = ''; });
+        btn.addEventListener('mousedown', (e) => { e.preventDefault(); sendKeyToGame(btn.dataset.key, 'keydown'); btn.style.background = 'var(--neon-cyan)'; btn.style.color = '#080b14'; });
+        btn.addEventListener('mouseup', () => { sendKeyToGame(btn.dataset.key, 'keyup'); btn.style.background = ''; btn.style.color = ''; });
+        btn.addEventListener('mouseleave', () => { sendKeyToGame(btn.dataset.key, 'keyup'); btn.style.background = ''; btn.style.color = ''; });
         rowDiv.appendChild(btn);
       });
       wrap.appendChild(rowDiv);
     });
-  }
-
-  function sendKeyDown(keyCode) {
-    if (!currentPlayer?.element) return;
-    const event = new KeyboardEvent('keydown', { key: keyCode, code: keyCode, bubbles: true });
-    currentPlayer.element.dispatchEvent(event);
-    document.dispatchEvent(event);
-  }
-  function sendKeyUp(keyCode) {
-    if (!currentPlayer?.element) return;
-    const event = new KeyboardEvent('keyup', { key: keyCode, code: keyCode, bubbles: true });
-    currentPlayer.element.dispatchEvent(event);
-    document.dispatchEvent(event);
   }
 
   function initGamepadUI() {
@@ -480,27 +504,25 @@ input[type="file"] { display: none; }
     container.className = 'gamepad-container';
     container.innerHTML = `
       <div class="gamepad-header">
-        <span class="gamepad-title">🎮 VIRTUAL GAMEPAD</span>
+        <span class="gamepad-title">🎮 GAMEPAD</span>
         <div class="gamepad-controls">
-          <button class="gamepad-icon-btn" id="toggleSettingsBtn">⚙️</button>
+          <button class="gamepad-icon-btn" id="toggleGamepadSettings">⚙️</button>
           <button class="gamepad-icon-btn" id="hideGamepadBtn">✖️</button>
         </div>
       </div>
       <div class="gamepad-buttons"></div>
-      <div class="gamepad-settings" id="gamepadSettings">
-        <div class="setting-row">Edit key bindings (label:key)<br>Format: UP:ArrowUp, SPACE: </div>
-        <div class="setting-row"><textarea id="keyMapEditor" rows="3" style="width:100%;background:#0d1220;color:#00f5ff;border:1px solid cyan;"></textarea></div>
-        <div class="setting-row"><button id="saveKeyMapBtn">SAVE & REBUILD</button><button id="resetKeyMapBtn">RESET DEFAULT</button></div>
-        <div class="setting-row"><span>Resize (px):</span><input type="number" id="gamepadWidth" step="10" placeholder="width"><button id="applySizeBtn">APPLY</button></div>
+      <div class="gamepad-settings" id="gamepadSettingsPanel">
+        <div class="setting-row"><textarea id="keyMapEditor" rows="4" placeholder="Label:KeyCode"></textarea></div>
+        <div class="setting-row"><button id="saveKeyMapBtn">SAVE KEYS</button><button id="resetKeyMapBtn">RESET</button></div>
       </div>
       <div class="resize-handle"></div>
     `;
     document.body.appendChild(container);
-    gamepadElement = container;
-    rebuildGamepadButtons();
+    gamepadContainer = container;
+    rebuildGamepad();
 
-    // Drag functionality
     const header = container.querySelector('.gamepad-header');
+    let dragOffsetX, dragOffsetY, isDragging = false;
     header.addEventListener('mousedown', startDrag);
     header.addEventListener('touchstart', startDrag);
     function startDrag(e) {
@@ -529,17 +551,10 @@ input[type="file"] { display: none; }
       container.style.left = left + 'px';
       container.style.top = top + 'px';
     }
-    function stopDrag() {
-      isDragging = false;
-      document.removeEventListener('mousemove', onDrag);
-      document.removeEventListener('mouseup', stopDrag);
-      document.removeEventListener('touchmove', onDrag);
-      document.removeEventListener('touchend', stopDrag);
-      saveGamepadSettings();
-    }
-
-    // Resize handle
+    function stopDrag() { isDragging = false; document.removeEventListener('mousemove', onDrag); document.removeEventListener('mouseup', stopDrag); document.removeEventListener('touchmove', onDrag); document.removeEventListener('touchend', stopDrag); }
+    
     const resizeHandle = container.querySelector('.resize-handle');
+    let startWidth, startX, isResizing = false;
     resizeHandle.addEventListener('mousedown', startResize);
     resizeHandle.addEventListener('touchstart', startResize);
     function startResize(e) {
@@ -556,92 +571,39 @@ input[type="file"] { display: none; }
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const deltaX = clientX - startX;
       let newWidth = startWidth + deltaX;
-      newWidth = Math.min(500, Math.max(200, newWidth));
+      newWidth = Math.min(400, Math.max(180, newWidth));
       container.style.width = newWidth + 'px';
     }
-    function stopResize() {
-      isResizing = false;
-      document.removeEventListener('mousemove', onResize);
-      document.removeEventListener('mouseup', stopResize);
-      document.removeEventListener('touchmove', onResize);
-      document.removeEventListener('touchend', stopResize);
-      saveGamepadSettings();
-    }
-
-    // Toggle settings
-    const toggleBtn = document.getElementById('toggleSettingsBtn');
-    const settingsDiv = document.getElementById('gamepadSettings');
-    toggleBtn.addEventListener('click', () => settingsDiv.classList.toggle('open'));
-
-    // Hide gamepad
-    const hideBtn = document.getElementById('hideGamepadBtn');
-    hideBtn.addEventListener('click', () => {
-      container.style.display = 'none';
-      localStorage.setItem('pixelzone_gamepad_hidden', 'true');
-    });
-
-    // Key map editor
-    const editor = document.getElementById('keyMapEditor');
-    const saveKeyBtn = document.getElementById('saveKeyMapBtn');
-    const resetKeyBtn = document.getElementById('resetKeyMapBtn');
-    function updateEditor() {
-      let str = '';
-      for (const [label, code] of Object.entries(keyMap)) {
-        str += `${label}:${code}\n`;
-      }
-      editor.value = str;
-    }
-    updateEditor();
-    saveKeyBtn.addEventListener('click', () => {
-      const lines = editor.value.split('\n');
+    function stopResize() { isResizing = false; document.removeEventListener('mousemove', onResize); document.removeEventListener('mouseup', stopResize); document.removeEventListener('touchmove', onResize); document.removeEventListener('touchend', stopResize); }
+    
+    document.getElementById('toggleGamepadSettings').addEventListener('click', () => document.getElementById('gamepadSettingsPanel').classList.toggle('open'));
+    document.getElementById('hideGamepadBtn').addEventListener('click', () => container.style.display = 'none');
+    document.getElementById('saveKeyMapBtn').addEventListener('click', () => {
+      const lines = document.getElementById('keyMapEditor').value.split('\n');
       const newMap = {};
-      for (const line of lines) {
+      lines.forEach(line => {
         if (line.includes(':')) {
           const [label, code] = line.split(':');
           if (label && code) newMap[label.trim()] = code.trim();
         }
-      }
+      });
       if (Object.keys(newMap).length) keyMap = newMap;
-      rebuildGamepadButtons();
-      saveGamepadSettings();
+      rebuildGamepad();
+      localStorage.setItem('pixelzone_gamepad_map', JSON.stringify(keyMap));
     });
-    resetKeyBtn.addEventListener('click', () => {
-      keyMap = {
-        "▲ UP": "ArrowUp", "▼ DOWN": "ArrowDown", "◀ LEFT": "ArrowLeft", "▶ RIGHT": "ArrowRight",
-        "␣ SPACE": " ", "↵ ENTER": "Enter", "⇧ SHIFT": "Shift", "⌃ CTRL": "Control",
-        "W": "KeyW", "A": "KeyA", "S": "KeyS", "D": "KeyD", "E": "KeyE", "R": "KeyR"
-      };
-      rebuildGamepadButtons();
-      updateEditor();
-      saveGamepadSettings();
+    document.getElementById('resetKeyMapBtn').addEventListener('click', () => {
+      keyMap = { "▲": "ArrowUp", "▼": "ArrowDown", "◀": "ArrowLeft", "▶": "ArrowRight", "␣": " ", "↵": "Enter", "W": "KeyW", "A": "KeyA", "S": "KeyS", "D": "KeyD", "E": "KeyE", "R": "KeyR" };
+      rebuildGamepad();
+      localStorage.removeItem('pixelzone_gamepad_map');
     });
-    const widthInput = document.getElementById('gamepadWidth');
-    const applySizeBtn = document.getElementById('applySizeBtn');
-    widthInput.value = container.offsetWidth;
-    applySizeBtn.addEventListener('click', () => {
-      let w = parseInt(widthInput.value);
-      if (isNaN(w)) w = 280;
-      w = Math.min(500, Math.max(200, w));
-      container.style.width = w + 'px';
-      saveGamepadSettings();
-    });
-
-    // Restore hidden state
-    if (localStorage.getItem('pixelzone_gamepad_hidden') === 'true') {
-      container.style.display = 'none';
-    }
-    loadGamepadSettings();
-  }
-
-  // Show gamepad if not hidden
-  function showGamepadIfNeeded() {
-    const container = document.querySelector('.gamepad-container');
-    if (container && localStorage.getItem('pixelzone_gamepad_hidden') === 'true') {
-      container.style.display = 'flex';
-      localStorage.removeItem('pixelzone_gamepad_hidden');
-    } else if (!container) {
-      initGamepadUI();
-    }
+    const savedMap = localStorage.getItem('pixelzone_gamepad_map');
+    if (savedMap) { keyMap = JSON.parse(savedMap); rebuildGamepad(); }
+    const width = localStorage.getItem('pixelzone_gamepad_width');
+    if (width) container.style.width = width + 'px';
+    const left = localStorage.getItem('pixelzone_gamepad_left');
+    const top = localStorage.getItem('pixelzone_gamepad_top');
+    if (left && top) { container.style.left = left + 'px'; container.style.top = top + 'px'; container.style.bottom = 'auto'; container.style.right = 'auto'; }
+    container.addEventListener('dragend', () => { localStorage.setItem('pixelzone_gamepad_left', parseInt(container.style.left)); localStorage.setItem('pixelzone_gamepad_top', parseInt(container.style.top)); });
   }
 
   // ========== GAME INITIALIZATION ==========
@@ -672,7 +634,7 @@ input[type="file"] { display: none; }
   } else {
     currentGameFile = gameFile;
     currentGameName = gameFile.replace(/\.swf$/i, "").replace(/_/g, " ").toUpperCase();
-    titleElem.textContent = currentGameName + " // TOUCH GAMEPAD READY";
+    titleElem.textContent = currentGameName + " // GAMEPAD READY";
     gameContainerDiv.innerHTML = "";
     const ruffleObj = window.RufflePlayer;
     if (!ruffleObj?.newest) {
@@ -692,10 +654,9 @@ input[type="file"] { display: none; }
         const gamePath = "games/" + gameFile;
         setLoadingMessage(`🎮 Loading ${currentGameName} ...`);
         player.load(gamePath).then(() => {
-          setLoadingMessage(`✅ GAME READY! Use SAVE/LOAD buttons. Mobile gamepad ready.`);
+          setLoadingMessage(`✅ GAME READY! Save/Load available. Mobile gamepad ready.`);
           savePanel.style.display = "flex";
-          initGamepadUI();    // create gamepad UI
-          showGamepadIfNeeded(); // ensure visible if not hidden
+          initGamepadUI();
         }).catch((err) => {
           console.error(err);
           setLoadingMessage(`❌ Failed to load ${gameFile}. Check if file exists in 'games/' folder`, true);
@@ -706,7 +667,6 @@ input[type="file"] { display: none; }
       }
     }
   }
-  // Additional CSS for ruffle embed
   const styleFix = document.createElement('style');
   styleFix.textContent = `#game ruffle-player, #game object{ width:100% !important; height:100% !important; display:block; position:absolute; top:0; left:0; } #game{ position:relative; overflow:hidden; min-height:400px; }`;
   document.head.appendChild(styleFix);

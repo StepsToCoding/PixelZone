@@ -266,24 +266,7 @@
   <strong>Android:</strong> Google Play (free)<br>
   <strong>PC:</strong> Available on Steam and web browsers</p>
 
-  <div class="view-counter-section">
-    <div class="view-counter" id="viewCounter">
-      <span class="view-icon">👁️</span>
-      <span id="viewCount">Loading...</span>
-      <span class="view-label" id="viewLabel">views</span>
-    </div>
-  </div>
 
-  <div class="share-section">
-    <div class="glow-divider" style="margin: 2rem 0 1.5rem;"></div>
-    <div class="share-title" id="shareTitle">📤 SHARE THIS ARTICLE</div>
-    <div class="share-buttons">
-      <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 Twitter</button>
-      <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">📱 WhatsApp</button>
-      <button class="share-btn telegram" onclick="shareOnTelegram()">✈️ Telegram</button>
-      <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
-    </div>
-  </div
 
 
   <div class="view-counter-section">
@@ -304,7 +287,6 @@
       <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
     </div>
   </div>
->
 </div>
 
 <!-- ARABIC CONTENT -->
@@ -455,36 +437,6 @@ if (document.readyState === 'loading') {
 // ============================================
 // VIEW COUNTER - FIXED VERSION
 // ============================================
-function initViewCounter() {
-    console.log("Initializing view counter...");
-    
-    // Get unique key for this article
-    let path = window.location.pathname;
-    let articleKey = 'view_' + path.replace(/\//g, '_').replace(/[^a-zA-Z0-9_]/g, '_');
-    
-    // Get or increment view count
-    let views = localStorage.getItem(articleKey);
-    if (!views) {
-        views = 1;
-    } else {
-        views = parseInt(views) + 1;
-    }
-    localStorage.setItem(articleKey, views);
-    
-    // Update all view counter displays
-    let viewSpans = document.querySelectorAll('.view-count-display');
-    console.log("Found " + viewSpans.length + " view counter(s)");
-    viewSpans.forEach(function(span) {
-        span.textContent = views.toLocaleString();
-    });
-    
-    // Update language for view label
-    let lang = localStorage.getItem('pixelzoneLang') || 'en';
-    let labels = document.querySelectorAll('.view-label');
-    labels.forEach(function(label) {
-        label.textContent = lang === 'ar' ? 'مشاهدة' : 'views';
-    });
-}
 
 // ============================================
 // SHARE FUNCTIONS
