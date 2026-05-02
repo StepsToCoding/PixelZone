@@ -1,0 +1,173 @@
+/* ============================================
+   PIXELZONE - MOBILE RESPONSIVE STYLES
+   (Auto-generated - edit this file to customize)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Navigation */
+  nav {
+    padding: 0 1rem;
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    left: -100%;
+    width: 75%;
+    max-width: 280px;
+    height: calc(100vh - 64px);
+    background: rgba(8, 11, 20, 0.98);
+    backdrop-filter: blur(16px);
+    flex-direction: column;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    border-right: 1px solid var(--border-glow);
+  }
+  
+  .nav-links.open {
+    left: 0;
+  }
+  
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 10px;
+    z-index: 1001;
+  }
+  
+  .hamburger span {
+    width: 25px;
+    height: 2px;
+    background: var(--neon-cyan);
+    transition: all 0.3s ease;
+  }
+  
+  .hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+  
+  .menu-overlay {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 64px);
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    display: none;
+  }
+  
+  .menu-overlay.open {
+    display: block;
+  }
+  
+  /* Grids become single column */
+  .articles-grid, .wt-grid, .games-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Hero section */
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .hero-btns {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-primary, .btn-secondary, .btn-discord {
+    width: 100%;
+    max-width: 220px;
+    justify-content: center;
+  }
+  
+  /* Filters */
+  .controls {
+    flex-direction: column;
+  }
+  
+  .search-wrap {
+    max-width: 100%;
+  }
+  
+  .search-input {
+    font-size: 16px;
+  }
+  
+  .filter-group {
+    justify-content: center;
+  }
+  
+  .sort-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .results-info {
+    margin-left: 0;
+    text-align: center;
+  }
+  
+  /* Article post */
+  .post-hero {
+    padding: 2rem 1rem;
+  }
+  
+  .post-body {
+    padding: 0 1rem 3rem;
+  }
+  
+  .review-score-box {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .pro-con-box {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Share buttons */
+  .share-buttons {
+    gap: 0.5rem;
+  }
+  
+  .share-btn {
+    font-size: 0.6rem;
+    padding: 6px 12px;
+  }
+}
+
+/* RTL mobile fixes */
+@media (max-width: 768px) {
+  [dir="rtl"] .nav-links {
+    left: auto;
+    right: -100%;
+    border-right: none;
+    border-left: 1px solid var(--border-glow);
+  }
+  
+  [dir="rtl"] .nav-links.open {
+    left: auto;
+    right: 0;
+  }
+  
+  [dir="rtl"] .results-info {
+    margin-right: 0;
+  }
+}

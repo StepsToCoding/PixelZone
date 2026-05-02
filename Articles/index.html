@@ -94,7 +94,8 @@
   [dir="rtl"] .search-input{padding:7px 36px 7px 14px}
   [dir="rtl"] .article-card.featured-article{border-left:none;border-right:3px solid var(--neon-cyan)}
 </style>
-</head>
+  <link rel="stylesheet" href="../mobile.css">
+  </head>
 <body>
 <div class="scanlines"></div>
 <div class="grid-bg"></div>
@@ -107,6 +108,16 @@
     <li><a href="index.html" class="active">Articles</a></li>
     <li><a href="../Walkthroughs/index.html">Walkthroughs</a></li>
   </ul>
+  
+  <!-- Hamburger Menu Button -->
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <!-- Menu Overlay -->
+  <div class="menu-overlay" id="menuOverlay"></div>
   <div class="lang-toggle">
     <button class="lang-btn" data-lang="en">EN</button>
     <button class="lang-btn" data-lang="ar">AR</button>
@@ -465,6 +476,46 @@ const savedLang = getSavedLanguage();
 buildFilterButtons();
 setLang(savedLang);
 loadManifest();
+</script>
+
+<script>
+// Mobile Hamburger Menu
+function initMobileMenu() {
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  const overlay = document.getElementById('menuOverlay');
+  
+  if (!hamburger || !navLinks) return;
+  
+  function toggleMenu() {
+    navLinks.classList.toggle('open');
+    hamburger.classList.toggle('open');
+    if (overlay) overlay.classList.toggle('open');
+    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+  }
+  
+  hamburger.addEventListener('click', toggleMenu);
+  if (overlay) {
+    overlay.addEventListener('click', toggleMenu);
+  }
+  
+  // Close menu when clicking a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('open');
+      if (overlay) overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMobileMenu);
+} else {
+  initMobileMenu();
+}
 </script>
 </body>
 </html>
