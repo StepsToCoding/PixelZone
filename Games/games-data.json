@@ -1,6 +1,7 @@
 {
   "genres": {
     "Swords_and_Souls": ["ACTION", "RPG"],
+    "Zombies_The_Beginning": ["ACTION","PUZZLE"],
     "Run_3": ["PLATFORMER", "ADVENTURE"],
     "Bloons_TD_5": ["STRATEGY"],
     "Minecraft_Tower_Defence": ["STRATEGY"],
