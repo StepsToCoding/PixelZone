@@ -1,6 +1,16 @@
 {
   "articles": [
     {
+      "title_en": "Block Blast — The Addictive Puzzle Game Taking Over Mobile (Complete Guide)",
+      "title_ar": "Block Blast — لعبة الألغاز المدمنة التي اجتاحت الموبايل (دليل كامل)",
+      "excerpt_en": "Block Blast has taken over the mobile gaming world with over 100 million downloads and consistently ranking #1 on the App Store and Google Play. But what mak...",
+      "excerpt_ar": "Block Blast اجتاحت عالم الألعاب المحمولة بأكثر من 100 مليون تحميل وتحتل المرتبة الأولى باستمرار في متجري التطبيقات. ولكن ما الذي يجعل لعبة الألغاز البسيطة هذ...",
+      "category": "GUIDE",
+      "date": "2026-05-02",
+      "file": "BlockBlast-TheMostPopular.html",
+      "is_bilingual": true
+    },
+    {
       "title_en": "Resident Evil 2 Remake: A Bestiary of Nightmares",
       "title_ar": "ريزدنت إيفل 2 ريميك: موسوعة الكوابيس",
       "excerpt_en": "Now let's talk about the MONSTERS of Raccoon City.",
