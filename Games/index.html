@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Games — PixelZone</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -20,7 +20,8 @@
   --text-muted:#7a8baa;
   --border-glow:rgba(0,245,255,0.18);
 }
-body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;min-height:100vh;overflow-x:hidden}
+body.lang-ar{font-family:'Cairo','Rajdhani',sans-serif}
 .scanlines{position:fixed;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
 .grid-bg{position:fixed;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
 
@@ -31,7 +32,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-fil
 .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;transition:color 0.2s}
 .nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
 .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
-.lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
+.lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani','Cairo',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
 .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
 .page-header{position:relative;z-index:1;padding:3.5rem 2rem 1.5rem;max-width:1100px;margin:0 auto}
@@ -43,7 +44,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-fil
 .controls{position:relative;z-index:1;padding:0 2rem 1rem;max-width:1100px;margin:0 auto;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
 .search-wrap{position:relative;flex:1;min-width:200px;max-width:320px}
 .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:1rem;pointer-events:none}
-.search-input{width:100%;background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.95rem;padding:8px 14px 8px 34px;outline:none;transition:border-color 0.2s}
+.search-input{width:100%;background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;font-size:0.95rem;padding:8px 14px 8px 34px;outline:none;transition:border-color 0.2s}
 .search-input:focus{border-color:rgba(0,245,255,0.5)}
 .search-input::placeholder{color:var(--text-muted)}
 
@@ -66,7 +67,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-fil
 
 .sort-row{position:relative;z-index:1;padding:0 2rem 1.5rem;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .sort-label{font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1.5px;color:var(--text-muted)}
-.sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani',sans-serif;font-size:0.9rem;padding:6px 12px;outline:none;cursor:pointer}
+.sort-select{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;font-size:0.9rem;padding:6px 12px;outline:none;cursor:pointer}
 .sort-select option{background:var(--bg-dark)}
 .results-info{margin-left:auto;font-family:'Orbitron',monospace;font-size:0.62rem;letter-spacing:1px;color:var(--text-muted)}
 
@@ -137,14 +138,14 @@ footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--
     <li><a href="../Walkthroughs/index.html">Walkthroughs</a></li>
   </ul>
   <div class="lang-toggle">
-    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="en">EN</button>
     <button class="lang-btn" data-lang="ar">AR</button>
   </div>
 </nav>
 
 <div class="page-header">
   <p class="page-eyebrow" id="eyebrow">FLASH GAME ARCADE</p>
-  <h1 class="page-title">ALL <span id="titleSpan">GAMES</span></h1>
+  <h1 class="page-title"><span id="titleAll">ALL</span> <span id="titleSpan">GAMES</span></h1>
   <div class="game-count" id="gameCount">LOADING...</div>
 </div>
 
@@ -155,17 +156,17 @@ footer .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--
   </div>
   <div class="filter-group">
     <span class="filter-label" id="filterLabel">GENRE:</span>
-    <button class="filter-btn active" data-genre="ALL">ALL</button>
-    <button class="filter-btn" data-genre="ACTION">ACTION</button>
-    <button class="filter-btn" data-genre="ADVENTURE">ADVENTURE</button>
-    <button class="filter-btn" data-genre="PUZZLE">PUZZLE</button>
-    <button class="filter-btn" data-genre="STRATEGY">STRATEGY</button>
-    <button class="filter-btn" data-genre="PLATFORMER">PLATFORMER</button>
-    <button class="filter-btn" data-genre="FIGHTING">FIGHTING</button>
-    <button class="filter-btn" data-genre="SHOOTER">SHOOTER</button>
-    <button class="filter-btn" data-genre="RACING">RACING</button>
-    <button class="filter-btn" data-genre="SPORTS">SPORTS</button>
-    <button class="filter-btn" data-genre="RPG">RPG</button>
+    <button class="filter-btn active" data-genre="ALL" id="filterAllBtn">ALL</button>
+    <button class="filter-btn" data-genre="ACTION" id="filterActionBtn">ACTION</button>
+    <button class="filter-btn" data-genre="ADVENTURE" id="filterAdventureBtn">ADVENTURE</button>
+    <button class="filter-btn" data-genre="PUZZLE" id="filterPuzzleBtn">PUZZLE</button>
+    <button class="filter-btn" data-genre="STRATEGY" id="filterStrategyBtn">STRATEGY</button>
+    <button class="filter-btn" data-genre="PLATFORMER" id="filterPlatformerBtn">PLATFORMER</button>
+    <button class="filter-btn" data-genre="FIGHTING" id="filterFightingBtn">FIGHTING</button>
+    <button class="filter-btn" data-genre="SHOOTER" id="filterShooterBtn">SHOOTER</button>
+    <button class="filter-btn" data-genre="RACING" id="filterRacingBtn">RACING</button>
+    <button class="filter-btn" data-genre="SPORTS" id="filterSportsBtn">SPORTS</button>
+    <button class="filter-btn" data-genre="RPG" id="filterRpgBtn">RPG</button>
   </div>
 </div>
 
@@ -201,10 +202,20 @@ let genreMap = {};
 let iconMap = {};
 let armorExclusive = [];
 
+// Get saved language from localStorage
+function getSavedLanguage() {
+  return localStorage.getItem('pixelzoneLang') || 'en';
+}
+
+// Save language preference
+function saveLanguagePreference(lang) {
+  localStorage.setItem('pixelzoneLang', lang);
+}
+
 // Translations
 const i18n = {
   en: {
-    eyebrow: "FLASH GAME ARCADE", titleSpan: "GAMES", searchPlaceholder: "Search games...",
+    eyebrow: "FLASH GAME ARCADE", titleAll: "ALL", titleSpan: "GAMES", searchPlaceholder: "Search games...",
     filterLabel: "GENRE:", sortLabel: "SORT:", sortAZ: "A → Z", sortZA: "Z → A",
     playNow: "▶ PLAY NOW", noResults: "NO GAMES FOUND", noResultsSub: "TRY A DIFFERENT SEARCH OR GENRE",
     error: "COULDN'T LOAD GAMES", errorSub: "MAKE SURE GAMES ARE IN /Games/games/ FOLDER",
@@ -218,7 +229,7 @@ const i18n = {
     }
   },
   ar: {
-    eyebrow: "أركيد الألعاب", titleSpan: "الألعاب", searchPlaceholder: "ابحث عن لعبة...",
+    eyebrow: "أركيد الألعاب", titleAll: "كل", titleSpan: "الألعاب", searchPlaceholder: "ابحث عن لعبة...",
     filterLabel: "النوع:", sortLabel: "ترتيب:", sortAZ: "أ → ي", sortZA: "ي ← أ",
     playNow: "▶ العب الآن", noResults: "لا توجد ألعاب", noResultsSub: "جرّب بحثاً أو فلتراً مختلفاً",
     error: "تعذّر تحميل الألعاب", errorSub: "تأكد من وجود الألعاب في مجلد /Games/games/",
@@ -239,7 +250,6 @@ function T(key, ...args) {
 }
 
 function isArmorExclusive(gameName) {
-  // Convert underscores to spaces for comparison
   const displayName = gameName.replace(/_/g, " ");
   return armorExclusive.some(exclusive => 
     displayName.toLowerCase().includes(exclusive.toLowerCase()) ||
@@ -248,7 +258,6 @@ function isArmorExclusive(gameName) {
 }
 
 function getGenres(key) {
-  // Try exact match first, then with underscores replaced by spaces
   return genreMap[key] || genreMap[key.replace(/_/g, " ")] || ["OTHER"];
 }
 
@@ -290,7 +299,7 @@ function applyFilters() {
       `<span class="genre-tag gt-${gen}">${T("genres")[gen] || gen}</span>`
     ).join("");
     return `
-      <a class="game-card" href="play.html?game=${encodeURIComponent(g.filename)}">
+      <a class="game-card" href="play.html?game=${encodeURIComponent(g.filename)}&lang=${currentLang}">
         <div class="play-overlay">${T("playNow")}</div>
         <span class="game-icon">${getIcon(g.key)}</span>
         <div class="game-name">${g.display}</div>
@@ -310,12 +319,17 @@ function setGenre(genre) {
 
 function setLang(lang) {
   currentLang = lang;
+  saveLanguagePreference(lang);
   document.body.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
-  document.querySelectorAll(".lang-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.lang === lang);
-  });
-
+  if (lang === "ar") {
+    document.body.classList.add("lang-ar");
+  } else {
+    document.body.classList.remove("lang-ar");
+  }
+  
+  // Update all UI text
   document.getElementById("eyebrow").textContent = T("eyebrow");
+  document.getElementById("titleAll").textContent = T("titleAll");
   document.getElementById("titleSpan").textContent = T("titleSpan");
   const searchInput = document.getElementById("searchInput");
   if (searchInput) searchInput.placeholder = T("searchPlaceholder");
@@ -329,9 +343,17 @@ function setLang(lang) {
     sortSelect.options[1].textContent = T("sortZA");
   }
 
+  // Update filter buttons with translated text
   document.querySelectorAll(".filter-btn").forEach(btn => {
     const genre = btn.dataset.genre;
-    if (genre) btn.textContent = T("genres")[genre] || genre;
+    if (genre && T("genres")[genre]) {
+      btn.textContent = T("genres")[genre];
+    }
+  });
+
+  // Update active button styling
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === lang);
   });
 
   if (allGames.length) {
@@ -341,7 +363,6 @@ function setLang(lang) {
 }
 
 function loadGameData() {
-  // First load the external JSON with genres, icons, and armor exclusives
   fetch('games-data.json')
     .then(res => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -354,7 +375,6 @@ function loadGameData() {
       
       console.log(`✅ Loaded game data: ${Object.keys(genreMap).length} genres, ${Object.keys(iconMap).length} icons, ${armorExclusive.length} exclusives`);
       
-      // Now load the actual game files from GitHub
       return loadGameFiles();
     })
     .catch(err => {
@@ -412,8 +432,9 @@ document.querySelectorAll(".lang-btn").forEach(btn => {
   btn.addEventListener("click", () => setLang(btn.dataset.lang));
 });
 
-// Initialize
-setLang("en");
+// Initialize with saved language preference
+const savedLang = getSavedLanguage();
+setLang(savedLang);
 loadGameData();
 </script>
 </body>
