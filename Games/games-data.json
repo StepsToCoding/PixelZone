@@ -1,6 +1,7 @@
 {
   "genres": {
     "Swords_and_Souls": ["ACTION", "RPG"],
+    "Zombies_Surrounded": ["ACTION","PUZZLE"],
     "Zombies_The_Beginning": ["ACTION","PUZZLE"],
     "Run_3": ["PLATFORMER", "ADVENTURE"],
     "Bloons_TD_5": ["STRATEGY"],
@@ -34,6 +35,7 @@
     "Swords_and_Souls": "⚔️",
     "jacksmith": "🗡️",
     "Run_3": "🏃",
+    "Zombies_Surrounded": "🧟‍♂️",
     "Zombies_The_Beginning": "🧟‍♂️",
     "Bloons_TD_5": "🎈",
     "Minecraft_Tower_Defence_2": "🧟‍♂️",
