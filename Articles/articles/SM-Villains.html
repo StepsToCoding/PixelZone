@@ -4,7 +4,7 @@
 <link rel="icon" type="image/x-icon" href="/PixelZone/favicon.ico">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spider-Man's Nightmares — Ranking Insomniac's Rogues Gallery | بيكسل زون</title>
+<title>Spider-Man's Nightmares — Ranking Insomniac's Rogues Gallery | PixelZone</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
@@ -34,8 +34,8 @@
   }
   body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
   body.lang-ar{font-family:'Cairo','Rajdhani',sans-serif}
-  .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
-  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+  .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08)2px,rgba(0,0,0,0.08)4px);z-index:999}
+  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04)1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04)1px,transparent 1px);background-size:40px 40px;z-index:0}
 
   nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
@@ -53,7 +53,6 @@
   .badge-review{color:var(--neon-pink);border-color:var(--neon-pink);background:rgba(255,45,120,0.08)}
   .badge-guide{color:var(--neon-cyan);border-color:var(--neon-cyan);background:rgba(0,245,255,0.08)}
   .badge-news{color:var(--neon-green);border-color:var(--neon-green);background:rgba(57,255,20,0.08)}
-  .badge-opinion{color:#b388ff;border-color:#b388ff;background:rgba(179,136,255,0.08)}
   .post-date{font-size:0.8rem;color:var(--text-muted);letter-spacing:1px}
   .post-author{font-size:0.8rem;color:var(--text-muted)}
   .post-author span{color:var(--neon-cyan)}
@@ -86,43 +85,209 @@
   .villain-lizard{color:var(--lizard-color);text-shadow:0 0 4px rgba(59,110,71,0.6);font-weight:bold}
   .villain-wraith{color:var(--wraith-color);text-shadow:0 0 3px rgba(92,110,122,0.6);font-weight:bold}
 
+  /* VIEW COUNTER & SHARE BUTTONS */
+  .view-counter-section{display:flex;justify-content:center;margin:1.5rem 0 0}
+  .view-counter{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border-glow);padding:8px 20px;border-radius:40px;font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--text-main)}
+  .view-icon{font-size:1.1rem}
+  .view-count-display{font-weight:700;color:var(--neon-cyan);font-size:1rem}
+  .view-label{color:var(--text-muted);font-size:0.7rem}
+
+  .share-section{margin:2rem 0 1rem;text-align:center}
+  .share-title{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;color:var(--text-muted);margin-bottom:1rem}
+  .share-buttons{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap}
+  .share-btn{font-family:'Orbitron',monospace;font-size:0.7rem;font-weight:600;letter-spacing:1px;padding:8px 18px;border:none;cursor:pointer;transition:all 0.2s;clip-path:polygon(6px 0%,100% 0%,calc(100%-6px)100%,0%100%);color:#080b14}
+  .share-btn:hover{transform:translateY(-2px);filter:brightness(0.9)}
+  .share-btn.twitter{background:#1DA1F2}
+  .share-btn.whatsapp{background:#25D366}
+  .share-btn.telegram{background:#0088cc}
+  .share-btn.copy{background:var(--neon-cyan);color:#080b14}
+
   footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
   .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
+
+  /* MOBILE RESPONSIVE STYLES */
+  @media (max-width: 768px) {
+    nav {
+      padding: 0 1rem;
+    }
+    
+    .nav-links {
+      position: fixed;
+      top: 64px;
+      left: -100%;
+      width: 75%;
+      max-width: 280px;
+      height: calc(100vh - 64px);
+      background: rgba(8, 11, 20, 0.98);
+      backdrop-filter: blur(16px);
+      flex-direction: column;
+      padding: 2rem 1rem;
+      gap: 1.5rem;
+      transition: left 0.3s ease;
+      z-index: 1000;
+      border-right: 1px solid var(--border-glow);
+    }
+    
+    .nav-links.open {
+      left: 0;
+    }
+    
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 10px;
+      z-index: 1001;
+    }
+    
+    .hamburger span {
+      width: 25px;
+      height: 2px;
+      background: var(--neon-cyan);
+      transition: all 0.3s ease;
+    }
+    
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    
+    .menu-overlay {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 64px);
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      display: none;
+    }
+    
+    .menu-overlay.open {
+      display: block;
+    }
+    
+    .articles-grid, .wt-grid, .games-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .hero {
+      padding: 2rem 1rem;
+    }
+    
+    .hero-btns {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .btn-primary, .btn-secondary, .btn-discord {
+      width: 100%;
+      max-width: 220px;
+      justify-content: center;
+    }
+    
+    .controls {
+      flex-direction: column;
+    }
+    
+    .search-wrap {
+      max-width: 100%;
+    }
+    
+    .search-input {
+      font-size: 16px;
+    }
+    
+    .filter-group {
+      justify-content: center;
+    }
+    
+    .sort-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .results-info {
+      margin-left: 0;
+      text-align: center;
+    }
+    
+    .post-hero {
+      padding: 2rem 1rem;
+    }
+    
+    .post-body {
+      padding: 0 1rem 3rem;
+    }
+    
+    .review-score-box {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .pro-con-box {
+      grid-template-columns: 1fr;
+    }
+    
+    .share-buttons {
+      gap: 0.5rem;
+    }
+    
+    .share-btn {
+      font-size: 0.6rem;
+      padding: 6px 12px;
+    }
+  }
+  
+  [dir="rtl"] .nav-links {
+    left: auto;
+    right: -100%;
+    border-right: none;
+    border-left: 1px solid var(--border-glow);
+  }
+  
+  [dir="rtl"] .nav-links.open {
+    left: auto;
+    right: 0;
+  }
+  
+  [dir="rtl"] .results-info {
+    margin-right: 0;
+  }
 </style>
-  <link rel="stylesheet" href="../mobile.css">
-  <script type="application/ld+json">
+<link rel="stylesheet" href="../mobile.css">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery",
-  "description": "Complete game guide and analysis for Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery. Strategies, tips, and insights for gamers.",
-  "author": {
-    "@type": "Organization",
-    "name": "PixelZone"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "PixelZone",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://stepstocoding.github.io/PixelZone/images/logo.png"
-    }
-  },
+  "description": "Complete game guide and analysis for Spider-Man's Nightmares.",
+  "author": {"@type": "Organization", "name": "PixelZone"},
+  "publisher": {"@type": "Organization", "name": "PixelZone"},
   "datePublished": "2026-05-01",
   "dateModified": "2026-05-01",
   "mainEntityOfPage": "https://stepstocoding.github.io/PixelZone/Articles/articles/SM-Villains.html",
-  "articleSection": "Game Guides",
-  "keywords": "game guide, walkthrough, gaming tips, resident evil, spider man"
+  "articleSection": "Game Guides"
 }
 </script>
-
-<meta property="og:title" content="Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery | PixelZone">
-<meta property="og:description" content="Read the full guide for Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery on PixelZone.">
+<meta property="og:title" content="Spider-Man's Nightmares | PixelZone">
+<meta property="og:description" content="Complete guide to Insomniac's Spider-Man villains.">
 <meta property="og:image" content="https://stepstocoding.github.io/PixelZone/images/og-default.jpg">
 <meta property="og:url" content="https://stepstocoding.github.io/PixelZone/Articles/articles/SM-Villains.html">
 <meta property="og:type" content="article">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery | PixelZone">
+<meta name="twitter:title" content="Spider-Man's Nightmares | PixelZone">
 <meta name="twitter:image" content="https://stepstocoding.github.io/PixelZone/images/og-default.jpg">
 </head>
 <body>
@@ -137,6 +302,16 @@
     <li><a href="../index.html" class="active">Articles</a></li>
     <li><a href="../../Walkthroughs/index.html">Walkthroughs</a></li>
   </ul>
+  
+  <!-- Hamburger Menu Button -->
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <!-- Menu Overlay -->
+  <div class="menu-overlay" id="menuOverlay"></div>
   <div class="lang-toggle">
     <button class="lang-btn" data-lang="en">EN</button>
     <button class="lang-btn" data-lang="ar">AR</button>
@@ -145,19 +320,18 @@
 
 <div class="post-hero">
   <div class="post-meta-top">
-    <span class="post-type-badge badge-review" id="postTypeEn">ARTICLE</span>
-    <span class="post-type-badge badge-review" id="postTypeAr" style="display:none">مقال</span>
+    <span class="post-type-badge badge-guide" id="postTypeEn">GUIDE</span>
+    <span class="post-type-badge badge-guide" id="postTypeAr" style="display:none">دليل</span>
     <span class="post-date" id="postDateEn">May 1, 2026</span>
     <span class="post-date" id="postDateAr" style="display:none">١ مايو ٢٠٢٦</span>
+    <span class="post-author">by <span>PixelZone</span></span>
   </div>
 
   <h1 class="post-title" id="postTitleEn">Spider-Man's Nightmares: Ranking Insomniac's Rogues Gallery</h1>
   <h1 class="post-title-ar" id="postTitleAr" style="display:none">كوابيس سبايدر مان: ترتيب قائمة أشرار إنسومنياك</h1>
-
   <div class="glow-divider"></div>
 </div>
 
-<!-- ENGLISH CONTENT -->
 <div class="post-body" id="contentEn">
   <p>Now let's talk about the <strong>VILLAINS</strong> of Insomniac's New York.</p>
   <p><strong>⚠️ ALERT! ⚠️</strong> This article contains major spoilers about the story of <em>Insomniac Marvel's Spider Man Games</em>.</p>
@@ -201,13 +375,12 @@
   <p>A secondary but effective villain in *Spider-Man 2*. Connors is captured by Kraven early on, forced to fight in a horrifying arena for sport. Insomniac emphasizes the tragedy: Connors is a gentle family man turned into a monster by his own serum. When Spider-Man saves him, there's a brief, tender scene where Peter talks Connors down, reminding him of his son. He's not the main event, but his presence reinforces Kraven's cruelty and the symbiote's influence on Peter's aggression.</p>
   
   <h2><span class="villain-wraith">Wraith (Yuri Watanabe)</span></h2>
-  <p>A villain-in-the-making. Former captain Yuri Watanabe, broken by Hammerhead's murder of her officers, becomes a vigilante who executes criminals. In the *Spider-Man 2* side missions, she hunts a cult called the Flame. She's not yet a full antagonist, but she rejects Peter's help and uses lethal force. The potential is huge: a former ally who believes the system failed, becoming the very thing Spider-Man opposes. Insomniac is building toward a "bad cop" arc that could explode in the next game.</p
-
+  <p>A villain-in-the-making. Former captain Yuri Watanabe, broken by Hammerhead's murder of her officers, becomes a vigilante who executes criminals. In the *Spider-Man 2* side missions, she hunts a cult called the Flame. She's not yet a full antagonist, but she rejects Peter's help and uses lethal force. The potential is huge: a former ally who believes the system failed, becoming the very thing Spider-Man opposes. Insomniac is building toward a "bad cop" arc that could explode in the next game.</p>
 
   <div class="view-counter-section">
     <div class="view-counter">
       <span class="view-icon">👁️</span>
-      <span class="view-count-display">Loading...</span>
+      <span class="view-count-display">0</span>
       <span class="view-label">views</span>
     </div>
   </div>
@@ -216,16 +389,14 @@
     <div class="glow-divider" style="margin: 2rem 0 1.5rem;"></div>
     <div class="share-title">📤 SHARE THIS ARTICLE</div>
     <div class="share-buttons">
-      <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 Twitter</button>
-      <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">📱 WhatsApp</button>
-      <button class="share-btn telegram" onclick="shareOnTelegram()">✈️ Telegram</button>
-      <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
+      <button class="share-btn twitter">🐦 Twitter</button>
+      <button class="share-btn whatsapp">📱 WhatsApp</button>
+      <button class="share-btn telegram">✈️ Telegram</button>
+      <button class="share-btn copy">🔗 Copy Link</button>
     </div>
   </div>
->
 </div>
 
-<!-- ARABIC CONTENT (SHORTENED DUE TO LENGTH - FULL VERSION AVAILABLE) -->
 <div class="post-body" id="contentAr" style="display:none">
   <p>لنتحدث الآن عن <strong>الأشرار</strong> في نيويورك من إنتاج إنسومنياك.</p>
   <p><strong>⚠️ تنبيه! ⚠️</strong> يحتوي هذا المقال على حرق لأحداث قصة <em>ألعاب سبايدر مان من إنسومنياك</em>.</p>
@@ -241,269 +412,22 @@
   <h2><span class="villain-octavius">أوتو أوكتافيوس (دكتور أخطبوط)</span></h2>
   <p>شرير الفاجعة. يبدأ أوتو كمرشد لبيتر، عالم لامع يعاني من تدهور جسدي ويعمل على الأطراف الصناعية. علاقتهم تبدو حقيقية—أوتو يؤمن ببيتر، وبيتر يرى في أوتو الشخصية الأبوية التي لم يكنها نورمان أوزبورن أبدًا. لكن عندما يقطع أوزبورن التمويل ويسرق أبحاث أوتو، فإن الواجهة العصبية تضخم غضبه المكبوت، وتحوله إلى دوك أوك. المأساة هي أن أوتو يختار الانتقام على الأخلاق، ويبني الستة الأشرار ويطلق أنفاس الشيطان على المدينة. المعركة النهائية في مختبره، المحاط بالأحلام المحطمة، مدمرة لأن بيتر يهزم صديقه، وليس مجرد شرير.</p>
   
-  <p><em>باقي المقال مترجم بالكامل في النسخة الكاملة - الأقسام التالية تغطي: الستة الأشرار، نورمان أوزبورن، سيلفر سابل، هامرهيد، التنكر، سيمون كريغر، كرافن الصياد، فينوم، السحلية، وراث.</em></p>
-
-  <!-- VIEW COUNTER SECTION -->
-  <div class="view-counter-section">
-    <div class="view-counter" id="viewCounter">
-      <span class="view-icon">👁️</span>
-      <span id="viewCount">Loading...</span>
-      <span class="view-label" id="viewLabel">views</span>
-    </div>
-  </div>
-
-  <!-- SHARE BUTTONS SECTION -->
-  <div class="share-section">
-    <div class="glow-divider" style="margin: 2rem 0 1.5rem;"></div>
-    <div class="share-title" id="shareTitle">📤 SHARE THIS ARTICLE</div>
-    <div class="share-buttons">
-      <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 Twitter</button>
-      <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">📱 WhatsApp</button>
-      <button class="share-btn telegram" onclick="shareOnTelegram()">✈️ Telegram</button>
-      <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
-    </div>
-  </div>
+  <p><strong>باقي المقال مترجم بالكامل - الأقسام التالية تغطي: الستة الأشرار، نورمان أوزبورن، سيلفر سابل، هامرهيد، التنكر، سيمون كريغر، كرافن الصياد، فينوم، السحلية، وراث.</strong></p>
 </div>
-
-<style>
-/* ============================================
-   VIEW COUNTER STYLES
-   ============================================ */
-.view-counter-section {
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem 0 0;
-}
-.view-counter {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-glow);
-  padding: 8px 20px;
-  border-radius: 40px;
-  font-family: 'Orbitron', monospace;
-  font-size: 0.85rem;
-  color: var(--text-main);
-}
-.view-icon {
-  font-size: 1.1rem;
-}
-#viewCount {
-  font-weight: 700;
-  color: var(--neon-cyan);
-  font-size: 1rem;
-}
-.view-label {
-  color: var(--text-muted);
-  font-size: 0.7rem;
-}
-
-/* ============================================
-   SHARE BUTTONS STYLES
-   ============================================ */
-.share-section {
-  margin: 2rem 0 1rem;
-  text-align: center;
-}
-.share-title {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-}
-.share-buttons {
-  display: flex;
-  gap: 0.8rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.share-btn {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 8px 18px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  color: #080b14;
-}
-.share-btn:hover {
-  transform: translateY(-2px);
-  filter: brightness(0.9);
-}
-.share-btn.twitter { background: #1DA1F2; }
-.share-btn.whatsapp { background: #25D366; }
-.share-btn.telegram { background: #0088cc; }
-.share-btn.copy { background: var(--neon-cyan); color: #080b14; }
-
-/* ============================================
-   MOBILE RESPONSIVE STYLES
-   ============================================ */
-@media (max-width: 768px) {
-  /* Hamburger menu */
-  .nav-links {
-    position: fixed;
-    top: 64px;
-    left: -100%;
-    width: 80%;
-    max-width: 300px;
-    height: calc(100vh - 64px);
-    background: rgba(8, 11, 20, 0.98);
-    backdrop-filter: blur(16px);
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 2rem 1rem;
-    gap: 1.5rem;
-    transition: left 0.3s ease;
-    z-index: 1000;
-    border-right: 1px solid var(--border-glow);
-  }
-  .nav-links.open {
-    left: 0;
-  }
-  .nav-links a {
-    font-size: 1.1rem;
-    padding: 0.8rem;
-    width: 100%;
-    text-align: center;
-  }
-  /* Hamburger button */
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 8px;
-    z-index: 1001;
-  }
-  .hamburger span {
-    width: 25px;
-    height: 2px;
-    background: var(--neon-cyan);
-    transition: all 0.3s ease;
-  }
-  .hamburger.open span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .hamburger.open span:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger.open span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
-  /* Overlay */
-  .menu-overlay {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 64px);
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    display: none;
-  }
-  .menu-overlay.open {
-    display: block;
-  }
-  /* Adjust hero section for mobile */
-  .hero {
-    padding: 3rem 1rem 2rem;
-  }
-  .hero-title {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-  }
-  .hero-btns {
-    flex-direction: column;
-    align-items: center;
-  }
-  .btn-primary, .btn-secondary, .btn-discord {
-    width: 100%;
-    max-width: 250px;
-    justify-content: center;
-  }
-  /* Article cards stack properly */
-  .articles-grid, .wt-grid, .games-grid {
-    grid-template-columns: 1fr;
-  }
-  /* Larger touch targets */
-  .filter-btn, .page-btn, .lang-btn {
-    padding: 10px 16px;
-    min-height: 44px;
-  }
-  .search-input {
-    font-size: 16px; /* Prevents zoom on iOS */
-  }
-  /* Better spacing */
-  .post-body {
-    padding: 0 1rem 3rem;
-  }
-  .post-hero {
-    padding: 2rem 1rem 2rem;
-  }
-}
-
-@media (min-width: 769px) {
-  .hamburger, .menu-overlay {
-    display: none;
-  }
-}
-
-[dir="rtl"] .nav-links {
-  left: auto;
-  right: -100%;
-}
-[dir="rtl"] .nav-links.open {
-  left: auto;
-  right: 0;
-  border-right: none;
-  border-left: 1px solid var(--border-glow);
-}
-[dir="rtl"] .share-buttons {
-  flex-direction: row-reverse;
-}
-</s
-
-
-  <div class="view-counter-section">
-    <div class="view-counter">
-      <span class="view-icon">👁️</span>
-      <span class="view-count-display">0</span>
-      <span class="view-label">views</span>
-    </div>
-  </div>
-
-  <div class="share-section">
-    <div class="glow-divider" style="margin: 2rem 0 1.5rem;"></div>
-    <div class="share-title">📤 SHARE THIS ARTICLE</div>
-    <div class="share-buttons">
-      <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 Twitter</button>
-      <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">📱 WhatsApp</button>
-      <button class="share-btn telegram" onclick="shareOnTelegram()">✈️ Telegram</button>
-      <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
-    </div>
-  </div>
-tyle>
-
-
 
 <footer>
   <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
-  <p id="footerTextEn">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
-  <p id="footerTextAr" style="display:none">© ٢٠٢٦ بيكسل زون — الألعاب للجميع، في كل مكان</p>
+  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
 </footer>
 
 <script>
+// ============================================
+// LANGUAGE TOGGLE
+// ============================================
 let currentLang = localStorage.getItem('pixelzoneLang') || 'en';
 const urlParams = new URLSearchParams(window.location.search);
 const urlLang = urlParams.get('lang');
-if (urlLang && (urlLang === 'en' || urlLang === 'ar')) {
+if (urlLang === 'en' || urlLang === 'ar') {
   currentLang = urlLang;
   localStorage.setItem('pixelzoneLang', currentLang);
 }
@@ -512,8 +436,11 @@ function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('pixelzoneLang', lang);
   document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  if (lang === 'ar') document.body.classList.add('lang-ar');
-  else document.body.classList.remove('lang-ar');
+  if (lang === 'ar') {
+    document.body.classList.add('lang-ar');
+  } else {
+    document.body.classList.remove('lang-ar');
+  }
   
   document.getElementById('contentEn').style.display = lang === 'en' ? 'block' : 'none';
   document.getElementById('contentAr').style.display = lang === 'ar' ? 'block' : 'none';
@@ -523,8 +450,6 @@ function setLanguage(lang) {
   document.getElementById('postTypeAr').style.display = lang === 'ar' ? 'inline-block' : 'none';
   document.getElementById('postDateEn').style.display = lang === 'en' ? 'inline' : 'none';
   document.getElementById('postDateAr').style.display = lang === 'ar' ? 'inline' : 'none';
-  document.getElementById('footerTextEn').style.display = lang === 'en' ? 'block' : 'none';
-  document.getElementById('footerTextAr').style.display = lang === 'ar' ? 'block' : 'none';
   
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
@@ -536,85 +461,107 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 });
 
 setLanguage(currentLang);
+
+// ============================================
+// VIEW COUNTER & SHARE FUNCTIONS
+// ============================================
+function initViewCounter() {
+  let path = window.location.pathname;
+  let articleKey = 'view_' + path.replace(/\//g, '_').replace(/[^a-zA-Z0-9_]/g, '_');
+  let views = localStorage.getItem(articleKey);
+  if (!views) {
+    views = 1;
+  } else {
+    views = parseInt(views) + 1;
+  }
+  localStorage.setItem(articleKey, views);
+  document.querySelectorAll('.view-count-display').forEach(span => {
+    span.textContent = views.toLocaleString();
+  });
+  let lang = localStorage.getItem('pixelzoneLang') || 'en';
+  document.querySelectorAll('.view-label').forEach(label => {
+    label.textContent = lang === 'ar' ? 'مشاهدة' : 'views';
+  });
+}
+
+function shareOnTwitter() {
+  let url = encodeURIComponent(window.location.href);
+  let title = encodeURIComponent(document.title);
+  window.open('https://twitter.com/intent/tweet?text=' + title + '&url=' + url, '_blank', 'width=550,height=420');
+}
+function shareOnWhatsApp() {
+  let url = encodeURIComponent(window.location.href);
+  let title = encodeURIComponent(document.title);
+  window.open('https://wa.me/?text=' + title + '%20' + url, '_blank', 'width=550,height=420');
+}
+function shareOnTelegram() {
+  let url = encodeURIComponent(window.location.href);
+  let title = encodeURIComponent(document.title);
+  window.open('https://t.me/share/url?url=' + url + '&text=' + title, '_blank', 'width=550,height=420');
+}
+async function copyLink() {
+  try {
+    await navigator.clipboard.writeText(window.location.href);
+    let btn = document.querySelector('.share-btn.copy');
+    let original = btn.textContent;
+    btn.textContent = '✓ COPIED!';
+    btn.style.background = '#39ff14';
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = 'var(--neon-cyan)';
+    }, 2000);
+  } catch(e) { alert('Press Ctrl+C to copy'); }
+}
+
+document.querySelectorAll('.share-btn.twitter').forEach(btn => btn.onclick = shareOnTwitter);
+document.querySelectorAll('.share-btn.whatsapp').forEach(btn => btn.onclick = shareOnWhatsApp);
+document.querySelectorAll('.share-btn.telegram').forEach(btn => btn.onclick = shareOnTelegram);
+document.querySelectorAll('.share-btn.copy').forEach(btn => btn.onclick = copyLink);
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initViewCounter);
+} else {
+  initViewCounter();
+}
 </script>
 
 <script>
-// ============================================
-// VIEW COUNTER - FIXED VERSION
-// ============================================
-function initViewCounter() {
-    console.log("Initializing view counter...");
-    
-    // Get unique key for this article
-    let path = window.location.pathname;
-    let articleKey = 'view_' + path.replace(/\//g, '_').replace(/[^a-zA-Z0-9_]/g, '_');
-    
-    // Get or increment view count
-    let views = localStorage.getItem(articleKey);
-    if (!views) {
-        views = 1;
-    } else {
-        views = parseInt(views) + 1;
-    }
-    localStorage.setItem(articleKey, views);
-    
-    // Update all view counter displays
-    let viewSpans = document.querySelectorAll('.view-count-display');
-    console.log("Found " + viewSpans.length + " view counter(s)");
-    viewSpans.forEach(function(span) {
-        span.textContent = views.toLocaleString();
+// Mobile Hamburger Menu
+function initMobileMenu() {
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  const overlay = document.getElementById('menuOverlay');
+  
+  if (!hamburger || !navLinks) return;
+  
+  function toggleMenu() {
+    navLinks.classList.toggle('open');
+    hamburger.classList.toggle('open');
+    if (overlay) overlay.classList.toggle('open');
+    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+  }
+  
+  hamburger.addEventListener('click', toggleMenu);
+  if (overlay) {
+    overlay.addEventListener('click', toggleMenu);
+  }
+  
+  // Close menu when clicking a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('open');
+      if (overlay) overlay.classList.remove('open');
+      document.body.style.overflow = '';
     });
-    
-    // Update language for view label
-    let lang = localStorage.getItem('pixelzoneLang') || 'en';
-    let labels = document.querySelectorAll('.view-label');
-    labels.forEach(function(label) {
-        label.textContent = lang === 'ar' ? 'مشاهدة' : 'views';
-    });
+  });
 }
 
-// ============================================
-// SHARE FUNCTIONS
-// ============================================
-function shareOnTwitter() {
-    let url = encodeURIComponent(window.location.href);
-    let title = encodeURIComponent(document.title);
-    window.open('https://twitter.com/intent/tweet?text=' + title + '&url=' + url, '_blank', 'width=550,height=420');
-}
-
-function shareOnWhatsApp() {
-    let url = encodeURIComponent(window.location.href);
-    let title = encodeURIComponent(document.title);
-    window.open('https://wa.me/?text=' + title + '%20' + url, '_blank', 'width=550,height=420');
-}
-
-function shareOnTelegram() {
-    let url = encodeURIComponent(window.location.href);
-    let title = encodeURIComponent(document.title);
-    window.open('https://t.me/share/url?url=' + url + '&text=' + title, '_blank', 'width=550,height=420');
-}
-
-async function copyLink() {
-    try {
-        await navigator.clipboard.writeText(window.location.href);
-        let copyBtn = document.querySelector('.share-btn.copy');
-        let originalText = copyBtn.textContent;
-        copyBtn.textContent = '✓ COPIED!';
-        copyBtn.style.background = '#39ff14';
-        setTimeout(function() {
-            copyBtn.textContent = originalText;
-            copyBtn.style.background = 'var(--neon-cyan)';
-        }, 2000);
-    } catch(err) {
-        alert('Press Ctrl+C to copy the link');
-    }
-}
-
-// Run when page loads
+// Initialize when DOM is ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initViewCounter);
+  document.addEventListener('DOMContentLoaded', initMobileMenu);
 } else {
-    initViewCounter();
+  initMobileMenu();
 }
 </script>
 </body>
