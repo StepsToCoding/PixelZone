@@ -1,15 +1,96 @@
 import os
-import re
 from glob import glob
 
 articles_folder = './Articles/articles/'
 
-# Components to add
+# Fixed JavaScript with proper view counter
+JS_FIXED = '''
+<script>
+// ============================================
+// VIEW COUNTER - FIXED VERSION
+// ============================================
+function initViewCounter() {
+    console.log("Initializing view counter...");
+    
+    // Get unique key for this article
+    let path = window.location.pathname;
+    let articleKey = 'view_' + path.replace(/\\//g, '_').replace(/[^a-zA-Z0-9_]/g, '_');
+    
+    // Get or increment view count
+    let views = localStorage.getItem(articleKey);
+    if (!views) {
+        views = 1;
+    } else {
+        views = parseInt(views) + 1;
+    }
+    localStorage.setItem(articleKey, views);
+    
+    // Update all view counter displays
+    let viewSpans = document.querySelectorAll('.view-count-display');
+    console.log("Found " + viewSpans.length + " view counter(s)");
+    viewSpans.forEach(function(span) {
+        span.textContent = views.toLocaleString();
+    });
+    
+    // Update language for view label
+    let lang = localStorage.getItem('pixelzoneLang') || 'en';
+    let labels = document.querySelectorAll('.view-label');
+    labels.forEach(function(label) {
+        label.textContent = lang === 'ar' ? 'مشاهدة' : 'views';
+    });
+}
+
+// ============================================
+// SHARE FUNCTIONS
+// ============================================
+function shareOnTwitter() {
+    let url = encodeURIComponent(window.location.href);
+    let title = encodeURIComponent(document.title);
+    window.open('https://twitter.com/intent/tweet?text=' + title + '&url=' + url, '_blank', 'width=550,height=420');
+}
+
+function shareOnWhatsApp() {
+    let url = encodeURIComponent(window.location.href);
+    let title = encodeURIComponent(document.title);
+    window.open('https://wa.me/?text=' + title + '%20' + url, '_blank', 'width=550,height=420');
+}
+
+function shareOnTelegram() {
+    let url = encodeURIComponent(window.location.href);
+    let title = encodeURIComponent(document.title);
+    window.open('https://t.me/share/url?url=' + url + '&text=' + title, '_blank', 'width=550,height=420');
+}
+
+async function copyLink() {
+    try {
+        await navigator.clipboard.writeText(window.location.href);
+        let copyBtn = document.querySelector('.share-btn.copy');
+        let originalText = copyBtn.textContent;
+        copyBtn.textContent = '✓ COPIED!';
+        copyBtn.style.background = '#39ff14';
+        setTimeout(function() {
+            copyBtn.textContent = originalText;
+            copyBtn.style.background = 'var(--neon-cyan)';
+        }, 2000);
+    } catch(err) {
+        alert('Press Ctrl+C to copy the link');
+    }
+}
+
+// Run when page loads
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initViewCounter);
+} else {
+    initViewCounter();
+}
+</script>'''
+
+# View counter HTML with correct class names
 VIEW_COUNTER_HTML = '''
   <div class="view-counter-section">
     <div class="view-counter">
       <span class="view-icon">👁️</span>
-      <span class="view-count-display">Loading...</span>
+      <span class="view-count-display">0</span>
       <span class="view-label">views</span>
     </div>
   </div>'''
@@ -26,33 +107,6 @@ SHARE_BUTTONS_HTML = '''
     </div>
   </div>'''
 
-STYLES = '''
-.view-counter-section{display:flex;justify-content:center;margin:1.5rem 0 0}
-.view-counter{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border-glow);padding:8px 20px;border-radius:40px;font-family:Orbitron,monospace;font-size:.85rem;color:var(--text-main)}
-.view-icon{font-size:1.1rem}
-.view-count-display{font-weight:700;color:var(--neon-cyan);font-size:1rem}
-.view-label{color:var(--text-muted);font-size:.7rem}
-.share-section{margin:2rem 0 1rem;text-align:center}
-.share-title{font-family:Orbitron,monospace;font-size:.7rem;letter-spacing:2px;color:var(--text-muted);margin-bottom:1rem}
-.share-buttons{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
-.share-btn{font-family:Orbitron,monospace;font-size:.7rem;font-weight:600;letter-spacing:1px;padding:8px 18px;border:none;cursor:pointer;clip-path:polygon(6px 0%,100% 0%,calc(100%-6px)100%,0%100%);color:#080b14}
-.share-btn:hover{transform:translateY(-2px);filter:brightness(.9)}
-.share-btn.twitter{background:#1DA1F2}
-.share-btn.whatsapp{background:#25D366}
-.share-btn.telegram{background:#0088cc}
-.share-btn.copy{background:var(--neon-cyan);color:#080b14}'''
-
-JS = '''
-<script>
-function initViewCounter(){let k="view_"+location.pathname.replace(/\\//g,"_"),v=localStorage.getItem(k);v=v?parseInt(v)+1:1;localStorage.setItem(k,v);document.querySelectorAll(".view-count-display").forEach(s=>s.textContent=v.toLocaleString());let l=localStorage.getItem("pixelzoneLang")||"en";document.querySelectorAll(".view-label").forEach(s=>s.textContent=l==="ar"?"مشاهدة":"views")}
-const cu=encodeURIComponent(location.href),ct=encodeURIComponent(document.title);
-function shareOnTwitter(){open(`https://twitter.com/intent/tweet?text=${ct}&url=${cu}`,"_blank","width=550,height=420")}
-function shareOnWhatsApp(){open(`https://wa.me/?text=${ct}%20${cu}`,"_blank","width=550,height=420")}
-function shareOnTelegram(){open(`https://t.me/share/url?url=${cu}&text=${ct}`,"_blank","width=550,height=420")}
-async function copyLink(){try{await navigator.clipboard.writeText(location.href);let b=document.querySelector(".share-btn.copy"),t=b.textContent;b.textContent="✓ COPIED!";b.style.background="#39ff14";setTimeout(()=>{b.textContent=t;b.style.background="var(--neon-cyan)"},2000)}catch(e){alert("Press Ctrl+C to copy")}}
-document.addEventListener("DOMContentLoaded",initViewCounter);
-</script>'''
-
 def fix_article(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -61,62 +115,56 @@ def fix_article(file_path):
     filename = os.path.basename(file_path)
     print(f"\n📄 {filename}")
     
-    # 1. Add styles if missing
-    if '.view-counter-section' not in content and '</style>' in content:
-        content = content.replace('</style>', f'{STYLES}\n</style>')
-        modified = True
-        print("   ✅ Added CSS styles")
+    # Remove old JavaScript and add new fixed version
+    if 'initViewCounter' in content:
+        # Remove old script block
+        import re
+        content = re.sub(r'<script>.*?initViewCounter.*?</script>', '', content, flags=re.DOTALL)
+        print("   ✅ Removed old JavaScript")
     
-    # 2. Add share buttons to ENGLISH section
-    if 'contentEn' in content and 'share-section' not in content.split('contentEn')[1].split('contentAr')[0] if 'contentAr' in content else True:
-        # Find where to insert in English section
+    # Add new JavaScript before </body>
+    if '</body>' in content:
+        content = content.replace('</body>', JS_FIXED + '\n</body>')
+        modified = True
+        print("   ✅ Added fixed JavaScript")
+    
+    # Ensure view counter HTML is in English section
+    if 'contentEn' in content and 'view-count-display' not in content.split('contentEn')[1].split('contentAr')[0] if 'contentAr' in content else True:
+        # Find where to insert
         if 'contentEn' in content:
             en_part = content.split('contentEn')[1]
             if 'contentAr' in en_part:
                 en_end = en_part.split('contentAr')[0]
-                # Find last closing div in English section
                 last_div = en_end.rfind('</div>')
                 if last_div != -1:
                     insert_pos = content.find('contentEn') + last_div + 7
                     content = content[:insert_pos] + f'\n\n{VIEW_COUNTER_HTML}\n{SHARE_BUTTONS_HTML}\n' + content[insert_pos:]
                     modified = True
-                    print("   ✅ Added share buttons to English section")
+                    print("   ✅ Added view counter to English section")
     
-    # 3. Add share buttons to ARABIC section
-    if 'contentAr' in content and 'share-section' not in content.split('contentAr')[1].split('<footer>')[0]:
+    # Ensure in Arabic section
+    if 'contentAr' in content and 'view-count-display' not in content.split('contentAr')[1].split('<footer>')[0]:
         ar_part = content.split('contentAr')[1]
         footer_pos = ar_part.find('<footer>') if '<footer>' in ar_part else ar_part.find('</div>')
         if footer_pos != -1:
             insert_pos = content.find('contentAr') + footer_pos
             content = content[:insert_pos] + f'\n\n{VIEW_COUNTER_HTML}\n{SHARE_BUTTONS_HTML}\n' + content[insert_pos:]
             modified = True
-            print("   ✅ Added share buttons to Arabic section")
-    
-    # 4. Add JavaScript if missing
-    if 'initViewCounter' not in content and '</body>' in content:
-        content = content.replace('</body>', f'{JS}\n</body>')
-        modified = True
-        print("   ✅ Added JavaScript functions")
+            print("   ✅ Added view counter to Arabic section")
     
     if modified:
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
-        print("   ✨ Article updated successfully!")
+        print("   ✨ Article fixed!")
     else:
-        print("   ⏭️ No changes needed (all features present)")
+        print("   ⏭️ No changes needed")
     
     return modified
 
 def main():
     print("=" * 60)
-    print("🔧 PixelZone Article Fixer - All in One")
+    print("🔧 Fixing View Counter - 'Loading' Issue")
     print("=" * 60)
-    print("\nThis script will:")
-    print("   • Add CSS styles for view counter & share buttons")
-    print("   • Add view counter & share buttons to English section")
-    print("   • Add view counter & share buttons to Arabic section")
-    print("   • Add JavaScript functions for interactivity")
-    print("-" * 60)
     
     files = glob(os.path.join(articles_folder, '*.html'))
     
@@ -132,14 +180,9 @@ def main():
             updated_count += 1
     
     print("\n" + "=" * 60)
-    print(f"🎉 Done! Updated {updated_count} out of {len(files)} article(s).")
+    print(f"🎉 Done! Fixed {updated_count} article(s).")
     print("=" * 60)
-    
-    if updated_count > 0:
-        print("\n📝 Next steps:")
-        print("   1. Run: python generate_manifest.py")
-        print("   2. Commit and push to GitHub")
-        print("   3. Test an article to see share buttons and view counter!")
+    print("\n📝 Refresh your article page - view counter should now show a number!")
 
 if __name__ == '__main__':
     main()
