@@ -404,15 +404,44 @@ function applyOrientation(){
   }
 }
 
-/* ── Key dispatch — window + document + ruffle element + canvas ── */
+/* ── Key dispatch — focus Ruffle first, then blast events everywhere ── */
 function sendKey(key,code,type){
   const opts={key,code,bubbles:true,cancelable:true,composed:true};
+
+  /* Focus the Ruffle canvas so Flash receives input */
+  function focusCanvas(){
+    if(!currentPlayer) return null;
+    /* Try direct canvas child */
+    let cv=currentPlayer.querySelector('canvas');
+    /* Try shadow root */
+    if(!cv){
+      try{const sr=currentPlayer.shadowRoot;if(sr) cv=sr.querySelector('canvas');}catch(_){}
+    }
+    if(cv){
+      try{cv.setAttribute('tabindex','0');cv.focus({preventScroll:true});}catch(_){}
+    }
+    /* Also focus the player element itself */
+    try{currentPlayer.focus({preventScroll:true});}catch(_){}
+    return cv;
+  }
+
+  const cv=focusCanvas();
+
+  /* Dispatch to every possible target */
   window.dispatchEvent(new KeyboardEvent(type,opts));
   document.dispatchEvent(new KeyboardEvent(type,opts));
+  document.body.dispatchEvent(new KeyboardEvent(type,opts));
   if(currentPlayer){
     try{currentPlayer.dispatchEvent(new KeyboardEvent(type,opts));}catch(_){}
-    const cv=currentPlayer.querySelector('canvas');
     if(cv) try{cv.dispatchEvent(new KeyboardEvent(type,opts));}catch(_){}
+    try{
+      const sr=currentPlayer.shadowRoot;
+      if(sr){
+        sr.dispatchEvent(new KeyboardEvent(type,opts));
+        const scv=sr.querySelector('canvas');
+        if(scv) scv.dispatchEvent(new KeyboardEvent(type,opts));
+      }
+    }catch(_){}
   }
 }
 
@@ -495,6 +524,60 @@ styleFix.textContent=`
 `;
 document.head.appendChild(styleFix);
 
+/* ── Touch-drag → click fix ──
+   On mobile, dragging your finger then lifting doesn't fire a click.
+   We intercept touchend on the Ruffle canvas and fire mousedown+mouseup+click
+   at the exact pixel where the finger lifted, so Flash sees it as a real click. ── */
+function injectTouchClick(player){
+  function attachTo(target){
+    if(!target||target._tcFixed) return;
+    target._tcFixed=true;
+    target.setAttribute('tabindex','0');
+
+    let startX=0,startY=0;
+
+    target.addEventListener('touchstart',e=>{
+      const t=e.touches[0];
+      startX=t.clientX; startY=t.clientY;
+    },{passive:true});
+
+    target.addEventListener('touchend',e=>{
+      e.preventDefault();
+      const t=e.changedTouches[0];
+      const x=t.clientX, y=t.clientY;
+      const dx=x-startX, dy=y-startY;
+
+      /* Always fire — whether tap or drag — so tower placement works */
+      target.focus({preventScroll:true});
+      ['mousedown','mouseup','click'].forEach(type=>{
+        target.dispatchEvent(new MouseEvent(type,{
+          bubbles:true,cancelable:true,composed:true,
+          clientX:x,clientY:y,screenX:t.screenX,screenY:t.screenY,
+          button:0,buttons:type==='mousedown'?1:0
+        }));
+      });
+    },{passive:false});
+  }
+
+  /* Try immediately, then poll for shadow canvas */
+  function tryAttach(){
+    attachTo(player);
+    try{
+      const sr=player.shadowRoot;
+      if(sr){
+        const cv=sr.querySelector('canvas');
+        if(cv){attachTo(cv);return true;}
+      }
+    }catch(_){}
+    return false;
+  }
+
+  if(!tryAttach()){
+    let n=0;
+    const t=setInterval(()=>{if(tryAttach()||++n>50)clearInterval(t);},200);
+  }
+}
+
 /* ── Game init ── */
 const urlParams=new URLSearchParams(window.location.search);
 let gameFile=urlParams.get("game");
@@ -538,7 +621,7 @@ if(gameFile){
         document.getElementById("loadingText").textContent=
           isTouch?"✅ READY! Tap FULLSCREEN for best experience":"✅ READY!";
         document.getElementById("savePanel").style.display="flex";
-        if(isTouch) initMobileGamepad();
+        if(isTouch){ initMobileGamepad(); injectTouchClick(player); }
       })
       .catch(err=>{
         console.error(err);
