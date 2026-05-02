@@ -16,8 +16,8 @@
   --text-main:#e8eaf6;
   --text-muted:#7a8baa;
   --border-glow:rgba(0,245,255,0.18);
-  --gp-height-portrait:220px;
-  --gp-width-landscape:280px;
+  --kb-height-portrait:210px;
+  --kb-width-landscape:260px;
 }
 
 .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;
@@ -83,91 +83,72 @@ input[type="file"]{display:none}
 .status-msg{color:var(--neon-green);font-size:0.75rem}
 
 /* ════════════════════════════════════════════
-   MOBILE GAMEPAD — lives inside #game
+   MOBILE VIRTUAL KEYBOARD — lives inside #game
    Hidden by default, JS shows on touch devices
    ════════════════════════════════════════════ */
 #mobileGamepad{
   display:none;
   position:absolute;
   bottom:0;left:0;right:0;
-  height:var(--gp-height-portrait);
+  height:var(--kb-height-portrait);
   z-index:500;
-  background:rgba(6,9,18,0.94);
+  background:rgba(6,9,18,0.96);
   backdrop-filter:blur(10px);
   border-top:1px solid rgba(0,245,255,0.2);
   user-select:none;-webkit-user-select:none;
   touch-action:none;
   flex-direction:column;
-  gap:6px;
-  padding:8px 10px 10px;
+  gap:4px;
+  padding:5px 6px 6px;
 }
 
 /* Top bar */
 .gp-topbar{display:flex;align-items:center;justify-content:space-between;
-  padding-bottom:6px;border-bottom:1px solid rgba(0,245,255,0.12);flex-shrink:0}
-.gp-label{font-family:'Orbitron',monospace;font-size:0.58rem;letter-spacing:2px;color:var(--neon-cyan)}
+  padding-bottom:4px;border-bottom:1px solid rgba(0,245,255,0.12);flex-shrink:0}
+.gp-label{font-family:'Orbitron',monospace;font-size:0.52rem;letter-spacing:2px;color:var(--neon-cyan)}
 .gp-topbar-btns{display:flex;gap:5px}
 .gp-icon-btn{background:none;border:1px solid rgba(0,245,255,0.2);color:var(--text-muted);
-  font-size:0.55rem;padding:3px 8px;cursor:pointer;font-family:'Orbitron',monospace;
+  font-size:0.5rem;padding:2px 7px;cursor:pointer;font-family:'Orbitron',monospace;
   letter-spacing:1px;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
 .gp-icon-btn:active{border-color:var(--neon-cyan);color:var(--neon-cyan)}
 
-/* Button body */
-.gp-body{display:flex;flex:1;align-items:center;
-  justify-content:space-between;gap:6px;overflow:hidden}
+/* Keyboard body — two columns: left=WASD+EF, right=arrows */
+.kb-body{display:flex;flex:1;align-items:center;justify-content:space-between;gap:4px;overflow:hidden}
 
-/* D-PAD */
-.dpad{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
-  gap:3px;width:162px;height:162px;flex-shrink:0}
-.dpad-btn{background:rgba(0,0,0,0.65);border:1px solid rgba(0,245,255,0.3);
-  color:var(--neon-cyan);font-size:1.1rem;
+/* Generic key button */
+.kb-key{
+  background:rgba(0,0,0,0.65);
+  border:1px solid rgba(0,245,255,0.3);
+  color:var(--neon-cyan);
+  font-family:'Orbitron',monospace;
+  font-size:0.7rem;font-weight:700;
   display:flex;align-items:center;justify-content:center;
-  border-radius:7px;cursor:pointer;touch-action:none;
-  -webkit-tap-highlight-color:transparent;transition:background 0.04s,transform 0.04s}
-.dpad-btn.empty-slot,.dpad-btn.dpad-center{background:transparent;
-  border-color:rgba(0,245,255,0.06);pointer-events:none}
-.dpad-btn.pressed{background:var(--neon-cyan)!important;color:#080b14;transform:scale(0.9)}
+  border-radius:6px;cursor:pointer;touch-action:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:background 0.04s,transform 0.04s;
+  min-width:0;
+}
+.kb-key.pressed{background:var(--neon-cyan)!important;color:#080b14;transform:scale(0.9)}
 
-/* MID BUTTONS */
-.mid-btns{display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:8px;flex-shrink:0}
-.mid-btn{background:rgba(0,0,0,0.65);border:1px solid rgba(0,245,255,0.2);
-  color:var(--text-muted);font-family:'Orbitron',monospace;font-size:0.45rem;
-  letter-spacing:1px;padding:7px 11px;border-radius:20px;
-  cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent;
-  transition:background 0.04s;white-space:nowrap}
-.mid-btn.pressed{background:rgba(0,245,255,0.18);color:var(--neon-cyan);border-color:var(--neon-cyan)}
+/* Left cluster — WASD + E + F */
+.kb-left{display:flex;flex-direction:column;gap:3px;align-items:center;flex-shrink:0}
+.kb-row{display:flex;gap:3px}
+/* Key sizes */
+.kb-key.sz-sq{width:42px;height:38px}   /* square key */
+.kb-key.sz-wide{width:88px;height:38px} /* space bar */
+.kb-key.sz-ef{width:42px;height:38px;border-color:rgba(255,45,120,0.5);color:var(--neon-pink)}
+.kb-key.sz-ef.pressed{background:var(--neon-pink)!important;color:#080b14}
 
-/* ACTION CLUSTER — 3×3 diamond */
-.action-cluster{display:grid;grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(3,1fr);gap:3px;width:162px;height:162px;flex-shrink:0}
-.action-btn{background:rgba(0,0,0,0.65);font-family:'Orbitron',monospace;
-  font-size:0.72rem;font-weight:700;display:flex;align-items:center;
-  justify-content:center;border-radius:50%;border:1px solid;
-  cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent;
-  transition:background 0.04s,transform 0.04s}
-.action-btn.empty-slot{background:transparent;border:none;pointer-events:none}
-.action-btn.pressed{opacity:0.55;transform:scale(0.9)}
+/* Right cluster — arrows */
+.kb-right{display:flex;flex-direction:column;gap:3px;align-items:center;flex-shrink:0}
 
-/* Key-map settings popup — floats above gamepad */
-.gp-settings{
-  position:absolute;
-  bottom:var(--gp-height-portrait);
-  left:0;right:0;
-  background:rgba(8,11,20,0.97);
-  border:1px solid var(--border-glow);
-  padding:10px;display:none;flex-direction:column;gap:8px;z-index:600}
-.gp-settings.open{display:flex}
-.gp-settings p{font-family:'Orbitron',monospace;font-size:0.55rem;
-  color:var(--text-muted);letter-spacing:1px;line-height:1.6}
-.gp-settings textarea{background:var(--bg-card);border:1px solid var(--border-glow);
-  color:var(--text-main);padding:6px 10px;width:100%;font-family:monospace;
-  font-size:0.7rem;resize:vertical}
-.gp-settings-row{display:flex;gap:8px}
-.gp-settings-row button{flex:1;background:rgba(255,45,120,0.15);border:1px solid var(--neon-pink);
-  color:var(--neon-pink);font-family:'Orbitron',monospace;font-size:0.6rem;
-  letter-spacing:1px;padding:6px;cursor:pointer;transition:all 0.2s}
-.gp-settings-row button:hover{background:var(--neon-pink);color:#080b14}
+/* Responsive scale for tiny phones */
+@media(max-height:600px),(max-width:390px){
+  .kb-key.sz-sq{width:36px;height:33px;font-size:0.6rem}
+  .kb-key.sz-wide{width:75px;height:33px;font-size:0.6rem}
+  .kb-key.sz-ef{width:36px;height:33px;font-size:0.6rem}
+  #mobileGamepad{--kb-height-portrait:190px}
+}
 
 /* ════════════════════════════════════════════
    TOUCH MODE CLASSES applied by JS to #game
@@ -189,17 +170,14 @@ input[type="file"]{display:none}
   position:absolute!important;
   top:0!important;left:0!important;
   width:100%!important;
-  height:calc(100% - var(--gp-height-portrait))!important;
+  height:calc(100% - var(--kb-height-portrait))!important;
   display:block!important;
 }
-/* Gamepad pinned to bottom */
+/* Keyboard pinned to bottom */
 #game.touch-mode.portrait-mode #mobileGamepad{
   position:absolute;bottom:0;left:0;right:0;
-  height:var(--gp-height-portrait);width:auto;
+  height:var(--kb-height-portrait);width:auto;
   border-top:1px solid rgba(0,245,255,0.2);border-left:none;
-}
-#game.touch-mode.portrait-mode .gp-settings{
-  bottom:var(--gp-height-portrait);
 }
 
 /* LANDSCAPE */
@@ -217,21 +195,20 @@ input[type="file"]{display:none}
   display:block!important;
   min-width:0!important;
 }
-/* Gamepad is a flex child on the right */
+/* Keyboard is a flex child on the right */
 #game.touch-mode.landscape-mode #mobileGamepad{
   position:relative;
   bottom:auto;left:auto;right:auto;top:auto;
   height:100%;
-  width:var(--gp-width-landscape);
-  min-width:var(--gp-width-landscape);
+  width:var(--kb-width-landscape);
+  min-width:var(--kb-width-landscape);
   border-top:none;
   border-left:1px solid rgba(0,245,255,0.2);
   flex-shrink:0;
 }
-#game.touch-mode.landscape-mode .gp-settings{
-  bottom:0;top:0;
-  left:auto;right:var(--gp-width-landscape);
-  width:220px;height:auto;
+/* Landscape: stack kb-body vertically */
+#game.touch-mode.landscape-mode .kb-body{
+  flex-direction:column;justify-content:center;align-items:center;gap:6px;
 }
 
 /* FULLSCREEN — #game fills entire screen */
@@ -275,63 +252,50 @@ input[type="file"]{display:none}
 <div class="game-wrapper">
   <div id="game">
 
-    <!-- GAMEPAD lives inside #game so fullscreen carries it along -->
+    <!-- VIRTUAL KEYBOARD lives inside #game so fullscreen carries it along -->
     <div id="mobileGamepad">
 
       <div class="gp-topbar">
-        <span class="gp-label">🎮 GAMEPAD</span>
+        <span class="gp-label">⌨ KEYBOARD</span>
         <div class="gp-topbar-btns">
-          <button class="gp-icon-btn" id="gpSettingsBtn">⚙ KEYS</button>
           <button class="gp-icon-btn" id="gpHideBtn">HIDE</button>
         </div>
       </div>
 
-      <div class="gp-body">
-        <!-- D-PAD -->
-        <div class="dpad">
-          <div class="dpad-btn empty-slot"></div>
-          <div class="dpad-btn" data-key="ArrowUp"    data-code="ArrowUp">▲</div>
-          <div class="dpad-btn empty-slot"></div>
-          <div class="dpad-btn" data-key="ArrowLeft"  data-code="ArrowLeft">◀</div>
-          <div class="dpad-btn dpad-center"></div>
-          <div class="dpad-btn" data-key="ArrowRight" data-code="ArrowRight">▶</div>
-          <div class="dpad-btn empty-slot"></div>
-          <div class="dpad-btn" data-key="ArrowDown"  data-code="ArrowDown">▼</div>
-          <div class="dpad-btn empty-slot"></div>
+      <div class="kb-body">
+        <!-- Left cluster: WASD + E F + SPACE -->
+        <div class="kb-left">
+          <!-- E F row -->
+          <div class="kb-row">
+            <div class="kb-key sz-ef" data-key="e" data-code="KeyE">E</div>
+            <div class="kb-key sz-ef" data-key="f" data-code="KeyF">F</div>
+          </div>
+          <!-- W row -->
+          <div class="kb-row">
+            <div class="kb-key sz-sq" data-key="w" data-code="KeyW">W</div>
+          </div>
+          <!-- A S D row -->
+          <div class="kb-row">
+            <div class="kb-key sz-sq" data-key="a" data-code="KeyA">A</div>
+            <div class="kb-key sz-sq" data-key="s" data-code="KeyS">S</div>
+            <div class="kb-key sz-sq" data-key="d" data-code="KeyD">D</div>
+          </div>
+          <!-- SPACE -->
+          <div class="kb-row">
+            <div class="kb-key sz-wide" data-key=" " data-code="Space">SPACE</div>
+          </div>
         </div>
 
-        <!-- SELECT + START -->
-        <div class="mid-btns">
-          <div class="mid-btn" data-key=" " data-code="Space">SELECT</div>
-          <div class="mid-btn" data-key="Enter" data-code="Enter">START</div>
-        </div>
-
-        <!-- ACTION BUTTONS diamond -->
-        <div class="action-cluster">
-          <div class="action-btn empty-slot"></div>
-          <div class="action-btn" data-key="x" data-code="KeyX"
-            style="border-color:rgba(191,95,255,0.6);color:#bf5fff">X</div>
-          <div class="action-btn empty-slot"></div>
-          <div class="action-btn" data-key="z" data-code="KeyZ"
-            style="border-color:rgba(57,255,20,0.6);color:#39ff14">Y</div>
-          <div class="action-btn empty-slot"></div>
-          <div class="action-btn" data-key="a" data-code="KeyA"
-            style="border-color:rgba(255,45,120,0.6);color:#ff2d78">A</div>
-          <div class="action-btn empty-slot"></div>
-          <div class="action-btn" data-key="s" data-code="KeyS"
-            style="border-color:rgba(0,245,255,0.6);color:#00f5ff">B</div>
-          <div class="action-btn empty-slot"></div>
-        </div>
-      </div>
-
-      <!-- Key-map settings popup -->
-      <div class="gp-settings" id="gpSettings">
-        <p>FORMAT: LABEL:key:KeyCode — one per line<br>
-          e.g. ▲:ArrowUp:ArrowUp &nbsp;|&nbsp; A:a:KeyA &nbsp;|&nbsp; SELECT: :Space</p>
-        <textarea id="gpKeyEditor" rows="5"></textarea>
-        <div class="gp-settings-row">
-          <button id="gpSaveKeys">SAVE KEYS</button>
-          <button id="gpResetKeys">RESET</button>
+        <!-- Right cluster: arrow keys -->
+        <div class="kb-right">
+          <div class="kb-row">
+            <div class="kb-key sz-sq" data-key="ArrowUp" data-code="ArrowUp">▲</div>
+          </div>
+          <div class="kb-row">
+            <div class="kb-key sz-sq" data-key="ArrowLeft" data-code="ArrowLeft">◀</div>
+            <div class="kb-key sz-sq" data-key="ArrowDown" data-code="ArrowDown">▼</div>
+            <div class="kb-key sz-sq" data-key="ArrowRight" data-code="ArrowRight">▶</div>
+          </div>
         </div>
       </div>
 
@@ -478,20 +442,7 @@ function bindBtn(el){
 }
 
 /* ── Default key map ── */
-let keyMap={
-  "▲":{key:"ArrowUp",code:"ArrowUp"},
-  "▼":{key:"ArrowDown",code:"ArrowDown"},
-  "◀":{key:"ArrowLeft",code:"ArrowLeft"},
-  "▶":{key:"ArrowRight",code:"ArrowRight"},
-  "SELECT":{key:" ",code:"Space"},
-  "START":{key:"Enter",code:"Enter"},
-  "X":{key:"x",code:"KeyX"},
-  "Y":{key:"z",code:"KeyZ"},
-  "A":{key:"a",code:"KeyA"},
-  "B":{key:"s",code:"KeyS"},
-};
-
-/* ── Init gamepad ── */
+/* ── Init virtual keyboard ── */
 function initMobileGamepad(){
   const game=document.getElementById('game');
   const pad =document.getElementById('mobileGamepad');
@@ -502,22 +453,10 @@ function initMobileGamepad(){
 
   pad.querySelectorAll('[data-key]').forEach(bindBtn);
 
-  const settingsPanel=document.getElementById('gpSettings');
-  const editor=document.getElementById('gpKeyEditor');
-
-  function syncEditor(){
-    editor.value=Object.entries(keyMap)
-      .map(([label,{key,code}])=>`${label}:${key}:${code}`).join('\n');
-  }
-  syncEditor();
-
-  document.getElementById('gpSettingsBtn').addEventListener('click',()=>
-    settingsPanel.classList.toggle('open'));
-
   document.getElementById('gpHideBtn').addEventListener('click',()=>{
     pad.style.display='none';
     const restore=document.createElement('button');
-    restore.textContent='🎮';
+    restore.textContent='⌨';
     restore.style.cssText='position:absolute;bottom:10px;left:50%;transform:translateX(-50%);'+
       'z-index:600;background:rgba(8,11,20,0.88);border:1px solid var(--neon-cyan);'+
       'color:var(--neon-cyan);font-size:1.4rem;padding:8px 18px;cursor:pointer;'+
@@ -525,44 +464,6 @@ function initMobileGamepad(){
     restore.addEventListener('click',()=>{pad.style.display='flex';restore.remove();});
     game.appendChild(restore);
   });
-
-  document.getElementById('gpSaveKeys').addEventListener('click',()=>{
-    const newMap={};
-    editor.value.split('\n').forEach(line=>{
-      const parts=line.split(':');
-      if(parts.length>=3){
-        const label=parts[0].trim(),key=parts[1].trim(),code=parts[2].trim();
-        if(label&&key&&code) newMap[label]={key,code};
-      }
-    });
-    if(Object.keys(newMap).length){
-      keyMap=newMap;
-      pad.querySelectorAll('[data-key]').forEach(el=>{
-        const label=el.textContent.trim();
-        if(newMap[label]){el.dataset.key=newMap[label].key;el.dataset.code=newMap[label].code;}
-      });
-      try{localStorage.setItem('pz_gp_keymap',JSON.stringify(keyMap));}catch(_){}
-      syncEditor();
-      settingsPanel.classList.remove('open');
-    }
-  });
-
-  document.getElementById('gpResetKeys').addEventListener('click',()=>{
-    keyMap={
-      "▲":{key:"ArrowUp",code:"ArrowUp"},"▼":{key:"ArrowDown",code:"ArrowDown"},
-      "◀":{key:"ArrowLeft",code:"ArrowLeft"},"▶":{key:"ArrowRight",code:"ArrowRight"},
-      "SELECT":{key:" ",code:"Space"},"START":{key:"Enter",code:"Enter"},
-      "X":{key:"x",code:"KeyX"},"Y":{key:"z",code:"KeyZ"},
-      "A":{key:"a",code:"KeyA"},"B":{key:"s",code:"KeyS"},
-    };
-    try{localStorage.removeItem('pz_gp_keymap');}catch(_){}
-    syncEditor();
-  });
-
-  try{
-    const saved=localStorage.getItem('pz_gp_keymap');
-    if(saved){keyMap=JSON.parse(saved);syncEditor();}
-  }catch(_){}
 
   /* Orientation change listeners */
   const onRotate=()=>setTimeout(applyOrientation,120);
@@ -579,10 +480,10 @@ styleFix.textContent=`
     position:absolute!important;top:0!important;left:0!important;
     width:100%!important;height:100%!important;display:block!important;
   }
-  /* Portrait: Ruffle height = total height minus gamepad */
+  /* Portrait: Ruffle height = total height minus keyboard */
   #game.touch-mode.portrait-mode ruffle-player,
   #game.touch-mode.portrait-mode object {
-    height:calc(100% - var(--gp-height-portrait))!important;
+    height:calc(100% - var(--kb-height-portrait))!important;
     width:100%!important;
   }
   /* Landscape: Ruffle is a flex child, gamepad is on the right */
