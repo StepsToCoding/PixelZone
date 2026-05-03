@@ -31,17 +31,50 @@
   .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s}
   .nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
   /* BILINGUAL NAVBAR */
-  .nav-en{display:inline-block;}
-  .nav-ar{display:none;}
-  body.lang-ar .nav-en{display:none;}
-  body.lang-ar .nav-ar{
-    display: inline-block;
-    color: var(--neon-cyan);
-  }
-  .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden;position:relative;z-index:101;}
-  .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani','Cairo',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
-  .lang-btn.active{background:var(--neon-cyan);color:#080b14}
-  
+.nav-en { display: inline-block; }
+.nav-ar { display: none; }
+body.lang-ar .nav-en { display: none; }
+body.lang-ar .nav-ar {
+  display: inline-block;
+  color: var(--neon-cyan) !important;
+}
+body.lang-ar .nav-links a {
+  color: var(--neon-cyan) !important;
+}
+/* FORCE ARABIC NAVBAR VISIBLE */
+body.lang-ar .nav-links a {
+  color: #00f5ff !important;
+}
+body.lang-ar .nav-links a .nav-ar {
+  display: inline-block !important;
+}
+body.lang-ar .nav-links a .nav-en {
+  display: none !important;
+}
+.lang-toggle {
+  display: flex;
+  border: 1px solid var(--border-glow);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  z-index: 101;
+}
+.lang-btn {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-family: 'Rajdhani','Cairo',sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-btn.active {
+  background: var(--neon-cyan);
+  color: #080b14;
+}
   .post-hero{position:relative;z-index:1;padding:4rem 2rem 3rem;max-width:860px;margin:0 auto}
   .post-meta-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
   .post-type-badge{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;padding:4px 12px;border:1px solid}
@@ -398,9 +431,25 @@ function setLanguage(lang) {
     if (lang === 'ar') {
         document.body.classList.add('lang-ar');
         document.body.setAttribute('dir', 'rtl');
+        // FORCE ARABIC NAVBAR TEXT VISIBLE
+        document.querySelectorAll('.nav-ar').forEach(el => {
+            el.style.setProperty('display', 'inline-block', 'important');
+            el.style.setProperty('color', '#00f5ff', 'important');
+        });
+        document.querySelectorAll('.nav-links a').forEach(el => {
+            el.style.setProperty('color', '#00f5ff', 'important');
+        });
     } else {
         document.body.classList.remove('lang-ar');
         document.body.setAttribute('dir', 'ltr');
+        // Reset forced styles
+        document.querySelectorAll('.nav-ar').forEach(el => {
+            el.style.display = '';
+            el.style.color = '';
+        });
+        document.querySelectorAll('.nav-links a').forEach(el => {
+            el.style.color = '';
+        });
     }
     
     document.getElementById('contentEn').style.display = lang === 'en' ? 'block' : 'none';
