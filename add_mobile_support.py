@@ -1,279 +1,125 @@
 import os
+import re
+import shutil
 from glob import glob
+from datetime import datetime
 
-# Complete CSS to add (including mobile styles)
-FULL_CSS = '''
-  /* MOBILE RESPONSIVE STYLES */
-  @media (max-width: 768px) {
-    nav {
-      padding: 0 1rem;
-    }
-    
-    .nav-links {
-      position: fixed;
-      top: 64px;
-      left: -100%;
-      width: 75%;
-      max-width: 280px;
-      height: calc(100vh - 64px);
-      background: rgba(8, 11, 20, 0.98);
-      backdrop-filter: blur(16px);
-      flex-direction: column;
-      padding: 2rem 1rem;
-      gap: 1.5rem;
-      transition: left 0.3s ease;
-      z-index: 1000;
-      border-right: 1px solid var(--border-glow);
-    }
-    
-    .nav-links.open {
-      left: 0;
-    }
-    
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 10px;
-      z-index: 1001;
-    }
-    
-    .hamburger span {
-      width: 25px;
-      height: 2px;
-      background: var(--neon-cyan);
-      transition: all 0.3s ease;
-    }
-    
-    .hamburger.open span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    
-    .hamburger.open span:nth-child(2) {
-      opacity: 0;
-    }
-    
-    .hamburger.open span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
-    
-    .menu-overlay {
-      position: fixed;
-      top: 64px;
-      left: 0;
-      width: 100%;
-      height: calc(100vh - 64px);
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 999;
-      display: none;
-    }
-    
-    .menu-overlay.open {
-      display: block;
-    }
-    
-    .articles-grid, .wt-grid, .games-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    
-    .hero {
-      padding: 2rem 1rem;
-    }
-    
-    .hero-btns {
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .btn-primary, .btn-secondary, .btn-discord {
-      width: 100%;
-      max-width: 220px;
-      justify-content: center;
-    }
-    
-    .controls {
-      flex-direction: column;
-    }
-    
-    .search-wrap {
-      max-width: 100%;
-    }
-    
-    .filter-group {
-      justify-content: center;
-    }
-    
-    .sort-row {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    
-    .results-info {
-      margin-left: 0;
-      text-align: center;
-    }
-    
-    .post-hero {
-      padding: 2rem 1rem;
-    }
-    
-    .post-body {
-      padding: 0 1rem 3rem;
-    }
-    
-    .review-score-box {
-      flex-direction: column;
-      text-align: center;
-    }
-    
-    .pro-con-box {
-      grid-template-columns: 1fr;
-    }
-    
-    .share-buttons {
-      gap: 0.5rem;
-    }
-    
-    .share-btn {
-      font-size: 0.6rem;
-      padding: 6px 12px;
-    }
-  }
-  
-  [dir="rtl"] .nav-links {
-    left: auto;
-    right: -100%;
-    border-right: none;
-    border-left: 1px solid var(--border-glow);
-  }
-  
-  [dir="rtl"] .nav-links.open {
-    left: auto;
-    right: 0;
-  }'''
+ARTICLES_DIR = './Articles/articles/'
+# List the articles you want to fix (excluding the already fixed BlockBlast and RE2-Monsters)
+FILES_TO_FIX = [
+    'RE2-Remastered-Review.html',
+    'RE3-Monsters.html',
+    'RE4-Monsters.html',
+    'SM-Villains.html',
+    # Add any other article names here
+]
 
-# Hamburger HTML to add inside nav
-HAMBURGER_HTML = '''
-  <button class="hamburger" aria-label="Menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <div class="menu-overlay"></div>'''
+# Path to the already corrected article (used as a template for navbar and scripts)
+TEMPLATE_FILE = os.path.join(ARTICLES_DIR, 'RE2-Monsters.html')  # the one we just fixed
 
-# Hamburger JavaScript
-HAMBURGER_JS = '''
-<script>
-// Mobile Hamburger Menu
-(function() {
-  const hamburger = document.querySelector('.hamburger');
-  const navLinks = document.querySelector('.nav-links');
-  const overlay = document.querySelector('.menu-overlay');
-  
-  if (!hamburger || !navLinks) return;
-  
-  function toggleMenu() {
-    navLinks.classList.toggle('open');
-    hamburger.classList.toggle('open');
-    if (overlay) overlay.classList.toggle('open');
-    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
-  }
-  
-  hamburger.addEventListener('click', toggleMenu);
-  if (overlay) overlay.addEventListener('click', toggleMenu);
-  
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      hamburger.classList.remove('open');
-      if (overlay) overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-  });
-})();
-</script>'''
+def extract_template_parts(template_path):
+    """Extract navbar, scripts, and footer from the fixed article."""
+    with open(template_path, 'r', encoding='utf-8') as f:
+        content = f.read()
 
-def fix_file(file_path, is_root=False):
+    # Navbar
+    nav_match = re.search(r'<nav>.*?</nav>', content, re.DOTALL)
+    if not nav_match:
+        raise Exception("Could not find navbar in template")
+    navbar = nav_match.group(0)
+
+    # Scripts (from the first <script> to the last </script>)
+    script_matches = re.findall(r'<script>.*?</script>', content, re.DOTALL)
+    if not script_matches:
+        raise Exception("Could not find scripts in template")
+    scripts = '\n'.join(script_matches)
+
+    # Footer
+    footer_match = re.search(r'<footer>.*?</footer>', content, re.DOTALL)
+    footer = footer_match.group(0) if footer_match else ''
+
+    return navbar, scripts, footer
+
+def fix_article(file_path, navbar, scripts, footer):
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
-    
-    modified = False
-    
-    # 1. Add CSS styles to <style> tag
-    if '@media (max-width: 768px)' not in content:
-        if '</style>' in content:
-            content = content.replace('</style>', f'{FULL_CSS}\n</style>')
-            modified = True
-            print(f"   ✅ Added CSS styles")
-    
-    # 2. Add hamburger HTML inside nav (after lang-toggle or before closing nav)
-    if '.hamburger' not in content and 'hamburger' not in content:
-        if '</nav>' in content:
-            content = content.replace('</nav>', f'{HAMBURGER_HTML}\n</nav>')
-            modified = True
-            print(f"   ✅ Added hamburger HTML")
-    
-    # 3. Add hamburger JavaScript before </body>
-    if 'querySelector(.hamburger)' not in content and 'initMobileMenu' not in content:
-        if '</body>' in content:
-            content = content.replace('</body>', f'{HAMBURGER_JS}\n</body>')
-            modified = True
-            print(f"   ✅ Added hamburger JavaScript")
-    
-    if modified:
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(content)
-        return True
-    return False
+
+    # 1. Backup
+    backup_dir = './Articles/backup_final_' + datetime.now().strftime('%Y%m%d_%H%M%S')
+    os.makedirs(backup_dir, exist_ok=True)
+    backup_path = os.path.join(backup_dir, os.path.basename(file_path))
+    shutil.copy2(file_path, backup_path)
+    print(f"   Backup saved: {backup_path}")
+
+    # 2. Replace navbar
+    content = re.sub(r'<nav>.*?</nav>', '', content, flags=re.DOTALL)
+    # Insert new navbar after <body>
+    content = re.sub(r'(<body[^>]*>)', r'\1\n' + navbar, content)
+
+    # 3. Ensure Arabic title and content are preserved (they are already there)
+    # No need to modify contentEn/contentAr – they remain untouched.
+
+    # 4. Remove all existing scripts and add new ones
+    content = re.sub(r'<script>.*?</script>', '', content, flags=re.DOTALL)
+    # Insert scripts before </body>
+    content = re.sub(r'(</body>)', scripts + r'\n\1', content)
+
+    # 5. Ensure footer is present (replace any existing footer)
+    content = re.sub(r'<footer>.*?</footer>', footer, content, flags=re.DOTALL)
+
+    # 6. Add view counter and share buttons if missing
+    if 'view-counter-section' not in content:
+        # Find the end of contentEn div
+        en_end = re.search(r'(</div>\s*<div class="post-body" id="contentAr")', content)
+        if en_end:
+            insert_point = en_end.start()
+            add_html = '''
+  <div class="view-counter-section">
+    <div class="view-counter">
+      <span class="view-icon">👁️</span>
+      <span class="view-count-display">0</span>
+      <span class="view-label">views</span>
+    </div>
+  </div>
+  <div class="share-section">
+    <div class="glow-divider" style="margin: 2rem 0 1.5rem;"></div>
+    <div class="share-title">📤 SHARE THIS ARTICLE</div>
+    <div class="share-buttons">
+      <button class="share-btn twitter">🐦 Twitter</button>
+      <button class="share-btn whatsapp">📱 WhatsApp</button>
+      <button class="share-btn telegram">✈️ Telegram</button>
+      <button class="share-btn copy">🔗 Copy Link</button>
+    </div>
+  </div>
+'''
+            content = content[:insert_point] + add_html + content[insert_point:]
+
+    # Write back
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+    return True
 
 def main():
-    print("=" * 60)
-    print("🔧 FORCE FIX - Adding Mobile Menu to ALL Pages")
-    print("=" * 60)
-    
-    # Main pages
-    main_pages = [
-        'index.html',
-        'Games/index.html',
-        'Articles/index.html',
-        'Walkthroughs/index.html',
-    ]
-    
-    # Find all articles
-    articles = glob('./Articles/articles/*.html')
-    
-    print(f"\n📁 Main pages: {len(main_pages)}")
-    print(f"📁 Articles: {len(articles)}")
-    print("-" * 60)
-    
-    fixed = 0
-    
-    # Fix main pages
-    for file_path in main_pages:
-        if os.path.exists(file_path):
-            print(f"\n📄 {file_path}")
-            if fix_file(file_path):
-                fixed += 1
-                print(f"   ✅ Fixed!")
-        else:
-            print(f"\n⚠️ {file_path} not found")
-    
-    # Fix articles
-    for file_path in articles:
-        print(f"\n📄 {os.path.basename(file_path)}")
-        if fix_file(file_path):
-            fixed += 1
-            print(f"   ✅ Fixed!")
-    
-    print("\n" + "=" * 60)
-    print(f"🎉 Fixed {fixed} file(s).")
-    print("=" * 60)
-    print("\n📱 Now test on your phone - refresh the page (Ctrl+F5)")
-    print("   The hamburger menu should appear on ALL pages!")
+    if not os.path.exists(TEMPLATE_FILE):
+        print(f"❌ Template file not found: {TEMPLATE_FILE}")
+        print("Please ensure RE2-Monsters.html is fixed and available.")
+        return
+
+    print("📖 Extracting template parts from RE2-Monsters.html ...")
+    navbar, scripts, footer = extract_template_parts(TEMPLATE_FILE)
+    print("✅ Extraction successful.\n")
+
+    for filename in FILES_TO_FIX:
+        file_path = os.path.join(ARTICLES_DIR, filename)
+        if not os.path.exists(file_path):
+            print(f"⚠️ File not found: {filename} – skipping")
+            continue
+        print(f"🔧 Fixing: {filename}")
+        fix_article(file_path, navbar, scripts, footer)
+        print(f"   Done.\n")
+
+    print("🎉 All specified articles have been updated.")
+    print("⚠️ Please test each one on your live site before pushing.")
 
 if __name__ == '__main__':
     main()

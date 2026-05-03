@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" type="image/x-icon" href="/PixelZone/favicon.ico">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resident Evil 2 Remake Review — PixelZone | بيكسل زون</title>
+<title>Resident Evil 2 Remake REVIEW — PixelZone</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
@@ -12,6 +11,7 @@
     --neon-cyan:#00f5ff;
     --neon-pink:#ff2d78;
     --neon-green:#39ff14;
+    --neon-purple:#bf5fff;
     --bg-dark:#080b14;
     --bg-card:#0d1220;
     --bg-card2:#111827;
@@ -21,16 +21,21 @@
   }
   body{background:var(--bg-dark);color:var(--text-main);font-family:'Rajdhani','Cairo',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.7}
   body.lang-ar{font-family:'Cairo','Rajdhani',sans-serif}
-  .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);z-index:999}
-  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+  .scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08)2px,rgba(0,0,0,0.08)4px);z-index:999}
+  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,0.04)1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04)1px,transparent 1px);background-size:40px 40px;z-index:0}
 
-  nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+  nav{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-glow);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
   .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:0 0 16px var(--neon-cyan);text-decoration:none}
   .logo span{color:var(--neon-pink)}
-  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links{display:flex;gap:2rem;list-style:none;margin:0 auto;white-space:nowrap;}
   .nav-links a{text-decoration:none;color:var(--text-muted);font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s}
   .nav-links a:hover,.nav-links a.active{color:var(--neon-cyan)}
-  .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden}
+  .nav-en{display:inline-block;}
+  .nav-ar{display:none;}
+  body.lang-ar .nav-en{display:none;}
+  body.lang-ar .nav-ar{display:inline-block;color:var(--neon-cyan) !important;}
+  body.lang-ar .nav-links a{color:var(--neon-cyan) !important;}
+  .lang-toggle{display:flex;border:1px solid var(--border-glow);border-radius:4px;overflow:hidden;position:relative;z-index:101;}
   .lang-btn{padding:6px 14px;font-size:0.8rem;font-family:'Rajdhani','Cairo',sans-serif;font-weight:600;letter-spacing:1px;background:transparent;color:var(--text-muted);border:none;cursor:pointer;transition:all 0.2s}
   .lang-btn.active{background:var(--neon-cyan);color:#080b14}
 
@@ -40,13 +45,22 @@
   .badge-review{color:var(--neon-pink);border-color:var(--neon-pink);background:rgba(255,45,120,0.08)}
   .badge-guide{color:var(--neon-cyan);border-color:var(--neon-cyan);background:rgba(0,245,255,0.08)}
   .badge-news{color:var(--neon-green);border-color:var(--neon-green);background:rgba(57,255,20,0.08)}
-  .badge-opinion{color:#b388ff;border-color:#b388ff;background:rgba(179,136,255,0.08)}
+  .badge-walkthrough{color:var(--neon-purple);border-color:var(--neon-purple);background:rgba(191,95,255,0.08)}
   .post-date{font-size:0.8rem;color:var(--text-muted);letter-spacing:1px}
   .post-author{font-size:0.8rem;color:var(--text-muted)}
   .post-author span{color:var(--neon-cyan)}
-
-  .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem}
-  .post-title-ar{font-family:'Cairo','Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.4;color:var(--text-main);margin-bottom:1.5rem}
+  .post-title{font-family:'Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.2;color:var(--text-main);margin-bottom:1.5rem;text-transform:uppercase;background:linear-gradient(135deg,#fff 0%,var(--neon-cyan) 50%,var(--neon-pink) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 20px rgba(0,245,255,0.3);letter-spacing:2px;}
+  .post-title-ar{font-family:'Cairo','Orbitron',monospace;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;line-height:1.4;color:var(--text-main);margin-bottom:1.5rem;background:linear-gradient(135deg,#fff 0%,var(--neon-cyan) 50%,var(--neon-pink) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 20px rgba(255,45,120,0.3);}
+  .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
+  [dir="rtl"] .glow-divider{background:linear-gradient(270deg,var(--neon-cyan),transparent)}
+  .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
+  .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
+  .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
+  .post-body strong{color:var(--text-main)}
+  .post-body em{color:var(--neon-cyan);font-style:normal}
+  .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
+  .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
+  [dir="rtl"] .post-body blockquote{border-left:none;border-right:3px solid var(--neon-pink)}
 
   .review-score-box{background:var(--bg-card);border:1px solid var(--border-glow);border-left:3px solid var(--neon-pink);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
   .score-big{font-family:'Orbitron',monospace;font-size:3rem;font-weight:900;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.5);line-height:1}
@@ -55,23 +69,6 @@
   .score-stars span{font-size:1.4rem;color:var(--neon-pink)}
   .score-verdict{font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--text-main);font-weight:700}
   .score-sub{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
-  .review-score-box.hidden{display:none}
-
-  .post-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
-  .post-tag{font-size:0.65rem;font-family:'Orbitron',monospace;letter-spacing:1px;padding:3px 10px;border:1px solid var(--border-glow);color:var(--text-muted)}
-
-  .glow-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--neon-cyan),transparent);margin:2rem 0;opacity:0.3}
-  [dir="rtl"] .glow-divider{background:linear-gradient(270deg,var(--neon-cyan),transparent)}
-
-  .post-body{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 5rem}
-  .post-body h2{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--neon-cyan);margin:2.5rem 0 1rem;letter-spacing:1px}
-  .post-body p{color:var(--text-muted);font-size:1.05rem;margin-bottom:1.2rem;line-height:1.8}
-  .post-body strong{color:var(--text-main)}
-  .post-body em{color:var(--neon-cyan);font-style:normal}
-  .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.2rem}
-  .post-body li{margin-bottom:0.4rem;font-size:1.05rem;line-height:1.7}
-  .post-body blockquote{border-left:3px solid var(--neon-pink);padding:0.75rem 1.5rem;background:var(--bg-card);margin:1.5rem 0;color:var(--text-main);font-size:1.05rem;font-style:italic}
-  [dir="rtl"] .post-body blockquote{border-left:none;border-right:3px solid var(--neon-pink)}
 
   .pro-con-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
   .pro-box,.con-box{background:var(--bg-card);border:1px solid var(--border-glow);padding:1.2rem 1.5rem}
@@ -85,105 +82,91 @@
   .pro-box li::before{content:'✓';color:var(--neon-green);flex-shrink:0}
   .con-box li::before{content:'✗';color:var(--neon-pink);flex-shrink:0}
 
+  /* VIEW COUNTER STYLES */
+  .view-counter-section{display:flex;justify-content:center;margin:1.5rem 0 0}
+  .view-counter{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border-glow);padding:8px 20px;border-radius:40px;font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--text-main)}
+  .view-icon{font-size:1.1rem}
+  .view-count-display{font-weight:700;color:var(--neon-cyan);font-size:1rem}
+  .view-label{color:var(--text-muted);font-size:0.7rem}
+
+  /* SHARE BUTTONS STYLES */
+  .share-section{margin:2rem 0 1rem;text-align:center}
+  .share-title{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:2px;color:var(--text-muted);margin-bottom:1rem}
+  .share-buttons{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap}
+  .share-btn{font-family:'Orbitron',monospace;font-size:0.7rem;font-weight:600;letter-spacing:1px;padding:8px 18px;border:none;cursor:pointer;transition:all 0.2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px)100%,0%100%);color:#080b14}
+  .share-btn:hover{transform:translateY(-2px);filter:brightness(0.9)}
+  .share-btn.twitter{background:#1DA1F2}
+  .share-btn.whatsapp{background:#25D366}
+  .share-btn.telegram{background:#0088cc}
+  .share-btn.copy{background:var(--neon-cyan);color:#080b14}
+
+  /* MOBILE STYLES */
+  @media (max-width: 768px) {
+    .nav-links { position: fixed; top: 64px; left: -100%; width: 80%; max-width: 300px; height: calc(100vh - 64px); background: rgba(8,11,20,0.98); backdrop-filter: blur(16px); flex-direction: column; align-items: center; justify-content: flex-start; padding: 2rem 1rem; gap: 1.5rem; transition: left 0.3s ease; z-index: 1000; border-right: 1px solid var(--border-glow); }
+    .nav-links.open { left: 0; }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 8px; z-index: 1001; }
+    .hamburger span { width: 25px; height: 2px; background: var(--neon-cyan); transition: all 0.3s ease; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .menu-overlay { position: fixed; top: 64px; left: 0; width: 100%; height: calc(100vh - 64px); background: rgba(0,0,0,0.5); z-index: 999; display: none; }
+    .menu-overlay.open { display: block; }
+    .post-body { padding: 0 1rem 3rem; }
+    .post-hero { padding: 2rem 1rem 2rem; }
+    .share-btn { padding: 6px 12px; font-size: 0.6rem; }
+  }
+  @media (min-width: 769px) { .hamburger, .menu-overlay { display: none; } }
+  [dir="rtl"] .nav-links { left: auto; right: -100%; border-right: none; border-left: 1px solid var(--border-glow); }
+  [dir="rtl"] .nav-links.open { left: auto; right: 0; }
+
   footer{position:relative;z-index:1;border-top:1px solid var(--border-glow);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem;letter-spacing:1px}
   .footer-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-cyan);margin-bottom:0.5rem}
 </style>
-  <link rel="stylesheet" href="../mobile.css">
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Resident Evil 2 Remake REVIEW",
-  "description": "Complete game guide and analysis for Resident Evil 2 Remake REVIEW. Strategies, tips, and insights for gamers.",
-  "author": {
-    "@type": "Organization",
-    "name": "PixelZone"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "PixelZone",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://stepstocoding.github.io/PixelZone/images/logo.png"
-    }
-  },
-  "datePublished": "2026-04-29",
-  "dateModified": "2026-04-29",
-  "mainEntityOfPage": "https://stepstocoding.github.io/PixelZone/Articles/articles/RE2-Remastered-Review.html",
-  "articleSection": "Game Guides",
-  "keywords": "game guide, walkthrough, gaming tips, resident evil, spider man"
-}
-</script>
-
-<meta property="og:title" content="Resident Evil 2 Remake REVIEW | PixelZone">
-<meta property="og:description" content="Read the full guide for Resident Evil 2 Remake REVIEW on PixelZone.">
-<meta property="og:image" content="https://stepstocoding.github.io/PixelZone/images/og-default.jpg">
-<meta property="og:url" content="https://stepstocoding.github.io/PixelZone/Articles/articles/RE2-Remastered-Review.html">
-<meta property="og:type" content="article">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Resident Evil 2 Remake REVIEW | PixelZone">
-<meta name="twitter:image" content="https://stepstocoding.github.io/PixelZone/images/og-default.jpg">
 </head>
 <body>
-<div class="scanlines"></div>
-<div class="grid-bg"></div>
-
 <nav>
   <a href="../../index.html" class="logo">PIXEL<span>ZONE</span></a>
   <ul class="nav-links">
-    <li><a href="../../index.html">Home</a></li>
-    <li><a href="../../Games/index.html">Games</a></li>
-    <li><a href="../index.html" class="active">Articles</a></li>
-    <li><a href="../../Walkthroughs/index.html">Walkthroughs</a></li>
+    <li><a href="../../index.html"><span class="nav-en">Home</span><span class="nav-ar">الرئيسية</span></a></li>
+    <li><a href="../../Games/index.html"><span class="nav-en">Games</span><span class="nav-ar">الألعاب</span></a></li>
+    <li><a href="../index.html" class="active"><span class="nav-en">Articles</span><span class="nav-ar">المقالات</span></a></li>
+    <li><a href="../../Walkthroughs/index.html"><span class="nav-en">Walkthroughs</span><span class="nav-ar">الشروحات</span></a></li>
   </ul>
   <div class="lang-toggle">
-    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn active" data-lang="en">EN</button>
     <button class="lang-btn" data-lang="ar">AR</button>
   </div>
 </nav>
 
+<div class="scanlines"></div>
+<div class="grid-bg"></div>
+
 <div class="post-hero">
   <div class="post-meta-top">
     <span class="post-type-badge badge-review" id="postTypeEn">REVIEW</span>
-    <span class="post-type-badge badge-review" id="postTypeAr" style="display:none">مراجعة</span>
+    <span class="post-type-badge badge-review" style="display:none" id="postTypeAr">مراجعة</span>
     <span class="post-date" id="postDateEn">April 29, 2026</span>
-    <span class="post-date" id="postDateAr" style="display:none">٢٩ أبريل ٢٠٢٦</span>
-    <span class="post-author" id="postAuthorEn">by <span>PixelZone</span></span>
-    <span class="post-author" id="postAuthorAr" style="display:none">بقلم <span>بيكسل زون</span></span>
+    <span class="post-date" style="display:none" id="postDateAr">٢٩ أبريل ٢٠٢٦</span>
+    <span class="post-author">by <span>PixelZone</span></span>
   </div>
 
   <h1 class="post-title" id="postTitleEn">Resident Evil 2 Remake REVIEW</h1>
   <h1 class="post-title-ar" id="postTitleAr" style="display:none">مراجعة ريزدنت إيفل 2 ريميك</h1>
 
-  <div class="review-score-box" id="scoreBox">
+  <div class="review-score-box">
     <div>
-      <div class="score-big" id="scoreNum">9.5</div>
-      <div class="score-label" id="scoreLabelEn">OVERALL SCORE</div>
-      <div class="score-label" id="scoreLabelAr" style="display:none">النتيجة النهائية</div>
+      <div class="score-big">9.5</div>
+      <div class="score-label">OVERALL SCORE</div>
     </div>
     <div>
-      <div class="score-stars" id="scoreStars">★★★★★</div>
-      <div class="score-verdict" id="scoreVerdictEn">OUTSTANDING</div>
-      <div class="score-verdict" id="scoreVerdictAr" style="display:none">ممتاز</div>
-      <div class="score-sub" id="scoreSubEn">A must-play for any fan of Resident Evil OR Puzzle / zombie games</div>
-      <div class="score-sub" id="scoreSubAr" style="display:none">لعبة لا تُفوت لعشاق ريزدنت إيفل أو ألعاب الألغاز / الزومبي</div>
+      <div class="score-stars">★★★★★</div>
+      <div class="score-verdict">OUTSTANDING</div>
+      <div class="score-sub">A must-play for any fan of Resident Evil OR Puzzle / zombie games</div>
     </div>
   </div>
-
-  <div class="post-tags">
-    <span class="post-tag">ACTION</span>
-    <span class="post-tag">STORY</span>
-    <span class="post-tag">PUZZLE</span>
-    <span class="post-tag">RESIDENT EVIL</span>
-    <span class="post-tag">PC</span>
-    <span class="post-tag">PS4</span>
-    <span class="post-tag">PS5</span>
-  </div>
-
   <div class="glow-divider"></div>
 </div>
 
-<!-- ENGLISH CONTENT -->
 <div class="post-body" id="contentEn">
   <p>Resident evil 2 remastered <strong>IS ONE OF THE BEST IF NOT THE BEST</strong> RE games.</p>
 
@@ -220,13 +203,12 @@
   </div>
 
   <h2>Final Verdict</h2>
-  <p>YOU WILL <strong>ABSOLUTELY</strong> love resident evil 2 <em>especially</em> If you like puzzle games , shooter games Or resident evil games</p
-
+  <p>YOU WILL <strong>ABSOLUTELY</strong> love resident evil 2 <em>especially</em> If you like puzzle games , shooter games Or resident evil games</p>
 
   <div class="view-counter-section">
     <div class="view-counter">
       <span class="view-icon">👁️</span>
-      <span class="view-count-display">Loading...</span>
+      <span class="view-count-display">0</span>
       <span class="view-label">views</span>
     </div>
   </div>
@@ -235,16 +217,14 @@
     <div class="glow-divider" style="margin: 2rem 0 1.5rem;"></div>
     <div class="share-title">📤 SHARE THIS ARTICLE</div>
     <div class="share-buttons">
-      <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 Twitter</button>
-      <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">📱 WhatsApp</button>
-      <button class="share-btn telegram" onclick="shareOnTelegram()">✈️ Telegram</button>
-      <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
+      <button class="share-btn twitter">🐦 Twitter</button>
+      <button class="share-btn whatsapp">📱 WhatsApp</button>
+      <button class="share-btn telegram">✈️ Telegram</button>
+      <button class="share-btn copy">🔗 Copy Link</button>
     </div>
   </div>
->
 </div>
 
-<!-- ARABIC CONTENT -->
 <div class="post-body" id="contentAr" style="display:none">
   <p>ريزدنت إيفل 2 ريميك <strong>هي واحدة من أفضل ألعاب RE إن لم تكن الأفضل</strong>.</p>
 
@@ -282,343 +262,27 @@
 
   <h2>الحكم النهائي</h2>
   <p><strong>بالتأكيد</strong> ستحب ريزدنت إيفل 2 <em>خاصةً</em> إذا كنت تحب ألعاب الألغاز أو ألعاب الرماية أو ألعاب ريزدنت إيفل</p>
-
-  <!-- VIEW COUNTER SECTION -->
-  <div class="view-counter-section">
-    <div class="view-counter" id="viewCounter">
-      <span class="view-icon">👁️</span>
-      <span id="viewCount">Loading...</span>
-      <span class="view-label" id="viewLabel">views</span>
-    </div>
-  </div>
-
-  <!-- SHARE BUTTONS SECTION -->
-  <div class="share-section">
-    <div class="glow-divider" style="margin: 2rem 0 1.5rem;"></div>
-    <div class="share-title" id="shareTitle">📤 SHARE THIS ARTICLE</div>
-    <div class="share-buttons">
-      <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 Twitter</button>
-      <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">📱 WhatsApp</button>
-      <button class="share-btn telegram" onclick="shareOnTelegram()">✈️ Telegram</button>
-      <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
-    </div>
-  </div>
 </div>
-
-<style>
-/* ============================================
-   VIEW COUNTER STYLES
-   ============================================ */
-.view-counter-section {
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem 0 0;
-}
-.view-counter {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-glow);
-  padding: 8px 20px;
-  border-radius: 40px;
-  font-family: 'Orbitron', monospace;
-  font-size: 0.85rem;
-  color: var(--text-main);
-}
-.view-icon {
-  font-size: 1.1rem;
-}
-#viewCount {
-  font-weight: 700;
-  color: var(--neon-cyan);
-  font-size: 1rem;
-}
-.view-label {
-  color: var(--text-muted);
-  font-size: 0.7rem;
-}
-
-/* ============================================
-   SHARE BUTTONS STYLES
-   ============================================ */
-.share-section {
-  margin: 2rem 0 1rem;
-  text-align: center;
-}
-.share-title {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-}
-.share-buttons {
-  display: flex;
-  gap: 0.8rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.share-btn {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 8px 18px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  color: #080b14;
-}
-.share-btn:hover {
-  transform: translateY(-2px);
-  filter: brightness(0.9);
-}
-.share-btn.twitter { background: #1DA1F2; }
-.share-btn.whatsapp { background: #25D366; }
-.share-btn.telegram { background: #0088cc; }
-.share-btn.copy { background: var(--neon-cyan); color: #080b14; }
-
-/* ============================================
-   MOBILE RESPONSIVE STYLES
-   ============================================ */
-@media (max-width: 768px) {
-  /* Hamburger menu */
-  .nav-links {
-    position: fixed;
-    top: 64px;
-    left: -100%;
-    width: 80%;
-    max-width: 300px;
-    height: calc(100vh - 64px);
-    background: rgba(8, 11, 20, 0.98);
-    backdrop-filter: blur(16px);
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 2rem 1rem;
-    gap: 1.5rem;
-    transition: left 0.3s ease;
-    z-index: 1000;
-    border-right: 1px solid var(--border-glow);
-  }
-  .nav-links.open {
-    left: 0;
-  }
-  .nav-links a {
-    font-size: 1.1rem;
-    padding: 0.8rem;
-    width: 100%;
-    text-align: center;
-  }
-  /* Hamburger button */
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 8px;
-    z-index: 1001;
-  }
-  .hamburger span {
-    width: 25px;
-    height: 2px;
-    background: var(--neon-cyan);
-    transition: all 0.3s ease;
-  }
-  .hamburger.open span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .hamburger.open span:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger.open span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
-  /* Overlay */
-  .menu-overlay {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 64px);
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    display: none;
-  }
-  .menu-overlay.open {
-    display: block;
-  }
-  /* Adjust hero section for mobile */
-  .hero {
-    padding: 3rem 1rem 2rem;
-  }
-  .hero-title {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-  }
-  .hero-btns {
-    flex-direction: column;
-    align-items: center;
-  }
-  .btn-primary, .btn-secondary, .btn-discord {
-    width: 100%;
-    max-width: 250px;
-    justify-content: center;
-  }
-  /* Article cards stack properly */
-  .articles-grid, .wt-grid, .games-grid {
-    grid-template-columns: 1fr;
-  }
-  /* Larger touch targets */
-  .filter-btn, .page-btn, .lang-btn {
-    padding: 10px 16px;
-    min-height: 44px;
-  }
-  .search-input {
-    font-size: 16px; /* Prevents zoom on iOS */
-  }
-  /* Better spacing */
-  .post-body {
-    padding: 0 1rem 3rem;
-  }
-  .post-hero {
-    padding: 2rem 1rem 2rem;
-  }
-}
-
-@media (min-width: 769px) {
-  .hamburger, .menu-overlay {
-    display: none;
-  }
-}
-
-[dir="rtl"] .nav-links {
-  left: auto;
-  right: -100%;
-}
-[dir="rtl"] .nav-links.open {
-  left: auto;
-  right: 0;
-  border-right: none;
-  border-left: 1px solid var(--border-glow);
-}
-[dir="rtl"] .share-buttons {
-  flex-direction: row-reverse;
-}
-</s
-
-
-  <div class="view-counter-section">
-    <div class="view-counter">
-      <span class="view-icon">👁️</span>
-      <span class="view-count-display">0</span>
-      <span class="view-label">views</span>
-    </div>
-  </div>
-
-  <div class="share-section">
-    <div class="glow-divider" style="margin: 2rem 0 1.5rem;"></div>
-    <div class="share-title">📤 SHARE THIS ARTICLE</div>
-    <div class="share-buttons">
-      <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 Twitter</button>
-      <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">📱 WhatsApp</button>
-      <button class="share-btn telegram" onclick="shareOnTelegram()">✈️ Telegram</button>
-      <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
-    </div>
-  </div>
-tyle>
-
-
 
 <footer>
   <div class="footer-logo">PIXEL<span style="color:var(--neon-pink)">ZONE</span></div>
-  <p id="footerTextEn">© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
-  <p id="footerTextAr" style="display:none">© ٢٠٢٦ بيكسل زون — الألعاب للجميع، في كل مكان</p>
+  <p>© 2026 PixelZone — Gaming for Everyone, Everywhere</p>
 </footer>
 
 <script>
-let currentLang = localStorage.getItem('pixelzoneLang') || 'en';
-const urlParams = new URLSearchParams(window.location.search);
-const urlLang = urlParams.get('lang');
-if (urlLang && (urlLang === 'en' || urlLang === 'ar')) {
-  currentLang = urlLang;
-  localStorage.setItem('pixelzoneLang', currentLang);
-}
-
-function setLanguage(lang) {
-  currentLang = lang;
-  localStorage.setItem('pixelzoneLang', lang);
-  document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  if (lang === 'ar') document.body.classList.add('lang-ar');
-  else document.body.classList.remove('lang-ar');
-  
-  document.getElementById('contentEn').style.display = lang === 'en' ? 'block' : 'none';
-  document.getElementById('contentAr').style.display = lang === 'ar' ? 'block' : 'none';
-  document.getElementById('postTitleEn').style.display = lang === 'en' ? 'block' : 'none';
-  document.getElementById('postTitleAr').style.display = lang === 'ar' ? 'block' : 'none';
-  document.getElementById('postTypeEn').style.display = lang === 'en' ? 'inline-block' : 'none';
-  document.getElementById('postTypeAr').style.display = lang === 'ar' ? 'inline-block' : 'none';
-  document.getElementById('postDateEn').style.display = lang === 'en' ? 'inline' : 'none';
-  document.getElementById('postDateAr').style.display = lang === 'ar' ? 'inline' : 'none';
-  document.getElementById('postAuthorEn').style.display = lang === 'en' ? 'inline' : 'none';
-  document.getElementById('postAuthorAr').style.display = lang === 'ar' ? 'inline' : 'none';
-  document.getElementById('scoreLabelEn').style.display = lang === 'en' ? 'block' : 'none';
-  document.getElementById('scoreLabelAr').style.display = lang === 'ar' ? 'block' : 'none';
-  document.getElementById('scoreVerdictEn').style.display = lang === 'en' ? 'block' : 'none';
-  document.getElementById('scoreVerdictAr').style.display = lang === 'ar' ? 'block' : 'none';
-  document.getElementById('scoreSubEn').style.display = lang === 'en' ? 'block' : 'none';
-  document.getElementById('scoreSubAr').style.display = lang === 'ar' ? 'block' : 'none';
-  document.getElementById('footerTextEn').style.display = lang === 'en' ? 'block' : 'none';
-  document.getElementById('footerTextAr').style.display = lang === 'ar' ? 'block' : 'none';
-  
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
-  });
-}
-
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-});
-
-setLanguage(currentLang);
-</script>
-
-<script>
 // ============================================
-// VIEW COUNTER - FIXED VERSION
+// VIEW COUNTER
 // ============================================
 function initViewCounter() {
-    console.log("Initializing view counter...");
-    
-    // Get unique key for this article
     let path = window.location.pathname;
     let articleKey = 'view_' + path.replace(/\//g, '_').replace(/[^a-zA-Z0-9_]/g, '_');
-    
-    // Get or increment view count
     let views = localStorage.getItem(articleKey);
-    if (!views) {
-        views = 1;
-    } else {
-        views = parseInt(views) + 1;
-    }
+    if (!views) views = 1;
+    else views = parseInt(views) + 1;
     localStorage.setItem(articleKey, views);
-    
-    // Update all view counter displays
-    let viewSpans = document.querySelectorAll('.view-count-display');
-    console.log("Found " + viewSpans.length + " view counter(s)");
-    viewSpans.forEach(function(span) {
-        span.textContent = views.toLocaleString();
-    });
-    
-    // Update language for view label
+    document.querySelectorAll('.view-count-display').forEach(span => span.textContent = views.toLocaleString());
     let lang = localStorage.getItem('pixelzoneLang') || 'en';
-    let labels = document.querySelectorAll('.view-label');
-    labels.forEach(function(label) {
-        label.textContent = lang === 'ar' ? 'مشاهدة' : 'views';
-    });
+    document.querySelectorAll('.view-label').forEach(label => label.textContent = lang === 'ar' ? 'مشاهدة' : 'views');
 }
 
 // ============================================
@@ -629,72 +293,112 @@ function shareOnTwitter() {
     let title = encodeURIComponent(document.title);
     window.open('https://twitter.com/intent/tweet?text=' + title + '&url=' + url, '_blank', 'width=550,height=420');
 }
-
 function shareOnWhatsApp() {
     let url = encodeURIComponent(window.location.href);
     let title = encodeURIComponent(document.title);
     window.open('https://wa.me/?text=' + title + '%20' + url, '_blank', 'width=550,height=420');
 }
-
 function shareOnTelegram() {
     let url = encodeURIComponent(window.location.href);
     let title = encodeURIComponent(document.title);
     window.open('https://t.me/share/url?url=' + url + '&text=' + title, '_blank', 'width=550,height=420');
 }
-
 async function copyLink() {
     try {
         await navigator.clipboard.writeText(window.location.href);
-        let copyBtn = document.querySelector('.share-btn.copy');
-        let originalText = copyBtn.textContent;
-        copyBtn.textContent = '✓ COPIED!';
-        copyBtn.style.background = '#39ff14';
-        setTimeout(function() {
-            copyBtn.textContent = originalText;
-            copyBtn.style.background = 'var(--neon-cyan)';
-        }, 2000);
-    } catch(err) {
-        alert('Press Ctrl+C to copy the link');
+        let btn = document.querySelector('.share-btn.copy');
+        let original = btn.textContent;
+        btn.textContent = '✓ COPIED!';
+        btn.style.background = '#39ff14';
+        setTimeout(() => { btn.textContent = original; btn.style.background = 'var(--neon-cyan)'; }, 2000);
+    } catch(e) { alert('Press Ctrl+C to copy'); }
+}
+function attachShareHandlers() {
+    document.querySelectorAll('.share-btn.twitter').forEach(btn => btn.onclick = shareOnTwitter);
+    document.querySelectorAll('.share-btn.whatsapp').forEach(btn => btn.onclick = shareOnWhatsApp);
+    document.querySelectorAll('.share-btn.telegram').forEach(btn => btn.onclick = shareOnTelegram);
+    document.querySelectorAll('.share-btn.copy').forEach(btn => btn.onclick = copyLink);
+}
+
+// ============================================
+// LANGUAGE TOGGLE
+// ============================================
+let currentLang = localStorage.getItem('pixelzoneLang') || 'en';
+const urlParams = new URLSearchParams(window.location.search);
+const urlLang = urlParams.get('lang');
+if (urlLang === 'en' || urlLang === 'ar') currentLang = urlLang;
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('pixelzoneLang', lang);
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    window.history.pushState({}, '', url);
+    if (lang === 'ar') {
+        document.body.classList.add('lang-ar');
+        document.body.setAttribute('dir', 'rtl');
+        document.querySelectorAll('.nav-ar').forEach(el => el.style.setProperty('display', 'inline-block', 'important'));
+        document.querySelectorAll('.nav-links a').forEach(el => el.style.setProperty('color', '#00f5ff', 'important'));
+    } else {
+        document.body.classList.remove('lang-ar');
+        document.body.setAttribute('dir', 'ltr');
+        document.querySelectorAll('.nav-ar').forEach(el => { el.style.display = ''; el.style.color = ''; });
+        document.querySelectorAll('.nav-links a').forEach(el => el.style.color = '');
     }
+    document.getElementById('contentEn').style.display = lang === 'en' ? 'block' : 'none';
+    document.getElementById('contentAr').style.display = lang === 'ar' ? 'block' : 'none';
+    document.getElementById('postTitleEn').style.display = lang === 'en' ? 'block' : 'none';
+    document.getElementById('postTitleAr').style.display = lang === 'ar' ? 'block' : 'none';
+    document.getElementById('postTypeEn').style.display = lang === 'en' ? 'inline-block' : 'none';
+    document.getElementById('postTypeAr').style.display = lang === 'ar' ? 'inline-block' : 'none';
+    document.getElementById('postDateEn').style.display = lang === 'en' ? 'inline' : 'none';
+    document.getElementById('postDateAr').style.display = lang === 'ar' ? 'inline' : 'none';
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
 }
 
-// Run when page loads
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initViewCounter);
-} else {
-    initViewCounter();
-}
-</script>
+document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); setLanguage(btn.getAttribute('data-lang')); }));
+setLanguage(currentLang);
 
-<script>
-// Mobile Hamburger Menu
+// ============================================
+// MOBILE HAMBURGER MENU
+// ============================================
 (function() {
-  const hamburger = document.querySelector('.hamburger');
-  const navLinks = document.querySelector('.nav-links');
-  const overlay = document.querySelector('.menu-overlay');
-  
-  if (!hamburger || !navLinks) return;
-  
-  function toggleMenu() {
-    navLinks.classList.toggle('open');
-    hamburger.classList.toggle('open');
-    if (overlay) overlay.classList.toggle('open');
-    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
-  }
-  
-  hamburger.addEventListener('click', toggleMenu);
-  if (overlay) overlay.addEventListener('click', toggleMenu);
-  
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      hamburger.classList.remove('open');
-      if (overlay) overlay.classList.remove('open');
-      document.body.style.overflow = '';
+    if (document.querySelector('.hamburger')) return;
+    const hamburger = document.createElement('button');
+    hamburger.className = 'hamburger';
+    hamburger.innerHTML = '<span></span><span></span><span></span>';
+    const nav = document.querySelector('nav');
+    const navLinks = document.querySelector('.nav-links');
+    const langToggle = document.querySelector('.lang-toggle');
+    if (langToggle) nav.insertBefore(hamburger, langToggle);
+    else nav.appendChild(hamburger);
+    const overlay = document.createElement('div');
+    overlay.className = 'menu-overlay';
+    document.body.appendChild(overlay);
+    hamburger.onclick = () => {
+        navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open');
+        overlay.classList.toggle('open');
+        document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+    };
+    overlay.onclick = () => {
+        navLinks.classList.remove('open');
+        hamburger.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    };
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.onclick = () => {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        };
     });
-  });
 })();
-</script>
 
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { initViewCounter(); attachShareHandlers(); });
+else { initViewCounter(); attachShareHandlers(); }
+</script>
 </body>
 </html>
