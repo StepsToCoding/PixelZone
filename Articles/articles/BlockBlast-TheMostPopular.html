@@ -390,6 +390,11 @@ function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('pixelzoneLang', lang);
     
+    // Update URL without reloading the page
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    window.history.pushState({}, '', url);
+    
     if (lang === 'ar') {
         document.body.classList.add('lang-ar');
         document.body.setAttribute('dir', 'rtl');
@@ -411,7 +416,6 @@ function setLanguage(lang) {
         btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
 }
-
 document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
