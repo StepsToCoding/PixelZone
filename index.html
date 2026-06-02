@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<!-- PRIMARY SEO META TAGS -->
 <title>PixelZone — Ultimate Gaming Hub | Free Flash Games & Guides</title>
 <meta name="description" content="PixelZone is your ultimate gaming hub featuring free Flash games, in-depth game guides, walkthrough videos, reviews, and news. Join our gaming community of Resident Evil, Spider-Man, and more!">
 <meta name="keywords" content="flash games, game guides, walkthroughs, game reviews, resident evil, spider man, gaming hub, free online games, RE4 remake, pixel zone">
@@ -12,7 +11,6 @@
 <meta name="googlebot" content="index, follow">
 <meta name="language" content="en, ar">
 
-<!-- OPEN GRAPH (Social Media) -->
 <meta property="og:title" content="PixelZone — Ultimate Gaming Hub">
 <meta property="og:description" content="Free Flash games, guides, walkthroughs, and reviews. Join the PixelZone gaming community!">
 <meta property="og:image" content="https://stepstocoding.github.io/PixelZone/images/pixelzone-og.jpg">
@@ -20,24 +18,19 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PixelZone">
 
-<!-- TWITTER CARD -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PixelZone — Ultimate Gaming Hub">
 <meta name="twitter:description" content="Free Flash games, guides, walkthroughs, and reviews for gamers!">
 <meta name="twitter:image" content="https://stepstocoding.github.io/PixelZone/images/pixelzone-twitter.jpg">
 
-<!-- CANONICAL URL -->
 <link rel="canonical" href="https://stepstocoding.github.io/PixelZone/">
 
-<!-- PERFORMANCE -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://www.youtube.com">
 
-<!-- THEME -->
 <meta name="theme-color" content="#080b14">
 <meta name="color-scheme" content="dark">
-<!-- Fonts: Latin + Arabic optimized -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   * {
@@ -97,19 +90,20 @@
     z-index: 0;
   }
 
+  /* FIXED: Added grid tracking system for true element centering */
   nav {
     position: sticky;
     top: 0;
     z-index: 100;
     background: rgba(8, 11, 20, 0.92);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-glow);
     padding: 0 2rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     height: 64px;
-    flex-wrap: wrap;
   }
 
   .logo {
@@ -120,6 +114,7 @@
     text-decoration: none;
     color: var(--neon-cyan);
     text-shadow: 0 0 16px var(--neon-cyan);
+    justify-self: start;
   }
 
   .logo span {
@@ -127,10 +122,13 @@
     text-shadow: 0 0 12px var(--neon-pink);
   }
 
+  /* FIXED: Centers nav links perfectly inside grid container */
   .nav-links {
     display: flex;
     gap: 2rem;
     list-style: none;
+    grid-column: 2;
+    justify-content: center;
   }
 
   .nav-links a {
@@ -146,6 +144,15 @@
   .nav-links a:hover,
   .nav-links a.active {
     color: var(--neon-cyan);
+  }
+
+  /* FIXED: Aligns actions wrapper to the far right side of grid layout */
+  .nav-actions {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   .lang-toggle {
@@ -171,6 +178,25 @@
   .lang-btn.active {
     background: var(--neon-cyan);
     color: #080b14;
+  }
+
+  /* FIXED: Hidden on desktop layout, active on mobile breakdown */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 5px;
+    z-index: 1001;
+  }
+  
+  .hamburger span {
+    width: 25px;
+    height: 2px;
+    background: var(--neon-cyan);
+    transition: all 0.3s ease;
   }
 
   .hero {
@@ -663,8 +689,10 @@
 
   /* MOBILE RESPONSIVE STYLES */
   @media (max-width: 768px) {
+    /* FIXED: Adjusted navigation to grid/flex mechanics for sleek mobile integration */
     nav {
       padding: 0 1rem;
+      grid-template-columns: 1fr auto;
     }
     
     .nav-links {
@@ -676,34 +704,27 @@
       height: calc(100vh - 64px);
       background: rgba(8, 11, 20, 0.98);
       backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       flex-direction: column;
       padding: 2rem 1rem;
       gap: 1.5rem;
       transition: left 0.3s ease;
       z-index: 1000;
       border-right: 1px solid var(--border-glow);
+      justify-content: flex-start;
     }
     
     .nav-links.open {
       left: 0;
     }
+
+    .nav-actions {
+      grid-column: 2;
+      gap: 0.5rem;
+    }
     
     .hamburger {
       display: flex;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 10px;
-      z-index: 1001;
-    }
-    
-    .hamburger span {
-      width: 25px;
-      height: 2px;
-      background: var(--neon-cyan);
-      transition: all 0.3s ease;
     }
     
     .hamburger.open span:nth-child(1) {
@@ -752,58 +773,6 @@
       max-width: 220px;
       justify-content: center;
     }
-    
-    .controls {
-      flex-direction: column;
-    }
-    
-    .search-wrap {
-      max-width: 100%;
-    }
-    
-    .search-input {
-      font-size: 16px;
-    }
-    
-    .filter-group {
-      justify-content: center;
-    }
-    
-    .sort-row {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    
-    .results-info {
-      margin-left: 0;
-      text-align: center;
-    }
-    
-    .post-hero {
-      padding: 2rem 1rem;
-    }
-    
-    .post-body {
-      padding: 0 1rem 3rem;
-    }
-    
-    .review-score-box {
-      flex-direction: column;
-      text-align: center;
-    }
-    
-    .pro-con-box {
-      grid-template-columns: 1fr;
-    }
-    
-    .share-buttons {
-      gap: 0.5rem;
-    }
-    
-    .share-btn {
-      font-size: 0.6rem;
-      padding: 6px 12px;
-    }
   }
   
   [dir="rtl"] .nav-links {
@@ -817,12 +786,7 @@
     left: auto;
     right: 0;
   }
-  
-  [dir="rtl"] .results-info {
-    margin-right: 0;
-  }
 </style>
-  <link rel="stylesheet" href="mobile.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -854,13 +818,14 @@
   }
 }
 </script>
-  </head>
+</head>
 <body>
 <div class="scanlines"></div>
 <div class="grid-bg"></div>
 
 <nav>
   <a href="index.html" class="logo">PIXEL<span>ZONE</span></a>
+  
   <ul class="nav-links">
     <li><a href="index.html" class="active" id="nav-home">Home</a></li>
     <li><a href="Games/index.html" id="nav-games">Games</a></li>
@@ -868,19 +833,20 @@
     <li><a href="Walkthroughs/index.html" id="nav-walkthroughs">Walkthroughs</a></li>
   </ul>
   
-  <!-- Hamburger Menu Button -->
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  
-  <!-- Menu Overlay -->
-  <div class="menu-overlay" id="menuOverlay"></div>
-  <div class="lang-toggle">
-    <button class="lang-btn" data-lang="en">EN</button>
-    <button class="lang-btn" data-lang="ar">AR</button>
+  <div class="nav-actions">
+    <div class="lang-toggle">
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
+    
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
+
+  <div class="menu-overlay" id="menuOverlay"></div>
 </nav>
 
 <div class="hero">
@@ -902,7 +868,6 @@
 
 <div class="glow-line"></div>
 
-<!-- LATEST ARTICLES -->
 <div class="section">
   <div class="section-header">
     <span class="section-label" id="section-articles-label">Latest Articles</span>
@@ -910,13 +875,11 @@
     <a href="Articles/index.html" class="view-all" id="view-all-articles">VIEW ALL →</a>
   </div>
   <div class="articles-grid" id="homeArticlesGrid">
-    <!-- skeletons replaced dynamically -->
-  </div>
+    </div>
 </div>
 
 <div class="glow-line"></div>
 
-<!-- LATEST WALKTHROUGHS -->
 <div class="section">
   <div class="section-header">
     <span class="section-label" id="section-walkthroughs-label">Walkthrough Videos</span>
@@ -924,8 +887,7 @@
     <a href="Walkthroughs/index.html" class="view-all" id="view-all-walkthroughs">VIEW ALL →</a>
   </div>
   <div class="wt-grid" id="homeWtGrid">
-    <!-- skeletons -->
-  </div>
+    </div>
 </div>
 
 <footer>
@@ -986,12 +948,10 @@
   let cachedArticles = [];
   let cachedWalkthroughs = [];
 
-  // Get saved language from localStorage
   function getSavedLanguage() {
     return localStorage.getItem('pixelzoneLang') || 'en';
   }
 
-  // Helper to update static UI elements based on language
   function updateStaticUI(lang) {
     const t = translations[lang];
     document.getElementById('hero-eyebrow').innerText = t.heroEyebrow;
@@ -1019,7 +979,6 @@
     return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
-  // Get display title and excerpt based on language (bilingual support)
   function getDisplayTitle(article, lang) {
     if (lang === 'ar' && article.title_ar) {
       return article.title_ar;
@@ -1034,9 +993,7 @@
     return article.excerpt_en || article.excerpt || '';
   }
 
-  // Get correct article file based on language
   function getArticleFile(article, lang) {
-    // If bilingual with separate files
     if (article.is_bilingual) {
       if (lang === 'ar' && article.file_ar) {
         return article.file_ar;
@@ -1044,11 +1001,9 @@
         return article.file_en;
       }
     }
-    // Fallback to default file
     return article.file;
   }
 
-  // Render articles using latest 3 (sorted by date desc)
   function renderArticles(lang) {
     const grid = document.getElementById('homeArticlesGrid');
     const t = translations[lang];
@@ -1057,7 +1012,6 @@
       return;
     }
     
-    // SORT by date descending and take first 3 -> exactly latest 3 articles
     const latestArticles = [...cachedArticles]
       .filter(a => a.date)
       .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -1134,7 +1088,6 @@
     updateStaticUI(currentLang);
     renderArticles(currentLang);
     renderWalkthroughs(currentLang);
-    // Adjust font direction & RTL attribute
     document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
     if (currentLang === 'ar') {
       document.body.classList.add('lang-ar');
@@ -1143,7 +1096,6 @@
       document.body.classList.remove('lang-ar');
       document.documentElement.lang = 'en';
     }
-    // update active language button styles
     document.querySelectorAll('.lang-btn').forEach(btn => {
       if (btn.getAttribute('data-lang') === currentLang) {
         btn.classList.add('active');
@@ -1151,7 +1103,6 @@
         btn.classList.remove('active');
       }
     });
-    // Save language preference
     localStorage.setItem('pixelzoneLang', currentLang);
   }
 
@@ -1161,7 +1112,6 @@
     refreshAllContent();
   }
 
-  // Load manifest and cache data
   const MANIFEST_URL = 'pixelzone-manifest.json';
   function loadManifest() {
     fetch(MANIFEST_URL)
@@ -1178,26 +1128,19 @@
       });
   }
 
-  // Attach language switchers
   document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       const lang = btn.getAttribute('data-lang');
       if (lang) setLang(lang);
     });
   });
 
-  // Initialize with saved language
   const savedLang = getSavedLanguage();
   currentLang = savedLang;
-  
-  // initial load
   loadManifest();
-  
-  console.log("📌 Homepage with bilingual article support active!");
 </script>
 
 <script>
-// Mobile Hamburger Menu
 function initMobileMenu() {
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.querySelector('.nav-links');
@@ -1217,7 +1160,6 @@ function initMobileMenu() {
     overlay.addEventListener('click', toggleMenu);
   }
   
-  // Close menu when clicking a link
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navLinks.classList.remove('open');
@@ -1228,7 +1170,6 @@ function initMobileMenu() {
   });
 }
 
-// Initialize when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initMobileMenu);
 } else {
