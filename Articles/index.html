@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Articles — PixelZone</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * {
@@ -62,6 +60,7 @@
     z-index: 0;
   }
 
+  /* FIXED ORIGINAL NAVBAR SIZING & GRID POSITIONING */
   nav {
     position: sticky;
     top: 0;
@@ -505,7 +504,6 @@
       height: calc(100vh - 64px);
       background: rgba(8, 11, 20, 0.98);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       flex-direction: column;
       padding: 2rem 1rem;
       gap: 1.5rem;
@@ -518,9 +516,6 @@
     .nav-links.open { left: 0; }
     .nav-actions { grid-column: 2; gap: 0.5rem; }
     .hamburger { display: flex; }
-    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
     
     .menu-overlay {
       position: fixed;
@@ -536,7 +531,6 @@
     .menu-overlay.open { display: block; }
     .articles-grid { grid-template-columns: 1fr; gap: 1rem; }
     .article-card.featured-article { grid-template-columns: 1fr; padding: 1.5rem; }
-    .featured-right { display: none; }
     .filters-bar { flex-direction: column; align-items: stretch; padding: 0 1rem 1.5rem; }
     .filter-group { justify-content: center; }
     .search-wrap { width: 100%; margin: 0; }
@@ -547,6 +541,7 @@
   [dir="rtl"] .nav-links { left: auto; right: -100%; border-right: none; border-left: 1px solid var(--border-glow); }
   [dir="rtl"] .nav-links.open { left: auto; right: 0; }
 </style>
+<link rel="stylesheet" href="../mobile.css">
 </head>
 <body>
 <div class="scanlines"></div>
@@ -554,11 +549,12 @@
 
 <nav>
   <a href="../index.html" class="logo">PIXEL<span>ZONE</span></a>
+  
   <ul class="nav-links">
-    <li><a href="../index.html">Home</a></li>
-    <li><a href="../Games/index.html">Games</a></li>
-    <li><a href="index.html" class="active">Articles</a></li>
-    <li><a href="../Walkthroughs/index.html">Walkthroughs</a></li>
+    <li><a href="../index.html" id="navHome">Home</a></li>
+    <li><a href="../Games/index.html" id="navGames">Games</a></li>
+    <li><a href="index.html" class="active" id="navArticles">Articles</a></li>
+    <li><a href="../Walkthroughs/index.html" id="navWalkthroughs">Walkthroughs</a></li>
   </ul>
   
   <div class="nav-actions">
@@ -639,6 +635,10 @@ function getSavedLanguage() {
 
 const i18n = {
   en: {
+    navHome: 'Home',
+    navGames: 'Games',
+    navArticles: 'Articles',
+    navWalkthroughs: 'Walkthroughs',
     eyebrow: 'GAMING KNOWLEDGE BASE',
     titleHighlight: 'ALL',
     titleMain: 'ARTICLES',
@@ -659,6 +659,10 @@ const i18n = {
     filterAll: 'ALL', filterGuide: 'GUIDE', filterReview: 'REVIEW', filterNews: 'NEWS', filterWalkthrough: 'WALKTHROUGH'
   },
   ar: {
+    navHome: 'الرئيسية',
+    navGames: 'الألعاب',
+    navArticles: 'المقالات',
+    navWalkthroughs: 'الشروحات',
     eyebrow: 'قاعدة معرفة الألعاب',
     titleHighlight: 'كل',
     titleMain: 'المقالات',
@@ -668,7 +672,7 @@ const i18n = {
     sortNewest: 'الأحدث أولاً', sortOldest: 'الأقدم أولاً', sortAZ: 'أ ← ي', sortZA: 'ي ← أ',
     readMore: 'اقرأ المزيد ←',
     featuredLabel: 'آخر مقالة',
-    footerText: '© 2026 بيكسل زون — الألعاب للجميع',
+    footerText: '© 2026 بيكسل زون — الألعاب للجميع، في كل مكان',
     noResults: 'لا توجد مقالات',
     noResultsSub: 'جرّب بحثاً أو فلتراً مختلفاً',
     errorTitle: 'تعذّر تحميل المقالات',
@@ -716,7 +720,6 @@ function buildFilterButtons() {
   });
 }
 
-// NEW: Reads category parameter from address bar safely (e.g. ?category=REVIEW)
 function parseUrlParameters() {
   const params = new URLSearchParams(window.location.search);
   const catParam = params.get('category') || params.get('cat');
@@ -725,8 +728,6 @@ function parseUrlParameters() {
     const validCats = ['ALL', 'GUIDE', 'REVIEW', 'NEWS', 'WALKTHROUGH'];
     if (validCats.includes(targetUpper)) {
       currentFilter = targetUpper;
-      
-      // Update heading text matching the parameter match
       const hl = document.getElementById('titleHighlight');
       if (hl) hl.textContent = currentFilter === 'ALL' ? t('titleHighlight') : (t(`filter${currentFilter}`) || currentFilter);
     }
@@ -871,6 +872,13 @@ function setLang(lang) {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
 
+  // TRANSLATE THE NAVBAR LINKS
+  document.getElementById('navHome').textContent = t('navHome');
+  document.getElementById('navGames').textContent = t('navGames');
+  document.getElementById('navArticles').textContent = t('navArticles');
+  document.getElementById('navWalkthroughs').textContent = t('navWalkthroughs');
+
+  // TRANSLATE MAIN CONTENT TEXT HOOKS
   document.getElementById('eyebrow').textContent = t('eyebrow');
   document.getElementById('titleMain').textContent = t('titleMain');
   document.getElementById('pageSub').textContent = t('pageSub');
@@ -934,7 +942,7 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 });
 
 const savedLang = getSavedLanguage();
-parseUrlParameters(); // Run URL parsing right before active language generation sets up buttons!
+parseUrlParameters();
 buildFilterButtons();
 setLang(savedLang);
 loadManifest();
